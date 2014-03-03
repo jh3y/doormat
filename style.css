@@ -1,0 +1,39 @@
+.columned {
+	column-count: 3;
+	column-gap: 20px;
+	-moz-column-count: 3;
+	-moz-column-gap: 20px;
+	-webkit-column-count: 3;
+	-webkit-column-gap: 20px;
+}
+body {
+	margin: 0;
+	padding: 0;
+}
+.doormat {
+	background-image: url("images/image.JPG");
+	background-size: cover;
+	background-position: top center;
+	height: 100vh;
+	width: 100vw;
+	display: block;
+	margin-bottom: 100vh;
+	position: relative;
+	z-index: 2;
+}
+.page-content {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 350px;
+	z-index: 1;
+}
+
+body.in-content .doormat {
+	margin-bottom: 0;
+}
+
+body.in-content .page-content {
+	position: static;
+}

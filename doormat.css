@@ -1,0 +1,23 @@
+.doormat:before {
+	content: "doormat";
+	font-size: 3em;
+	color: #FFF;
+	background-color: #E74C3C;
+	position: absolute;
+	height: 100vh;
+	width: 100vw;
+	background-image: url("images/image.JPG");
+	background-size: cover;
+	background-position: top center;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	top: 0;
+	left: 0;
+}
+.doormat {
+	position: fixed;
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+}

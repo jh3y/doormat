@@ -1,0 +1,16 @@
+{
+  "name": "doormat",
+  "repo": "jh3y/doormat",
+  "description": "wipe the tips of your finger before coming in!",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "main": "doormat.css",
+  "scripts": [
+  ],
+  "styles": [
+    "doormat.css"
+  ]
+}
