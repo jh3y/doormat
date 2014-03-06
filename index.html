@@ -55,28 +55,16 @@
 		</section>
 	</div>
 	<script type="text/javascript">
-		// self.webkit = (navigator.userAgent.indexOf('Chrome') > -1 || navigator.userAgent.indexOf("Safari") > -1);
-		// $.Android = (navigator.userAgent.match(/Android/i));
-		// $.iPhone = ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)));
-		// $.iPad = ((navigator.userAgent.match(/iPad/i)));
-		// $.iOs4 = (/OS [1-4]_[0-9_]+ like Mac OS X/i.test(navigator.userAgent));
-
-		// if($.iPhone || $.iPad || $.Android || self.options.disabled){
-		// this.options.mobile = true;
-		// this.$li.css({position:'relative'});
-		// this.$element.find('.fixed').css({position:'absolute'});
-		// }
-
-		// if(this.options.mobile){
-		// this.scrollEl = this.$element;
-		// } else if($.browser.mozilla || $.browser.msie) {
-		// this.scrollEl = $('html');
-		// } else {
-		// this.scrollEl = $('body');
-		// }
 		var iOSDevice = (navigator.userAgent.match(/iPad/i)) || (navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i));
 		if (iOSDevice) {
-			alert('Your on iOS ahhh');
+			var createiOSHeight = function () {
+				window.scrollTo(0, 1);
+				document.getElementsByTagName('header')[0].style.height = window.innerHeight;
+			}
+			createiOSHeight();
+			window.onresize = function () {
+				createiOSHeight();
+			}
 		}
 		window.addEventListener('scroll', function () {
 			var height = document.getElementsByTagName('header')[0].offsetHeight;
