@@ -62,7 +62,7 @@
 				document.getElementsByTagName('header')[0].setAttribute('style', 'height: ' + window.innerHeight + 'px;');
 			}
 			createiOSHeight();
-			window.onresize = function () {
+			window.onorientationchange = function () {
 				createiOSHeight();
 			}
 		}
