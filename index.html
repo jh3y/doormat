@@ -56,7 +56,7 @@
 	</div>
 	<script type="text/javascript">
 		var iOSDevice = (navigator.userAgent.match(/iPad/i)) || (navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i));
-		if (iOSDevice.length > 0) {
+		if (iOSDevice) {
 			var createiOSHeight = function () {
 				window.scrollTo(0, 1);
 				document.getElementsByTagName('header')[0].setAttribute('style', 'height: ' + window.innerHeight + 'px;');
