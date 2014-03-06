@@ -15,7 +15,7 @@ body {
 	background-size: cover;
 	background-position: center center;
 	height: 100vh;
-	width: 100vw;
+	width: 100%;
 	display: block;
 	margin-bottom: 200vh;
 	position: relative;
