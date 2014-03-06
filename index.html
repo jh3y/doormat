@@ -59,7 +59,7 @@
 		if (iOSDevice.length > 0) {
 			var createiOSHeight = function () {
 				window.scrollTo(0, 1);
-				document.getElementsByTagName('header')[0].setAttribute('style', window.innerHeight);
+				document.getElementsByTagName('header')[0].setAttribute('style', 'height: ' + window.innerHeight + 'px;');
 			}
 			createiOSHeight();
 			window.onresize = function () {
