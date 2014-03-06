@@ -55,16 +55,35 @@
 		</section>
 	</div>
 	<script type="text/javascript">
-		// $(window).resize(function () {
-		// 	$('.page-content').css({'margin-top': $('#doormat')[0].offsetHeight});
-		// });
-		$(window).on('scroll', function () {
-			var height = $('header').outerHeight();
-			$('nav.open').removeClass('open');
-			if ($(window).scrollTop() >= height) {
-				$('body').addClass('in-content');
+		// self.webkit = (navigator.userAgent.indexOf('Chrome') > -1 || navigator.userAgent.indexOf("Safari") > -1);
+		// $.Android = (navigator.userAgent.match(/Android/i));
+		// $.iPhone = ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)));
+		// $.iPad = ((navigator.userAgent.match(/iPad/i)));
+		// $.iOs4 = (/OS [1-4]_[0-9_]+ like Mac OS X/i.test(navigator.userAgent));
+
+		// if($.iPhone || $.iPad || $.Android || self.options.disabled){
+		// this.options.mobile = true;
+		// this.$li.css({position:'relative'});
+		// this.$element.find('.fixed').css({position:'absolute'});
+		// }
+
+		// if(this.options.mobile){
+		// this.scrollEl = this.$element;
+		// } else if($.browser.mozilla || $.browser.msie) {
+		// this.scrollEl = $('html');
+		// } else {
+		// this.scrollEl = $('body');
+		// }
+		var iOSDevice = (navigator.userAgent.match(/iPad/i)) || (navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i));
+		if (iOSDevice) {
+			alert('Your on iOS ahhh');
+		}
+		window.addEventListener('scroll', function () {
+			var height = document.getElementsByTagName('header')[0].offsetHeight;
+			if (window.scrollY >= height) {
+				document.body.className = 'in-content';
 			} else {
-				$('body').removeClass('in-content');
+				document.body.className = '';
 			}
 		});
 	</script>
