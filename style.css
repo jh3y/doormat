@@ -47,6 +47,9 @@ body.in-content .page-content {
 	display: none;
 	min-height: 100vh;
 }
+.doormat-panel.previous {
+	display: block;
+}
 .doormat-panel.current {
 	display: block;
 	width: 100%;
