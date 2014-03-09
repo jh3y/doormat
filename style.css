@@ -44,10 +44,8 @@ body.in-content .page-content {
 }
 .doormat-panel {
 	display: none;
+	visibility: hidden;
 	min-height: 100vh;
-}
-.doormat-panel.previous {
-	display: block;
 }
 .red {
 	background-color: red;
