@@ -7,18 +7,18 @@
 </head>
 <body>
 	<ol>
-		<li style="background-color: red;">
+		<li class="red">
 			red
 		</li>
-		<li style="background-color: blue;">
+		<li class="blue">
 			blue
 		</li>
-		<li style="background-color: green;">
+		<li class="green">
 			green
-		<li style="background-color: yellow;">
+		<li class="yellow">
 			yellow
 		</li>
-		<li style="background-color: purple;">
+		<li class="purple">
 			purple
 		</li>
 	</ol>
@@ -53,10 +53,10 @@
 					// window.scrollTo(0, 1);
 					if (doormat.multiple) {
 						[].forEach.call(doormat.element.querySelectorAll('.doormat-panel'), function (panel, index) {
-							panel.setAttribute('style', 'min-height: ' + window.innerHeight + 'px;');
+							panel.style.minHeight = window.innerHeight + 'px';
 						});
 					} else {
-						doormat.element.setAttribute('style', 'min-height: ' + window.innerHeight + 'px;');
+						doormat.element.style.minHeight = window.innerHeight + 'px';
 					}
 				}
 			if (iOSDevice) {

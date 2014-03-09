@@ -49,6 +49,21 @@ body.in-content .page-content {
 .doormat-panel.previous {
 	display: block;
 }
+.red {
+	background-color: red;
+}
+.green {
+	background-color: green;
+}
+.yellow {
+	background-color: yellow;
+}
+.blue {
+	background-color: blue;
+}
+.purple {
+	background-color: purple;
+}
 /*purely for stupid Safari experiment */
 * .doormat-panel.current, * .doormat-panel.current:hover {
 	display: block;
