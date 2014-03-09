@@ -27,6 +27,9 @@ body {
 .doormat-multiple.iOS .doormat-panel {
 	height: auto;
 }
+.doormat-multiple.iOS .doormat-panel.current {
+	margin-bottom: 100%;
+}
 .page-content {
 	position: fixed;
 	top: 0;
