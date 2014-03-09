@@ -52,7 +52,7 @@
 				createiOSHeight = function () {
 					// window.scrollTo(0, 1);
 					if (doormat.multiple) {
-						[].forEach.call(doormat.element.querySelectorAll('.doormat-panel'), function(panel, index) {
+						[].forEach.call(doormat.element.querySelectorAll('.doormat-panel'), function (panel, index) {
 							panel.setAttribute('style', 'min-height: ' + window.innerHeight + 'px;');
 						});
 					} else {
@@ -60,6 +60,7 @@
 					}
 				}
 			if (iOSDevice) {
+				// doormat.element.className += ' iOS';
 				createiOSHeight();
 				window.onorientationchange = function () {
 					createiOSHeight();
@@ -74,15 +75,12 @@
 					}
 				};
 			} else if (doormat.multiple) {
-				var lastScrollPosition = 0,
-					scrollForward = true,
-					currentDm,
-					previousDm,
-					newCurrent;
+				var lastScrollPosition = 0;
+				var scrollForward = true;
 				window.onscroll = function () {
-					currentDm = doormat.element.querySelector('.current');
-					previousDm = currentDm.previousElementSibling;
-					newCurrent = currentDm.nextElementSibling;
+					var currentDm = doormat.element.querySelector('.current'),
+						previousDm = currentDm.previousElementSibling,
+						newCurrent = currentDm.nextElementSibling;
 					scrollForward = (window.scrollY > lastScrollPosition) ? true: false;
 					lastScrollPosition = window.scrollY;
 					if ((window.scrollY > doormatHeight) && scrollForward) {
@@ -93,13 +91,17 @@
 							window.scrollTo(0, newCurrent.offsetTop + 1);
 							doormatHeight = newCurrent.offsetTop + newCurrent.offsetHeight;
 						}
-					} else if (window.scrollY <= doormat.element.querySelector('.current').offsetTop && !scrollForward) {
+					} else if (window.scrollY <= doormat.element.querySelector('.current').offsetTop && !scrollForward) {	
 						if (previousDm) {
 							currentDm.className = currentDm.className.replace('current', 'next');
-							previousDm.className += 'current';
+							previousDm.className = previousDm.className + ' current';
 							newCurrent.className = newCurrent.className.replace('next', '');
 							window.scrollTo(0, previousDm.offsetTop + previousDm.offsetHeight);
 							doormatHeight = previousDm.offsetTop + previousDm.offsetHeight;
+							//detect if using Safari.
+							if (navigator.userAgent.match(/Safari/i) && !navigator.userAgent.match(/Chrome/i)) {
+								console.log('doormat: try to force repaint in Safari Webkit');
+							}
 						}
 					}
 				}

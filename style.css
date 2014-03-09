@@ -19,7 +19,7 @@ body {
 	display: block;
 	margin-bottom: 200vh;
 	position: relative;
-	z-index: 2;
+	z-index: 999;
 }
 .doormat.iOS {
 	height: auto;
@@ -29,7 +29,6 @@ body {
 	top: 0;
 	left: 0;
 	right: 0;
-	z-index: 1;
 }
 
 body.in-content .doormat {
@@ -50,19 +49,21 @@ body.in-content .page-content {
 .doormat-panel.previous {
 	display: block;
 }
-.doormat-panel.current {
+/*purely for stupid Safari experiment */
+* .doormat-panel.current, * .doormat-panel.current:hover {
 	display: block;
+}
+.doormat-panel.current {
+	z-index: 999;
 	width: 100%;
 	display: block;
 	margin-bottom: 200vh;
 	position: relative;
-	z-index: 2;
 }
 .doormat-panel.next {
 	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
-	z-index: 1;
 	display: block;
 }
