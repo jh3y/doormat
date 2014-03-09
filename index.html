@@ -46,16 +46,20 @@
 			doormat.bindEvents();
 		}
 		doormat.prototype.bindEvents = function () {
-			// We ideally need to set up how this works here so scroll up and down we always have a current doormat which reveals our next panel which becomes our doormat. The min height has to be the the current viewport height. Then have a margin of 100%. Then on top of that when it scrolls past it's lower border then we simply update the current, remove the current class from the current current maybe make it display none. We only care about the current and the next if we are honest well for going forward, backwards is a different matter and will have to work that part out as we go along.
 			var doormat = this,
 				doormatHeight = (doormat.multiple) ? doormat.element.querySelector('.current').offsetHeight: doormat.element.offsetHeight,
 				iOSDevice = (navigator.userAgent.match(/iPad/i)) || (navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)),
 				createiOSHeight = function () {
-					window.scrollTo(0, 1);
-					doormat.element.setAttribute('style', 'min-height: ' + window.innerHeight + 'px;');
+					// window.scrollTo(0, 1);
+					if (doormat.multiple) {
+						[].forEach.call(doormat.element.querySelectorAll('.doormat-panel'), function(panel, index) {
+							panel.setAttribute('style', 'min-height: ' + window.innerHeight + 'px;');
+						});
+					} else {
+						doormat.element.setAttribute('style', 'min-height: ' + window.innerHeight + 'px;');
+					}
 				}
-			if (iOSDevice && !doormat.multiple) {
-				doormat.element.className += ' iOS';
+			if (iOSDevice) {
 				createiOSHeight();
 				window.onorientationchange = function () {
 					createiOSHeight();
@@ -70,44 +74,33 @@
 					}
 				};
 			} else if (doormat.multiple) {
+				var lastScrollPosition = 0,
+					scrollForward = true,
+					currentDm,
+					previousDm,
+					newCurrent;
 				window.onscroll = function () {
-					if (window.scrollY > doormatHeight) {
-						var currentDm = doormat.element.querySelector('.current'),
-							previousDm = currentDm.previousElementSibling,
-							newCurrent = currentDm.nextElementSibling;
+					currentDm = doormat.element.querySelector('.current');
+					previousDm = currentDm.previousElementSibling;
+					newCurrent = currentDm.nextElementSibling;
+					scrollForward = (window.scrollY > lastScrollPosition) ? true: false;
+					lastScrollPosition = window.scrollY;
+					if ((window.scrollY > doormatHeight) && scrollForward) {
 						if(newCurrent.nextElementSibling) {
-							if (previousDm) {
-								previousDm.className = previousDm.className.replace('previous', '');	
-							}
-							currentDm.className = currentDm.className.replace('current', 'previous');
+							currentDm.className = currentDm.className.replace('current', '');
 							newCurrent.className = newCurrent.className.replace('next', 'current');
 							newCurrent.nextElementSibling.className += ' next';
-							currentDm = doormat.element.querySelector('.current');
-							window.scrollTo(0, currentDm.offsetTop);
-							doormatHeight = currentDm.offsetTop + currentDm.offsetHeight;
+							window.scrollTo(0, newCurrent.offsetTop + 1);
+							doormatHeight = newCurrent.offsetTop + newCurrent.offsetHeight;
 						}
-					} else if (window.scrollY < doormat.element.querySelector('.current').offsetTop) {
-						var currentDm = doormat.element.querySelector('.current'),
-							previousDm = currentDm.nextElementSibling,
-							newCurrent = currentDm.previousElementSibling;
-						//basically need to make the previous the new current and the current the new next whilst making any current next nothing.
-						// if (newCurrent.previousElementSibling) {
-							//make the current the next
-							//nullify the next
-							if (newCurrent.previousElementSibling) {
-								newCurrent.previousElementSibling.className += ' previous';
-								window.scrollTo(0, newCurrent.previousElementSibling.offsetTop + newCurrent.previousElementSibling.offsetHeight);
-							}
-							newCurrent.className = newCurrent.className.replace('previous', 'current');
+					} else if (window.scrollY <= doormat.element.querySelector('.current').offsetTop && !scrollForward) {
+						if (previousDm) {
 							currentDm.className = currentDm.className.replace('current', 'next');
-							//if there is a previous element sibling then make that the previous
-							//make the previous the new current
-							if (previousDm) {
-								previousDm.className = previousDm.className.replace('next', '');
-							}
-							// previousDm.className = previousDm.className.replace('previous', 'current');
-							doormatHeight = newCurrent.offsetTop + newCurrent.offsetHeight;	
-						// }
+							previousDm.className += 'current';
+							newCurrent.className = newCurrent.className.replace('next', '');
+							window.scrollTo(0, previousDm.offsetTop + previousDm.offsetHeight);
+							doormatHeight = previousDm.offsetTop + previousDm.offsetHeight;
+						}
 					}
 				}
 			}
