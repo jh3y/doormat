@@ -106,7 +106,9 @@
 						}
 					}
 					if (doormat.iOS) {
-						doormat.element.querySelector('.current').style.marginBottom = window.innerHeight * 2 + 'px';
+						[].forEach.call(doormat.element.querySelectorAll('.doormat-panel'), function (panel, index) {
+							(panel.className.indexOf('current') !== -1) ? panel.style.marginBottom = window.innerHeight * 2 +'px': panel.style.marginBottom = '0px';
+						});
 					}
 
 				}
