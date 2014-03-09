@@ -24,6 +24,9 @@ body {
 .doormat.iOS {
 	height: auto;
 }
+.doormat.iOS .doormat-panel {
+	height: auto;
+}
 .page-content {
 	position: fixed;
 	top: 0;
