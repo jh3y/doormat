@@ -52,6 +52,7 @@
 				createiOSHeight = function () {
 					window.scrollTo(0, 1);
 					if (doormat.multiple) {
+						doormat.element.style.marginBottom = window.innerHeight * 2 + 'px';
 						[].forEach.call(doormat.element.querySelectorAll('.doormat-panel'), function (panel, index) {
 							panel.style.minHeight = window.innerHeight + 'px';
 						});
