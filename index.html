@@ -9,11 +9,11 @@
 	<link  rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
 	<link  rel="stylesheet" href="css/flat-ui.css" />
 	<link  rel="stylesheet" href="css/highlight.css" />
-	<link rel="stylesheet" href="build/build.css" />
+	<link rel="stylesheet" href="doormat.css" />
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	<script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>
-	<script type="text/javascript" type="text/css" src="build/build.js"></script>
+	<script type="text/javascript" type="text/css" src="doormat.js"></script>
 </head>
 <body>
 	<ol>
@@ -91,9 +91,9 @@
 						</p>
 						<pre>
 						<code>
-var doormat = require(&#39;doormat&#39;);
-var myMultDoormat = new doormat(document.getElementsByTagName(&#39;ol&#39;)[0], true);
-var myDoormat = new doormat(document.getElementsByTagName(&#39;header&#39;)[0]);
+var doormat = require(&#39;doormat&#39;);/*THIS IS ONLY NEEDED IF USING WITH COMPONENT AND NOT THE STANDALONE doormat.js*/
+var myMultDoormat = new doormat(document.getElementsByTagName(&#39;ol&#39;)[0], true);/*for a multiple doormat*/
+var myDoormat = new doormat(document.getElementsByTagName(&#39;header&#39;)[0]);/*for a single doormat*/
 						</code>
 						</pre>
 						<h5>That's it!</h5>
@@ -147,7 +147,6 @@ var myDoormat = new doormat(document.getElementsByTagName(&#39;header&#39;)[0]);
 		</p>
 	</div> -->
 	<script type="text/javascript">
-		var doormat = require('doormat');
 		var myMultDoormat = new doormat(document.getElementsByTagName('ol')[0], true);
 		// var myDoormat = new doormat(document.getElementsByTagName('header')[0]);
 	</script>
