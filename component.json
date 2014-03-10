@@ -9,6 +9,7 @@
   "license": "MIT",
   "main": "doormat.css",
   "scripts": [
+    "index.js"
   ],
   "styles": [
     "doormat.css"

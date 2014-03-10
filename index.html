@@ -3,122 +3,45 @@
 <head>
 	<title>doormat</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="build/build.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" type="text/css" src="build/build.js"></script>
 </head>
 <body>
 	<ol>
 		<li class="red">
-			red
+			doormat
 		</li>
 		<li class="blue">
-			blue
+			doormat
 		</li>
 		<li class="green">
-			green
+			doormat
 		<li class="yellow">
-			yellow
+			doormat
 		</li>
 		<li class="purple">
-			purple
+			doormat
 		</li>
 	</ol>
-	<script type="text/javascript">
-		var doormat = function (element, options) {
-			this.element = element;
-			this.multiple = (options && options.multiple) ? options.multiple: false;
-			if (this.element) {
-				this.setUp();
-			}
-		}
-		doormat.prototype.setUp = function () {
-			var doormat = this;
-			(doormat.multiple) ? doormat.element.className += ' doormat-multiple': doormat.element.className += ' doormat';
-			if (doormat.multiple && (doormat.element.tagName === 'OL' || doormat.element.tagName === 'UL')) {
-				var panels = doormat.element.querySelectorAll('li');
-				[].forEach.call(panels, function(panel, index) {
-					panel.className += ' doormat-panel';
-				});				
-				panels[0].className += ' current';
-				panels[1].className += ' next';
-			} else {
-				doormat.element.nextElementSibling.className += ' doormat-page-content';
-			}
-			doormat.bindEvents();
-		}
-		doormat.prototype.bindEvents = function () {
-			var doormat = this,
-				doormatHeight = (doormat.multiple) ? doormat.element.querySelector('.current').offsetHeight: doormat.element.offsetHeight,
-				iOSDevice = (navigator.userAgent.match(/iPad/i)) || (navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)),
-				createiOSHeight = function () {
-					window.scrollTo(0, 1);
-					if (doormat.multiple) {						
-						[].forEach.call(doormat.element.querySelectorAll('.doormat-panel'), function (panel, index) {
-							panel.style.minHeight = window.innerHeight + 'px';
-						});
-					} else {
-						doormat.element.style.minHeight = window.innerHeight + 'px';
-					}
-				}
-			if (iOSDevice) {
-				doormat.iOS = true;
-				doormat.element.className += ' iOS';
-				createiOSHeight();
-				window.onorientationchange = function () {
-					createiOSHeight();
-				}
-				window.onresize = function () {
-					createiOSHeight();
-				}
-			}
-			if (!doormat.multiple) {
-				window.onscroll = function () {
-					if (window.scrollY >= doormatHeight) {
-						document.body.className = 'in-content';
-					} else {
-						document.body.className = '';
-					}
-				};
-			} else if (doormat.multiple) {
-				var lastScrollPosition = 0;
-				var scrollForward = true;
-				window.onscroll = function () {
-					var currentDm = doormat.element.querySelector('.current'),
-						previousDm = currentDm.previousElementSibling,
-						newCurrent = currentDm.nextElementSibling;
-					scrollForward = (window.scrollY > lastScrollPosition) ? true: false;
-					lastScrollPosition = window.scrollY;
-					if ((window.scrollY > doormatHeight) && scrollForward) {
-						if(newCurrent.nextElementSibling) {
-							currentDm.className = currentDm.className.replace('current', '');
-							newCurrent.className = newCurrent.className.replace('next', 'current');
-							newCurrent.nextElementSibling.className += ' next';
-							window.scrollTo(0, newCurrent.offsetTop + 1);
-							doormatHeight = newCurrent.offsetTop + newCurrent.offsetHeight;
-						}
-					} else if (window.scrollY <= doormat.element.querySelector('.current').offsetTop && !scrollForward) {	
-						if (previousDm) {
-							currentDm.className = currentDm.className.replace('current', 'next');
-							previousDm.className = previousDm.className + ' current';
-							newCurrent.className = newCurrent.className.replace('next', '');
-							window.scrollTo(0, previousDm.offsetTop + previousDm.offsetHeight);
-							doormatHeight = previousDm.offsetTop + previousDm.offsetHeight;
-							//detect if using Safari.
-							if (navigator.userAgent.match(/Safari/i) && !navigator.userAgent.match(/Chrome/i)) {
-								console.log('doormat: try to force repaint in Safari Webkit');
-							}
-						}
-					}
-					// if (doormat.iOS) {
-					// 	[].forEach.call(doormat.element.querySelectorAll('.doormat-panel'), function (panel, index) {
-					// 		(panel.className.indexOf('current') !== -1) ? panel.style.marginBottom = window.innerHeight * 2 +'px': panel.style.marginBottom = '0px';
-					// 	});
-					// }
+	<!-- <header class="purple">doormat</header>
+	<div>
+		<p class="columned">
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consectetur molestie tristique. Aliquam elementum sollicitudin tellus in facilisis. Pellentesque augue turpis, varius ut molestie nec, laoreet sit amet purus. Sed neque erat, hendrerit at ante vel, bibendum tempus tortor. Proin vitae pharetra ante. Donec tempor feugiat libero, a pellentesque purus scelerisque id. Sed fermentum sapien nec ante varius, vitae bibendum eros fermentum. Suspendisse in felis sollicitudin, suscipit ipsum et, ultrices libero. Proin sed elementum justo, et ornare lacus. Aliquam a risus diam. Fusce lobortis vel justo sit amet tincidunt. Etiam purus odio, suscipit et bibendum vitae, porttitor vitae sapien.
 
-				}
-			}
-		}
-		var myDoormat = new doormat(document.getElementsByTagName('header')[0]);
-		var myMultDoormat = new doormat(document.getElementsByTagName('ol')[0], {'multiple': true});
+			Ut tristique velit sit amet aliquam molestie. Duis sit amet dui justo. Fusce nec facilisis magna. Vivamus lacinia urna mollis ullamcorper condimentum. Quisque at luctus orci. Aenean ultrices nisi ac auctor lobortis. Etiam ultrices ut eros nec faucibus. Ut pulvinar, felis sed convallis tincidunt, leo erat ullamcorper enim, vel vehicula turpis mauris non velit. Pellentesque cursus leo dolor, ut tempor turpis fringilla ac. Quisque aliquet urna sodales bibendum porttitor. Donec metus neque, sodales sit amet libero quis, dignissim elementum nisi.
+
+			Curabitur sed ligula ac dolor consequat tempus ac ac enim. Aliquam ac lacus sit amet nulla malesuada hendrerit. Vivamus ultricies ligula vel faucibus volutpat. Phasellus vehicula, neque sagittis rhoncus scelerisque, magna erat lobortis libero, vitae fringilla tellus erat sed massa. Nunc convallis, mauris non feugiat fermentum, leo eros consectetur orci, quis semper quam tellus sit amet ipsum. Fusce rhoncus libero sit amet lectus porttitor mollis. Nunc suscipit nibh massa, eget placerat magna ultrices consequat. Nam eleifend quam non vestibulum hendrerit. Pellentesque sollicitudin enim eu magna sodales lobortis. Maecenas arcu ligula, fermentum eget viverra vitae, varius a dui. Vivamus iaculis porttitor pulvinar. Aliquam sed elementum tellus, id rutrum sem. Praesent placerat tortor non purus luctus, non adipiscing tortor ultricies. Quisque et tellus nec ligula tincidunt lobortis. Integer quis elementum purus. Sed vel facilisis eros.
+
+			Pellentesque tempor quam at arcu imperdiet, quis eleifend quam hendrerit. Nam id pulvinar tortor, et condimentum nulla. Morbi fringilla neque id nibh rutrum vehicula. Maecenas gravida bibendum purus et consequat. Cras molestie mattis dui eu fringilla. Nulla facilisi. Nullam sem purus, venenatis nec dui et, ullamcorper viverra turpis. Cras laoreet lacus et tortor pretium imperdiet. Aliquam dignissim risus urna, id pulvinar nisl venenatis in. Etiam porta porttitor laoreet.
+
+			Sed fermentum cursus augue, convallis sodales magna sollicitudin eget. Fusce congue fermentum lectus sit amet ultricies. Sed mollis, lectus id egestas rutrum, lectus tellus luctus nulla, vel pulvinar felis leo ac sem. Nulla libero eros, fringilla eget nibh in, consectetur bibendum sapien. Nulla nibh nisl, aliquam quis egestas quis, sagittis nec enim. Morbi nec elit convallis, aliquam nisi et, vehicula turpis. Nullam et mauris purus. Nullam accumsan justo et tellus consequat egestas. Morbi eu ipsum vitae nunc convallis convallis at non elit. Curabitur aliquet urna erat, nec ultricies sem placerat id. Nulla eget sem consectetur ipsum porttitor fringilla. Integer feugiat eros a erat sodales, a tincidunt leo varius. Sed commodo molestie metus. Nulla aliquet suscipit mi et lacinia.
+		</p>
+	</div> -->
+	<script type="text/javascript">
+		var doormat = require('doormat');
+		var myMultDoormat = new doormat(document.getElementsByTagName('ol')[0], true);
+		// var myDoormat = new doormat(document.getElementsByTagName('header')[0]);
 	</script>
 </body>
 </html>

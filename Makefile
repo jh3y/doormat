@@ -1,5 +1,5 @@
 
-build: components index.js progre-c-ss.css
+build: components index.js doormat.css
 	@component build --dev
 
 components: component.json
