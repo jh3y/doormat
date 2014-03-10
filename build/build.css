@@ -1,0 +1,71 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+.doormat {
+	background-size: cover;
+	background-position: center center;
+	height: 100vh;
+	width: 100%;
+	display: block;
+	margin-bottom: 200vh;
+	position: relative;
+	z-index: 999;
+}
+.doormat-page-content {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+body.doormat-in-content .doormat {
+	margin-bottom: 0;
+}
+
+body.doormat-in-content .doormat-page-content {
+	position: static;
+	min-height: 100vh;
+}
+.doormat-multiple {
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+}
+.doormat-panel {
+	display: none;
+	visibility: hidden;
+	overflow: hidden;
+	min-height: 100vh;
+}
+* .doormat-panel.current, * .doormat-panel.current:hover {
+	display: block;
+	visibility: visible;
+}
+.doormat-panel.current {
+	z-index: 999;
+	width: 100%;
+	display: block;
+	margin-bottom: 200vh;
+	position: relative;
+}
+.doormat-panel.next {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	display: block;
+	visibility: visible;
+}
+/* iOS specific styling */
+.doormat.iOS {
+	height: auto;
+}
+body.doormat-in-content .doormat-page-content.iOS {
+	min-height: 1120px;
+}
+.doormat-multiple.iOS .doormat-panel {
+	height: auto;
+}
+.doormat-multiple.iOS .doormat-panel.current {
+	margin-bottom: 768px;
+}
