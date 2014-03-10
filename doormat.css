@@ -8,7 +8,7 @@ body {
 	height: 100vh;
 	width: 100%;
 	display: block;
-	margin-bottom: 100vh;
+	margin-bottom: 200vh;
 	position: relative;
 	z-index: 999;
 }
@@ -34,6 +34,7 @@ body.doormat-in-content .doormat-page-content {
 .doormat-panel {
 	display: none;
 	visibility: hidden;
+	overflow: hidden;
 	min-height: 100vh;
 }
 * .doormat-panel.current, * .doormat-panel.current:hover {
@@ -44,7 +45,7 @@ body.doormat-in-content .doormat-page-content {
 	z-index: 999;
 	width: 100%;
 	display: block;
-	margin-bottom: 100vh;
+	margin-bottom: 200vh;
 	position: relative;
 }
 .doormat-panel.next {
@@ -60,7 +61,7 @@ body.doormat-in-content .doormat-page-content {
 	height: auto;
 }
 body.doormat-in-content .doormat-page-content.iOS {
-	min-height: 768px;
+	min-height: 1120px;
 }
 .doormat-multiple.iOS .doormat-panel {
 	height: auto;
