@@ -66,7 +66,8 @@ doormat.prototype.bindEvents = function () {
 	}
 	if (!doormat.multiple) {
 		window.onscroll = function () {
-			if (window.scrollY >= doormatHeight) {
+			var scrollY = (window.scrollY || window.pageYOffset);
+			if (scrollY >= doormatHeight) {
 				(document.body.className.indexOf('doormat-in-content') === -1) ? document.body.className += ' doormat-in-content': false;
 			} else {
 				document.body.className = document.body.className.replace('doormat-in-content', '');
@@ -78,10 +79,11 @@ doormat.prototype.bindEvents = function () {
 		window.onscroll = function () {
 			var currentDm = doormat.element.querySelector('.current'),
 				previousDm = currentDm.previousElementSibling,
-				newCurrent = currentDm.nextElementSibling;
-			scrollForward = (window.scrollY > lastScrollPosition) ? true: false;
-			lastScrollPosition = window.scrollY;
-			if ((window.scrollY > doormatHeight) && scrollForward) {
+				newCurrent = currentDm.nextElementSibling,
+				scrollY = (window.scrollY || window.pageYOffset);
+			scrollForward = (scrollY > lastScrollPosition) ? true: false;
+			lastScrollPosition = scrollY;
+			if ((scrollY > doormatHeight) && scrollForward) {
 				if(newCurrent.nextElementSibling) {
 					currentDm.className = currentDm.className.replace('current', '');
 					newCurrent.className = newCurrent.className.replace('next', 'current');
@@ -89,7 +91,7 @@ doormat.prototype.bindEvents = function () {
 					window.scrollTo(0, newCurrent.offsetTop + 1);
 					doormatHeight = newCurrent.offsetTop + newCurrent.offsetHeight;
 				}
-			} else if (window.scrollY <= doormat.element.querySelector('.current').offsetTop && !scrollForward) {	
+			} else if (scrollY <= doormat.element.querySelector('.current').offsetTop && !scrollForward) {	
 				if (previousDm) {
 					currentDm.className = currentDm.className.replace('current', 'next');
 					previousDm.className = previousDm.className + ' current';
