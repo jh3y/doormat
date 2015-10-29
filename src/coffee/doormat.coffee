@@ -7,33 +7,24 @@ doormat = (el, multiple) ->
 
 doormat::setUp = ->
   doormat = @
-  if (doormat.multiple)
-    doormat.element.className += ' has--multiple'
+  # if (doormat.multiple)
+  #   doormat.element.className += ' has--multiple'
+  # Think the best thing is to just do default as multiple?
   doormat.element.className += ' doormat'
+  panels  = doormat.element.children
+  i = 0
+  while i < panels.length
+    panels[i].className += ' doormat__panel'
+    i++
+  panels[0].className += ' is--current'
+  panels[1].className += ' is--next'
+  doormat.bindEvents()
+
+doormat::bindEvents = ->
+  doormat = @
+
 
 ###
-function doormat(element, multiple) {
-  this.element = element;
-  this.multiple = (multiple) ? multiple: false;
-  if (this.element) {
-    this.setUp();
-  }
-}
-doormat.prototype.setUp = function () {
-  var doormat = this;
-  (doormat.multiple) ? doormat.element.className += ' doormat-multiple': doormat.element.className += ' doormat';
-  if (doormat.multiple && (doormat.element.tagName === 'OL' || doormat.element.tagName === 'UL')) {
-    var panels = doormat.element.querySelectorAll('li');
-    [].forEach.call(panels, function(panel, index) {
-      panel.className += ' doormat-panel';
-    });
-    panels[0].className += ' current';
-    panels[1].className += ' next';
-  } else {
-    doormat.element.nextElementSibling.className += ' doormat-page-content';
-  }
-  doormat.bindEvents();
-}
 doormat.prototype.bindEvents = function () {
   var doormat = this,
     doormatHeight = (doormat.multiple) ? doormat.element.querySelector('.current').offsetHeight + doormat.element.querySelector('.current').offsetTop: doormat.element.offsetHeight,
