@@ -21,7 +21,10 @@
     "build:styles"      : "node-sass src/sass -o public/css",
     "publish:styles"    : "",
     "watch:markup"      : "jade -wp src/jade -o public",
-    "build:markup"      : "jade -P src/jade -o public"
+    "build:markup"      : "jade -P src/jade -o public",
+    "publish:markup"    : "jade src/jade -o public",
+    "watch:dev"         : "npm run watch:markup & npm run watch:scripts & npm run watch:styles",
+    "build:dev"         : "npm run build:scripts && npm run build:styles && npm run build:markup"
 
   },
   "repository": {
