@@ -10,6 +10,7 @@ doormat::setUp = ->
   # if (doormat.multiple)
   #   doormat.element.className += ' has--multiple'
   # Think the best thing is to just do default as multiple?
+  # For iOS just reset the panel min height on orientationchange and resize..
   doormat.element.className += ' doormat'
   doormat.panels  = doormat.element.children
   i = 0
