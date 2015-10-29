@@ -1,5 +1,15 @@
 doormat = (el, multiple) ->
   console.info 'yes, its working??? YEAH'
+  @element = el
+  @multiple = if multiple then true else false
+  if @element
+    @setUp()
+
+doormat::setUp = ->
+  doormat = @
+  if (doormat.multiple)
+    doormat.element.className += ' has--multiple'
+  doormat.element.className += ' doormat'
 
 ###
 function doormat(element, multiple) {
