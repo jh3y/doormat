@@ -1,12 +1,7 @@
 {
   "name": "doormat",
-  "version": "1.0.0",
-  "description": "_an alternative way to navigate through your site content_",
-  "main": "index.js",
-  "dependencies": {
-    "jade": "^1.11.0",
-    "stylus": "^0.52.4"
-  },
+  "version": "1.1.0",
+  "description": "an alternative way to navigate through your site content",
   "devDependencies": {
     "browser-sync": "^2.9.11",
     "coffee-script": "^1.10.0",
@@ -34,7 +29,7 @@
     "type": "git",
     "url": "https://github.com/jh3y/doormat"
   },
-  "author": "",
+  "author": "jh3y < jh3y@live.co.uk >",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jh3y/doormat/issues"
