@@ -8,29 +8,36 @@ doormat = window.doormat = (el) ->
   doormat.el = el
   doormat.el.className += ' ' + props.CLASS
   doormat.panels = doormat.el.children
-  sumHeight = 0;
-  i = 0
-  while i < doormat.panels.length
-    doormat.panels[i].style.minHeight = window.innerHeight + 'px'
-    doormat.panels[i].className       += ' ' + props.PANEL_CLASS
-    doormat.panels[i].DOORMAT_HEIGHT  = doormat.panels[i].offsetHeight
-    doormat.panels[i].DOORMAT_POS     = sumHeight
-    sumHeight = sumHeight + doormat.panels[i].offsetHeight;
-    i++
-  document.body.style.height = sumHeight + 'px'
+  calibratePanels = ->
+    sumHeight = 0;
+    i = 0
+    while i < doormat.panels.length
+      panel = doormat.panels[i]
+      panel.style.minHeight = window.innerHeight + 'px'
+      if panel.className.indexOf(props.PANEL_CLASS) is -1
+        panel.className       += ' ' + props.PANEL_CLASS
+      panel.DOORMAT_HEIGHT  = panel.offsetHeight
+      panel.DOORMAT_POS     = sumHeight
+      sumHeight = sumHeight + panel.offsetHeight;
+      i++
+    document.body.style.height = sumHeight + 'px'
+  calibratePanels()
   doormat.current = doormat.panels[0]
   doormat.current.className += ' ' + props.CURRENT_CLASS
-  doormat.lastScroll = 0;
   setNew = (dir) ->
-    doormat.current.className = doormat.current.className.replace props.CURRENT_CLASS, ''
-    doormat.current.style.top = if dir is 'next' then  -(doormat.current.DOORMAT_HEIGHT) + 'px' else 0
-    doormat.current = doormat.current[dir + 'ElementSibling']
+    cur = doormat.current
+    cur.className = cur.className.replace props.CURRENT_CLASS, ''
+    cur.style.top = if dir is 'next' then  -(cur.DOORMAT_HEIGHT) + 'px' else 0
+    doormat.current = cur[dir + 'ElementSibling']
     doormat.current.className += ' ' + props.CURRENT_CLASS
+  window.onresize = (e) ->
+    calibratePanels()
   window.onscroll = (e) ->
-    doormat.current.style.top = -(window.scrollY - doormat.current.DOORMAT_POS) + 'px';
-    if window.scrollY > (doormat.current.DOORMAT_HEIGHT + doormat.current.DOORMAT_POS)
-      if doormat.current.nextElementSibling
+    cur = doormat.current
+    cur.style.top = -(window.scrollY - cur.DOORMAT_POS) + 'px';
+    if window.scrollY > (cur.DOORMAT_HEIGHT + cur.DOORMAT_POS)
+      if cur.nextElementSibling
         setNew 'next'
-    else if window.scrollY < doormat.current.DOORMAT_POS
-      if doormat.current.previousElementSibling
+    else if window.scrollY < cur.DOORMAT_POS
+      if cur.previousElementSibling
         setNew 'previous'

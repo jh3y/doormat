@@ -3,9 +3,9 @@ _an alternative way to navigate through your site content_
 
 __doormat__ is an alternative to __curtains.js__ that doesn't have any dependencies on external frameworks like jQuery.
 
-__curtains.js__ is no longer maintained and there had been some reports of issues with newer versions of jQuery.
+Unfortunately, __curtains.js__ is no longer maintained and there had been some reports of issues with newer versions of jQuery.
 
-the code is quite minimal for doormat and you can achieve mostly the same main effect.
+The code is quite minimal for doormat and you can achieve mostly the same main effect.
 
 ###usage
 To create your doormat.

@@ -1,0 +1,25 @@
+$White: #fff;
+$Black: #2c3E55;
+$Teal : #009688;
+$colorPalette: (
+  black : $Black,
+  white : $White,
+  teal  : $Teal
+);
+@each $key, $value in $colorPalette {
+  .bg--#{$key} {
+    background-color: $value;
+  }
+  .tx--#{$key} {
+    color: $value;
+  }
+}
+body {
+  margin : 0;
+  padding: 0;
+}
+.header {
+  background-size: cover;
+  background-position: center center;
+  background-image: url(https://raw.githubusercontent.com/jh3y/pics/master/doormat/doormat.jpg);
+}

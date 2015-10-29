@@ -1,16 +1,16 @@
+$noOfPanels: 6;
 .doormat {
-  display: block;
+  display : block;
   position: relative;
-  margin: 0;
-  padding: 0;
+  margin  : 0;
+  padding : 0;
   &__panel {
     visibility: hidden;
-    background: white;
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    @for $i from 1 through 6 {
+    position  : fixed;
+    top       : 0;
+    right     : 0;
+    left      : 0;
+    @for $i from 1 through $noOfPanels {
       &:nth-of-type(#{$i}) {
         z-index: 999 - $i;
       }
