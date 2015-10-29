@@ -1,9 +1,9 @@
-doormat = (el, multiple) ->
-  console.info 'yes, its working??? YEAH'
-  @element = el
-  @multiple = if multiple then true else false
-  if @element
+doormat = window.doormat = (el) ->
+  if el
+    @element = el
     @setUp()
+  else
+    throw Error 'doormat: Must define an element'
 
 doormat::setUp = ->
   doormat = @
@@ -11,44 +11,44 @@ doormat::setUp = ->
   #   doormat.element.className += ' has--multiple'
   # Think the best thing is to just do default as multiple?
   doormat.element.className += ' doormat'
-  panels  = doormat.element.children
+  doormat.panels  = doormat.element.children
   i = 0
-  while i < panels.length
-    panels[i].className += ' doormat__panel'
+  while i < doormat.panels.length
+    doormat.panels[i].className += ' doormat__panel'
+    doormat.panels[i].style.minHeight = window.innerHeight + 'px'
     i++
-  panels[0].className += ' is--current'
-  panels[1].className += ' is--next'
+  doormat.panels[0].className += ' is--current'
+  doormat.panels[1].className += ' is--next'
   doormat.bindEvents()
 
 doormat::bindEvents = ->
   doormat = @
+  doormat.current = doormat.element.querySelector '.is--current'
+  doormat.height = doormat.current.offsetHeight + doormat.current.offsetTop
+  window.scrollTo 0, 1
+  lastScroll = 0
+  scrollForward = true
+  # Bind some stuff for mobile orientation change here...
+  window.onresize = (e) ->
+    doormat.height = doormat.current.offsetHeight + doormat.current.offsetTop
+  window.onscroll = (e) ->
+    current = doormat.element.querySelector '.is--current'
+    previous = current.previousElementSibling
+    next     = current.nextElementSibling
+    scrollY  = window.scrollY or window.pageYOffset
+    scrollForward = if scrollY > lastScroll then true else false
+    lastScroll = scrollY
+    if scrollY > doormat.height and scrollForward
+      if next
+        current.className = current.className.replace 'is--current', ''
+        next.className    = next.className.replace 'is--next', 'is--current'
+        next.nextElementSibling.className += ' is--next'
+        window.scrollTo 0, next.offsetTop + 1
+        doormat.height = next.offsetTop + next.offsetHeight
 
 
 ###
 doormat.prototype.bindEvents = function () {
-  var doormat = this,
-    doormatHeight = (doormat.multiple) ? doormat.element.querySelector('.current').offsetHeight + doormat.element.querySelector('.current').offsetTop: doormat.element.offsetHeight,
-    iOSDevice = (navigator.userAgent.match(/iPad/i)) || (navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)),
-    createiOSHeight = function () {
-      window.scrollTo(0, 1);
-      if (doormat.multiple) {
-        [].forEach.call(doormat.element.querySelectorAll('.doormat-panel'), function (panel, index) {
-          panel.style.minHeight = window.innerHeight + 'px';
-        });
-      } else {
-        doormat.element.style.minHeight = window.innerHeight + 'px';
-      }
-    }
-  if (iOSDevice) {
-    doormat.element.className += ' iOS';
-    createiOSHeight();
-    window.onorientationchange = function () {
-      createiOSHeight();
-    }
-    window.onresize = function () {
-      createiOSHeight();
-    }
-  }
   window.onresize = function () {
     if (doormat.multiple) {
       doormatHeight = doormat.element.querySelector('.current').offsetHeight + doormat.element.querySelector('.current').offsetTop;

@@ -5,19 +5,15 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0')
     meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
     meta(name='description', content='an entry point to your site, wipe your fingers before you come in!')
-    link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
-    link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css')
-    link(rel='stylesheet', href='/css/flat-ui.css')
-    link(rel='stylesheet', href='css/highlight.css')
-    link(rel='stylesheet', href='doormat.css')
-    link(rel='stylesheet', type='text/css', href='style.css')
-    script(src='http://yandex.st/highlightjs/8.0/highlight.min.js')
-    script.
-      hljs.initHighlightingOnLoad();
-    script(type='text/javascript', src='doormat.js')
+    link(rel='stylesheet', href='css/doormat.css')
+    style.
+      body {
+        margin : 0;
+        padding: 0;
+      }
   body
     ol
-      li.header-panel
+      li
         header
           h1.text-center It is working actually :D
           .text-center
@@ -114,6 +110,6 @@ html
       Sed fermentum cursus augue, convallis sodales magna sollicitudin eget. Fusce congue fermentum lectus sit amet ultricies. Sed mollis, lectus id egestas rutrum, lectus tellus luctus nulla, vel pulvinar felis leo ac sem. Nulla libero eros, fringilla eget nibh in, consectetur bibendum sapien. Nulla nibh nisl, aliquam quis egestas quis, sagittis nec enim. Morbi nec elit convallis, aliquam nisi et, vehicula turpis. Nullam et mauris purus. Nullam accumsan justo et tellus consequat egestas. Morbi eu ipsum vitae nunc convallis convallis at non elit. Curabitur aliquet urna erat, nec ultricies sem placerat id. Nulla eget sem consectetur ipsum porttitor fringilla. Integer feugiat eros a erat sodales, a tincidunt leo varius. Sed commodo molestie metus. Nulla aliquet suscipit mi et lacinia.
       </p>
       </div>
+    script(type='text/javascript', src='js/doormat.js')
     script(type='text/javascript').
-      var myMultDoormat = new doormat(document.getElementsByTagName('ol')[0], true);
-      // var myDoormat = new doormat(document.getElementsByTagName('header')[0]);
+      var myDoormat = new doormat(document.getElementsByTagName('ol')[0]);
