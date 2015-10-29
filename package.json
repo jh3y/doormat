@@ -8,24 +8,26 @@
     "stylus": "^0.52.4"
   },
   "devDependencies": {
+    "browser-sync": "^2.9.11",
     "coffee-script": "^1.10.0",
     "jade": "^1.11.0",
     "node-sass": "^3.4.1"
   },
   "scripts": {
-    "watch:scripts"     : "coffee -o public/js -cw src/coffee",
-    "build:scripts"     : "coffee -o public/js -c src/coffee",
-    "publish:scripts"   : "coffee -p src/coffee > public/js/doormat.js",
+    "watch:scripts": "coffee -o public/js -cw src/coffee",
+    "build:scripts": "coffee -o public/js -c src/coffee",
+    "publish:scripts": "coffee -p src/coffee > public/js/doormat.js",
     "prepublish:scripts": "npm run build:scripts",
-    "watch:styles"      : "node-sass -w src/sass -o public/css",
-    "build:styles"      : "node-sass src/sass -o public/css",
-    "publish:styles"    : "",
-    "watch:markup"      : "jade -wp src/jade -o public",
-    "build:markup"      : "jade -P src/jade -o public",
-    "publish:markup"    : "jade src/jade -o public",
-    "watch:dev"         : "npm run watch:markup & npm run watch:scripts & npm run watch:styles",
-    "build:dev"         : "npm run build:scripts && npm run build:styles && npm run build:markup"
-
+    "watch:styles": "node-sass -w src/sass -o public/css",
+    "build:styles": "node-sass src/sass -o public/css",
+    "publish:styles": "",
+    "watch:markup": "jade -wp src/jade -o public",
+    "build:markup": "jade -P src/jade -o public",
+    "publish:markup": "jade src/jade -o public",
+    "watch:dev": "npm run watch:markup & npm run watch:scripts & npm run watch:styles",
+    "build:dev": "npm run build:scripts && npm run build:styles && npm run build:markup",
+    "serve": "browser-sync start --port 1987 --files public/**/*.{html,css,js} --server public",
+    "preserve": "npm run build:dev"
   },
   "repository": {
     "type": "git",
