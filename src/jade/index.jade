@@ -1,3 +1,8 @@
+mixin githubStats(userName, repoName)
+  .stats
+    iframe(src = "http://ghbtns.com/github-btn.html?user=#{userName}&repo=#{repoName}&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="90px", height="20")
+    iframe(src = "http://ghbtns.com/github-btn.html?user=#{userName}&repo=#{repoName}&type=fork&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="90px", height="20")
+    iframe(src = "http://ghbtns.com/github-btn.html?user=#{userName}&repo=#{repoName}&type=follow&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="120px", height="20")
 doctype html
 html
   head
@@ -9,82 +14,23 @@ html
     link(rel='stylesheet', href='css/dev.css')
   body.tx--black
     ol
-      li.tx--white.header
-        header
-          h1.text-center It is working actually :D
-      li.bg--teal.intro
-        .container
-          .row
-            .col-md-10.col-md-offset-1.text-center
-              h2 doormat provides an alternative way to navigating through your site content.
-              h5 why not just use curtains.js?
-              p
-                | I actually wanted to but after thinking about it the effect isn't too difficult to recreate and I wanted the challenge of learning to do so. Also, curtains.js is no longer maintained unfortunately. It also depends on jQuery whereas doormat doesn't. Which is nice.
-      li.bg--white
-        .container
-          .row
-            .col-md-10.col-md-offset-1.text-center
-              h2 how do you create a doormat then?
-              h5 it's actually pretty simple.
-              p
-                | There are actually two types of doormat I've implemented.
-              p
-                | You can have a single doormat. For example, the header/intro image of your page and then follow that with your content.
-                | Ideally, you want to have a header element and then a following element which contains the rest of the page content.
-              pre.highlight.
-                \n\t\t\t\t\t\t                
-                \t\t\t\t\t\t                
-              p
-                | Or you can have multiple doormats much like with this demo page. For this set up use a list element either 
-                code ol
-                |  or 
-                code ul
-                | .
-              pre.
-                \n\t\t\t\t\t\t                
-                \t\t\t\t\t\t                
-              p
-                | Once you've set up the DOM. You need to make sure you include the necessary 
-                code javascript
-                |  and 
-                code css
-                | . doormat is also compatible with npm component too.
-              p
-                | Lastly, create the doormat with a couple of lines of script. First line is to pull in the necessaries. Second is to set up the doormat. There are only two parameters that can be passed in. The first is our doormat element. If using a single doormat, the element passed in will be the header element. If going for multiple doormats, the element passed in is the parent 
-                code ol
-                |  or 
-                code ul
-                | . The second parameter is simply a 
-                code true
-                |  or 
-                code false
-                |  telling our function whether we have a single or multiple doormat.
-              pre.
-                \n\t\t\t\t\t\t                
-                \t\t\t\t\t\t                
-              h5 That's it!
-      li.bg--teal
-        .container
-          .row
-            .col-md-10.col-md-offset-1.text-center
-              h2 browser support? any issues?
-              h5
-                | Browser support is not bad and unfortunately with regards to issues, yes, there is one currently.
-              p
-                | It basically revolves around iOS' buggy implementation of viewport units. If anyone knows a way to get around this issue, that would be awesome!!!. Fortunately, a single doormat works on iOS devices but the multiple is well just horrible.
-              p
-                | To keep the code as small as possible, I've implemented doormat using viewport units with the future in mind (ie. when iOS fixes its issue from what I can see.)
-              p
-                | The version of Safari I have currently run doormat on seems to have an issue repainting z-index on scrolling upwards. Likewise, if someone has a solution to this that would be awesome.
-      li.get-involved.bg--white
-        .container
-          .row
-            .col-md-10.col-md-offset-1.text-center
-              h2 That's it really
-              h5
-                | if you'd like to get involved or raise an issue dont' hesitate to do so by visting the 
-                a.repo-link(href='https://github.com/jh3y/doormat', target='_blank') repo
-                | .
+      li.section.tx--white.header
+        h2.instruction.tx--center please scroll...
+        .title.tx--right
+          h1 doormat
+          +githubStats('jh3y', 'doormat')
+      li.section.bg--teal.intro.tx--center.tx--white
+        h1 How about something a little different for navigating through your site content?
+      li.section.bg--white.tx--center
+        h1 How to create a doormat
+        p It's actually <strong>real</strong> simple.
+        ol
+          li Include <code>doormat.js</code> and <code>doormat.css</code> in your page.
+          li Create the DOM structure you want to use. This needs to be a containing element of children. <strong>All</strong> of the children will be used as panels. I recommend something like an <code>ol</code> or <code>ul</code>.
+          li Invoke the <code>doormat</code> function passing in the container element as a parameter. For example; <pre><code>var container = document.querySelector('ol');<br>var myDoormat = new doormat(container);</code></pre>
+      li.section.get-involved.bg--teal.tx--white.tx--center
+        h1 That's it really.
+        h4 For more, see the <a href="https://github.com/jh3y/doormat" target="_blank">repo</a>!
     script(type='text/javascript', src='js/doormat.js')
     script(type='text/javascript').
       var myDoormat = new doormat(document.getElementsByTagName('ol')[0]);
