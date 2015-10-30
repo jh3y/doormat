@@ -7,6 +7,7 @@
     "browser-sync": "^2.9.11",
     "clean-css": "^3.4.6",
     "coffee-script": "^1.10.0",
+    "gh-pages": "^0.5.0",
     "jade": "^1.11.0",
     "node-sass": "^3.4.1",
     "postcss-cli": "^2.3.2",
@@ -29,7 +30,8 @@
     "serve": "browser-sync start --port 1987 --files public/ --server public",
     "preserve": "npm run build:dev",
     "develop": "npm run serve & npm run watch:dev",
-    "publish": "npm run publish:scripts && npm run publish:styles"
+    "publish": "npm run publish:scripts && npm run publish:styles",
+    "deploy": "gh-pages -d public"
   },
   "repository": {
     "type": "git",
