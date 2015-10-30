@@ -5,7 +5,7 @@ _an alternative way to navigate through your site content_
 
 `doormat` provides a slightly different way to traverse through your site content.
 
-It's small, has no dependencies and is easy to use.
+It's small(< 2kB), has no dependencies and is easy to use!
 
 ##Usage
 
@@ -34,6 +34,24 @@ Unfortunately, `curtain.js` is no longer maintained and there are reports of iss
 I was unaware of `curtain.js` when creating `doormat`. Initially, I was experimenting with different implementations of parallax style effects and messing about with viewport units.
 
 My aim with `doormat` was to create the effect but keep the solution minimal with no dependencies. It was a result of curiosity and playing with code.
+
+##Development
+If you wish to hack about with the repo, it's simple to get going.
+
+1. Fork and clone or simply clone the repo.
+
+        git clone https://github.com/jh3y/doormat.git
+
+2. Navigate into the repo and install the dependencies.
+
+        cd doormat
+        npm install
+
+3. Run the `develop` task to get up and running with `browser-sync` etc.
+
+        npm run develop
+
+I would usually use a task runner like `gulp` in my projects. But, with `doormat` being minimal I had a go at using `npm run scripts` for all my build needs. So, to see all available build scripts, take a look at `package.json`.
 
 ##Contributing
 Don't hesitate to post an issue or suggestion or get in touch by tweeting me [@_jh3y](https://twitter.com/_jh3y)!
