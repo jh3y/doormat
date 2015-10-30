@@ -1,3 +1,9 @@
+###
+  doormat - http://jh3y.github.io/doormat
+  @license MIT
+
+  jh3y (c) 2015
+###
 props =
   CLASS        : 'doormat'
   PANEL_CLASS  : 'doormat__panel'
