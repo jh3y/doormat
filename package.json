@@ -1,0 +1,44 @@
+{
+  "name": "doormat",
+  "version": "2.0.0",
+  "description": "an alternative way to navigate through your site content",
+  "devDependencies": {
+    "autoprefixer": "^6.0.3",
+    "browser-sync": "^2.9.11",
+    "clean-css": "^3.4.6",
+    "coffee-script": "^1.10.0",
+    "jade": "^1.11.0",
+    "node-sass": "^3.4.1",
+    "postcss-cli": "^2.3.2",
+    "uglify-js": "^2.5.0"
+  },
+  "scripts": {
+    "watch:scripts": "coffee -o public/js -cw src/coffee",
+    "build:scripts": "coffee -o public/js -c src/coffee",
+    "publish:scripts": "coffee -p src/coffee > dist/doormat.js && uglifyjs --compress --comments --mangle -o dist/doormat.min.js dist/doormat.js",
+    "prepublish:scripts": "npm run build:scripts",
+    "watch:styles": "node-sass -w src/sass -o public/css",
+    "build:styles": "node-sass src/sass -o public/css",
+    "postbuild:styles": "postcss --use autoprefixer -d public/css/ public/css/*.css",
+    "publish:styles": "node-sass src/sass/doormat.scss -o dist/ && cleancss --s1 -o dist/doormat.min.css dist/doormat.css",
+    "watch:markup": "jade -wP src/jade -o public",
+    "build:markup": "jade -P src/jade -o public",
+    "publish:markup": "jade src/jade -o public",
+    "watch:dev": "npm run watch:markup & npm run watch:scripts & npm run watch:styles",
+    "build:dev": "npm run build:scripts && npm run build:styles && npm run build:markup",
+    "serve": "browser-sync start --port 1987 --files public/ --server public",
+    "preserve": "npm run build:dev",
+    "develop": "npm run serve & npm run watch:dev",
+    "publish": "npm run publish:scripts && npm run publish:styles"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jh3y/doormat"
+  },
+  "author": "jh3y < jh3y@live.co.uk >",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jh3y/doormat/issues"
+  },
+  "homepage": "https://github.com/jh3y/doormat"
+}

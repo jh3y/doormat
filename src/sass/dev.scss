@@ -1,0 +1,68 @@
+$White: #fff;
+$Black: #2c3E55;
+$Teal : #009688;
+$colorPalette: (
+  black : $Black,
+  white : $White,
+  teal  : $Teal
+);
+@each $key, $value in $colorPalette {
+  .bg--#{$key} {
+    background-color: $value;
+  }
+  .tx--#{$key} {
+    color: $value;
+  }
+}
+body {
+  margin : 0;
+  padding: 0;
+}
+* {
+  box-sizing: border-box;
+}
+.header {
+  background-size: cover;
+  background-position: center center;
+  background-image: url(https://raw.githubusercontent.com/jh3y/pics/master/doormat/doormat.jpg);
+}
+ol li {
+  padding: 20px;
+}
+code {
+  color: #E74C3C;
+}
+.tx--right {
+  text-align: right;
+}
+.tx--center {
+  text-align: center;
+}
+.title {
+  display: inline-block;
+  position: absolute;
+  right: 50px;
+  bottom: 50px;
+}
+.section {
+  visibility: hidden;
+  padding: 100px 0;
+  ol {
+    max-width: 50%;
+    display: inline-block;
+    margin: 0 auto;
+  }
+  .title {
+    h1 {
+      font-size: 80px;
+      margin: 10px;
+    }
+  }
+  h1 {
+    font-style: italic;
+    font-size: 30px;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
