@@ -1,0 +1,64 @@
+.bg--black {
+  background-color: #2c3E55; }
+
+.tx--black {
+  color: #2c3E55; }
+
+.bg--white {
+  background-color: #fff; }
+
+.tx--white {
+  color: #fff; }
+
+.bg--teal {
+  background-color: #009688; }
+
+.tx--teal {
+  color: #009688; }
+
+body {
+  margin: 0;
+  padding: 0; }
+
+* {
+  box-sizing: border-box; }
+
+.header {
+  background-size: cover;
+  background-position: center center;
+  background-image: url(https://raw.githubusercontent.com/jh3y/pics/master/doormat/doormat.jpg); }
+
+ol li {
+  padding: 20px; }
+
+code {
+  color: #E74C3C; }
+
+.tx--right {
+  text-align: right; }
+
+.tx--center {
+  text-align: center; }
+
+.title {
+  display: inline-block;
+  position: absolute;
+  right: 50px;
+  bottom: 50px; }
+
+.section {
+  visibility: hidden;
+  padding: 100px 0; }
+  .section ol {
+    max-width: 50%;
+    display: inline-block;
+    margin: 0 auto; }
+  .section .title h1 {
+    font-size: 80px;
+    margin: 10px; }
+  .section h1 {
+    font-style: italic;
+    font-size: 30px;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto; }

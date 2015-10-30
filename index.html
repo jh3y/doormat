@@ -1,154 +1,44 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>doormat | wipe your fingers before you come in!</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="description" content="an entry point to your site, wipe your fingers before you come in!">
-	<link  rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
-	<link  rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
-	<link  rel="stylesheet" href="/css/vendor/flat-ui.css" />
-	<link  rel="stylesheet" href="css/highlight.css" />
-	<link rel="stylesheet" href="doormat.css" />
-	<link rel="stylesheet" type="text/css" href="style.css" />
-	<script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
-	<script type="text/javascript" type="text/css" src="doormat.js"></script>
-</head>
-<body>
-	<ol>
-		<li class="header-panel">
-			<header>
-				<h1 class="text-center">doormat</h1>
-				<div class="text-center">
-					<i class="fa fa-chevron-down"></i>
-					<table>
-						<tr>
-							<td>
-								<iframe src="http://ghbtns.com/github-btn.html?user=jh3y&repo=doormat&type=watch&count=true" height="30" width="98" frameborder="0" scrolling="0" style="width:98px; height: 30px;" allowTransparency="true"></iframe>
-							</td>
-							<td>
-								<iframe src="http://ghbtns.com/github-btn.html?user=jh3y&repo=doormat&type=fork&count=true" height="30" width="98" frameborder="0" scrolling="0" style="width:98px; height: 30px;" allowTransparency="true"></iframe>
-							</td>
-							<td>
-								<iframe src="http://ghbtns.com/github-btn.html?user=jh3y&type=follow&count=true" height="30" width="128" frameborder="0" scrolling="0" style="width:128px; height: 30px;" allowTransparency="true"></iframe>
-							</td>
-						</tr>
-					</table>
-				</div>
-			</header>
-		</li>
-		<li class="intro">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-10 col-md-offset-1 text-center">
-						<h2>doormat provides an alternative way to navigating through your site content.</h2>
-						<h5>why not just use curtains.js?</h5>
-						<p>
-							I actually wanted to but after thinking about it the effect isn't too difficult to recreate and I wanted the challenge of learning to do so. Also, curtains.js is no longer maintained unfortunately. It also depends on jQuery whereas doormat doesn't. Which is nice.
-						</p>
-					</div>	
-				</div>
-			</div>
-		</li>
-		<li class="code">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-10 col-md-offset-1 text-center">
-						<h2>how do you create a doormat then?</h2>
-						<h5>it's actually pretty simple.</h5>
-						<p>
-							There are actually two types of doormat I've implemented.
-						</p>
-						<p>
-							You can have a single doormat. For example, the header/intro image of your page and then follow that with your content.
-							Ideally, you want to have a header element and then a following element which contains the rest of the page content.
-						</p>
-						<pre class="highlight">
-						<code>
-&lt;header&gt;awesome site&lt;/header&gt;
-&lt;div class=&quot;page-content&quot;&gt;&lt;/div&gt;
-						</code>
-						</pre>
-						<p>
-							Or you can have multiple doormats much like with this demo page. For this set up use a list element either <code>ol</code> or <code>ul</code>.
-						</p>
-						<pre>
-						<code>
-&lt;ol&gt;
-    &lt;li&gt;1&lt;/li&gt;
-    &lt;li&gt;2&lt;/li&gt;
-    &lt;li&gt;3&lt;/li&gt;
-    &lt;li&gt;4&lt;/li&gt;
-&lt;/ol&gt;
-						</code>
-						</pre>
-						<p>
-							Once you've set up the DOM. You need to make sure you include the necessary <code>javascript</code> and <code>css</code>. doormat is also compatible with npm component too.
-						</p>
-						<p>
-							Lastly, create the doormat with a couple of lines of script. First line is to pull in the necessaries. Second is to set up the doormat. There are only two parameters that can be passed in. The first is our doormat element. If using a single doormat, the element passed in will be the header element. If going for multiple doormats, the element passed in is the parent <code>ol</code> or <code>ul</code>. The second parameter is simply a <code>true</code> or <code>false</code> telling our function whether we have a single or multiple doormat.
-						</p>
-						<pre>
-						<code>
-var doormat = require(&#39;doormat&#39;);/*THIS IS ONLY NEEDED IF USING WITH COMPONENT AND NOT THE STANDALONE doormat.js*/
-var myMultDoormat = new doormat(document.getElementsByTagName(&#39;ol&#39;)[0], true);/*for a multiple doormat*/
-var myDoormat = new doormat(document.getElementsByTagName(&#39;header&#39;)[0]);/*for a single doormat*/
-						</code>
-						</pre>
-						<h5>That's it!</h5>
-					</div>	
-				</div>
-			</div>
-		<li class="issues">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-10 col-md-offset-1 text-center">
-						<h2>browser support? any issues?</h2>
-						<h5>
-							Browser support is not bad and unfortunately with regards to issues, yes, there is one currently.
-						</h5>
-						<p>
-							It basically revolves around iOS' buggy implementation of viewport units. If anyone knows a way to get around this issue, that would be awesome!!!. Fortunately, a single doormat works on iOS devices but the multiple is well just horrible.
-						</p>
-						<p>
-							To keep the code as small as possible, I've implemented doormat using viewport units with the future in mind (ie. when iOS fixes its issue from what I can see.)
-						</p>
-						<p>
-							The version of Safari I have currently run doormat on seems to have an issue repainting z-index on scrolling upwards. Likewise, if someone has a solution to this that would be awesome.
-						</p>
-					</div>	
-				</div>
-			</div>
-		</li>
-		<li class="get-involved">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-10 col-md-offset-1 text-center">
-						<h2>That's it really</h2>
-						<h5>if you'd like to get involved or raise an issue dont' hesitate to do so by visting the <a class="repo-link" href="https://github.com/jh3y/doormat"  target="_blank">repo</a>.</h5>
-					</div>	
-				</div>
-			</div>
-		</li>
-	</ol>
-	<!-- <header class="purple">doormat</header>
-	<div>
-		<p class="columned">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consectetur molestie tristique. Aliquam elementum sollicitudin tellus in facilisis. Pellentesque augue turpis, varius ut molestie nec, laoreet sit amet purus. Sed neque erat, hendrerit at ante vel, bibendum tempus tortor. Proin vitae pharetra ante. Donec tempor feugiat libero, a pellentesque purus scelerisque id. Sed fermentum sapien nec ante varius, vitae bibendum eros fermentum. Suspendisse in felis sollicitudin, suscipit ipsum et, ultrices libero. Proin sed elementum justo, et ornare lacus. Aliquam a risus diam. Fusce lobortis vel justo sit amet tincidunt. Etiam purus odio, suscipit et bibendum vitae, porttitor vitae sapien.
-
-			Ut tristique velit sit amet aliquam molestie. Duis sit amet dui justo. Fusce nec facilisis magna. Vivamus lacinia urna mollis ullamcorper condimentum. Quisque at luctus orci. Aenean ultrices nisi ac auctor lobortis. Etiam ultrices ut eros nec faucibus. Ut pulvinar, felis sed convallis tincidunt, leo erat ullamcorper enim, vel vehicula turpis mauris non velit. Pellentesque cursus leo dolor, ut tempor turpis fringilla ac. Quisque aliquet urna sodales bibendum porttitor. Donec metus neque, sodales sit amet libero quis, dignissim elementum nisi.
-
-			Curabitur sed ligula ac dolor consequat tempus ac ac enim. Aliquam ac lacus sit amet nulla malesuada hendrerit. Vivamus ultricies ligula vel faucibus volutpat. Phasellus vehicula, neque sagittis rhoncus scelerisque, magna erat lobortis libero, vitae fringilla tellus erat sed massa. Nunc convallis, mauris non feugiat fermentum, leo eros consectetur orci, quis semper quam tellus sit amet ipsum. Fusce rhoncus libero sit amet lectus porttitor mollis. Nunc suscipit nibh massa, eget placerat magna ultrices consequat. Nam eleifend quam non vestibulum hendrerit. Pellentesque sollicitudin enim eu magna sodales lobortis. Maecenas arcu ligula, fermentum eget viverra vitae, varius a dui. Vivamus iaculis porttitor pulvinar. Aliquam sed elementum tellus, id rutrum sem. Praesent placerat tortor non purus luctus, non adipiscing tortor ultricies. Quisque et tellus nec ligula tincidunt lobortis. Integer quis elementum purus. Sed vel facilisis eros.
-
-			Pellentesque tempor quam at arcu imperdiet, quis eleifend quam hendrerit. Nam id pulvinar tortor, et condimentum nulla. Morbi fringilla neque id nibh rutrum vehicula. Maecenas gravida bibendum purus et consequat. Cras molestie mattis dui eu fringilla. Nulla facilisi. Nullam sem purus, venenatis nec dui et, ullamcorper viverra turpis. Cras laoreet lacus et tortor pretium imperdiet. Aliquam dignissim risus urna, id pulvinar nisl venenatis in. Etiam porta porttitor laoreet.
-
-			Sed fermentum cursus augue, convallis sodales magna sollicitudin eget. Fusce congue fermentum lectus sit amet ultricies. Sed mollis, lectus id egestas rutrum, lectus tellus luctus nulla, vel pulvinar felis leo ac sem. Nulla libero eros, fringilla eget nibh in, consectetur bibendum sapien. Nulla nibh nisl, aliquam quis egestas quis, sagittis nec enim. Morbi nec elit convallis, aliquam nisi et, vehicula turpis. Nullam et mauris purus. Nullam accumsan justo et tellus consequat egestas. Morbi eu ipsum vitae nunc convallis convallis at non elit. Curabitur aliquet urna erat, nec ultricies sem placerat id. Nulla eget sem consectetur ipsum porttitor fringilla. Integer feugiat eros a erat sodales, a tincidunt leo varius. Sed commodo molestie metus. Nulla aliquet suscipit mi et lacinia.
-		</p>
-	</div> -->
-	<script type="text/javascript">
-		var myMultDoormat = new doormat(document.getElementsByTagName('ol')[0], true);
-		// var myDoormat = new doormat(document.getElementsByTagName('header')[0]);
-	</script>
-</body>
+  <head>
+    <title>doormat | wipe your fingers before you come in!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="description" content="an entry point to your site, wipe your fingers before you come in!">
+    <link rel="stylesheet" href="css/doormat.css">
+    <link rel="stylesheet" href="css/dev.css">
+  </head>
+  <body class="tx--black">
+    <ol>
+      <li class="section tx--white header">
+        <h2 class="instruction tx--center">please scroll...</h2>
+        <div class="title tx--right">
+          <h1>doormat</h1>
+          <div class="stats">
+            <iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=doormat&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20"></iframe>
+            <iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=doormat&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20"></iframe>
+            <iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=doormat&amp;type=follow&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="120px" height="20"></iframe>
+          </div>
+        </div>
+      </li>
+      <li class="section bg--teal intro tx--center tx--white">
+        <h1>How about something a little different for navigating through your site content?</h1>
+      </li>
+      <li class="section bg--white tx--center">
+        <h1>How to create a doormat</h1>
+        <p>It's actually <strong>real</strong> simple.</p>
+        <ol>
+          <li>Include <code>doormat.js</code> and <code>doormat.css</code> in your page.</li>
+          <li>Create the DOM structure you want to use. This needs to be a containing element of children. <strong>All</strong> of the children will be used as panels. I recommend something like an <code>ol</code> or <code>ul</code>.</li>
+          <li>Invoke the <code>doormat</code> function passing in the container element as a parameter. For example; <pre><code>var container = document.querySelector('ol');<br>var myDoormat = new doormat(container);</code></pre></li>
+        </ol>
+      </li>
+      <li class="section get-involved bg--teal tx--white tx--center">
+        <h1>That's it really.</h1>
+        <h4>For more, see the <a href="https://github.com/jh3y/doormat" target="_blank">repo</a>!</h4>
+      </li>
+    </ol>
+    <script type="text/javascript" src="js/doormat.js"></script>
+    <script type="text/javascript">var myDoormat = new doormat(document.getElementsByTagName('ol')[0]);</script>
+  </body>
 </html>
