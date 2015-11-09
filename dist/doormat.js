@@ -2,7 +2,7 @@
   doormat - http://jh3y.github.io/doormat
   @license MIT
 
-  jh3y (c) 2015.
+  jh3y (c) 2015
  */
 
 (function() {
@@ -55,14 +55,15 @@
       return calibratePanels();
     };
     return window.onscroll = function(e) {
-      var cur;
+      var cur, scroll;
       cur = doormat.current;
-      cur.style.top = -(window.scrollY - cur.DOORMAT_POS) + 'px';
-      if (window.scrollY > (cur.DOORMAT_HEIGHT + cur.DOORMAT_POS)) {
+      scroll = window.scrollY || window.pageYOffset;
+      cur.style.top = -(scroll - cur.DOORMAT_POS) + 'px';
+      if (scroll > (cur.DOORMAT_HEIGHT + cur.DOORMAT_POS)) {
         if (cur.nextElementSibling) {
           return setNew('next');
         }
-      } else if (window.scrollY < cur.DOORMAT_POS) {
+      } else if (scroll < cur.DOORMAT_POS) {
         if (cur.previousElementSibling) {
           return setNew('previous');
         }
