@@ -33,9 +33,9 @@ var myDoormat = new Doormat(15);
 * `Doormat({number} delay)` - Instantiates a new `doormat` style layout with optional `delay`. They delay represents a vertical percentage of `window.innerHeight` to be used as a delay when triggering the next doormat panel to scroll. For example; If my `window` was `1000px` high and I invoked `new Doormat(10)`, the scrolling delay would be `100px`. The reason for percentage is that when the window is resized the delay will remain consistent and proportional to the `window` height.
 
 ## How?
-The trick is possible by making our panels `position: fixed` and then giving our `document.body` a set height equal to the combined heights of our panels.
+The trick is possible by making sections of the page `position: fixed` and then setting a height for the document `body` equal to the combined height of the page sections.
 
-When the `window` is scrolled down we move our panels upwards out of view to reveal the next panel underneath and so on. Alternatively, when the `window` is scrolled up, we bring our panels back down from out of view in order of the way in which they went up(_dictated by the DOM structure_).
+When the `window` is scrolled down we move our page sections upwards out of the viewport to reveal the content underneath. The opposite being that, when the `window` is scrolled up, we bring our sections back down into view in the same order in which they left(_dictated by the DOM structure_).
 
 ## curtain.js?
 Unfortunately, `curtain.js` is no longer maintained and there were reports of issues with newer versions of jQuery.
