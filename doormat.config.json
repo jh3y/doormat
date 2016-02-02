@@ -1,0 +1,14 @@
+{
+  "panels": 10,
+  "blocks": {
+    "doormat": {
+      "lbl": "dm",
+      "els": {
+        "panel": "pnl"
+      }
+    }
+  },
+  "mods": {
+    "current": "crnt"
+  }
+}
