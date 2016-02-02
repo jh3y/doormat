@@ -1,0 +1,32 @@
+/*!!
+  * doormat - http://jh3y.github.io/doormat
+  *
+  * @license MIT
+  * @author jh3y
+  * (c) 2016
+!*/
+c = json('../../doormat.config.json', {
+  hash: true,
+  leave-strings: true
+})
+
+.{c.blocks.doormat.lbl}
+  display  block
+  position relative
+  margin   0
+  padding  0
+
+  &__{c.blocks.doormat.els.panel}
+    display    none
+    position   fixed
+    top        0
+    right      0
+    left       0
+
+    for i in (1..c.panels)
+      &:nth-of-type({i})
+        z-index 999 - i
+
+    &--{c.mods.current}
+    &--{c.mods.current} ~ .{c.blocks.doormat.lbl}__{c.blocks.doormat.els.panel}
+      display block

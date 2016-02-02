@@ -1,33 +1,44 @@
-#doormat
+![img](https://img.shields.io/badge/license-MIT-blue.svg)
+![img](https://img.shields.io/badge/dependencies-none-green.svg)
+
+# doormat
 _an alternative way to navigate through your site content_
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/doormat/doormat.jpg)
 
 `doormat` provides a slightly different way to traverse through your site content.
 
-It's small(< 2kB), has no dependencies and is easy to use!
+It's small(_~2kB minified JS+CSS_), has no dependencies and is easy to use!
 
-##Usage
+## Usage
 
 To create your doormat.
 
-1. Include `doormat.js` and `doormat.css` in the DOM.
-2. Set up the DOM accordingly. The structure needs to be a container with children that will become the sliding panels. `ol` and `ul` are fitting elements.
+1. Include `doormat.js` and `doormat.css` in your page.
+2. Create your DOM structure. The structure needs to be a container with the classname `dm`. It then needs to have children with the classname `dm__pnl`. `ol` and `ul` are fitting elements.
   ```html
-    <ol>
-      <li>Awesome</li>
-      <li>Site</li>
-      <li>Content</li>
+    <ol class="dm">
+      <li class="dm__pnl">Awesome</li>
+      <li class="dm__pnl">Site</li>
+      <li class="dm__pnl">Content</li>
     </ol>
   ```
-3. Invoke the `doormat` function passing in the containing element as a parameter;
+3. Invoke the `Doormat` function passing in an optional delay(_explained below_) as a parameter;
 ```javascript
-var container = document.querySelector('ul');
-var myDoormat = new doormat(container);
+var myDoormat = new Doormat();
+var myDoormat = new Doormat(15);
 ```
 
-##curtain.js?
-Unfortunately, `curtain.js` is no longer maintained and there are reports of issues with newer versions of jQuery.
+## API
+* `Doormat({number} delay)` - Instantiates a new `doormat` style layout with optional `delay`. They delay represents a vertical percentage of `window.innerHeight` to be used as a delay when triggering the next doormat panel to scroll. For example; If my `window` was `1000px` high and I invoked `new Doormat(10)`, the scrolling delay would be `100px`. The reason for percentage is that when the window is resized the delay will remain consistent and proportional to the `window` height.
+
+## How?
+The trick is possible by making our panels `position: fixed` and then giving our `document.body` a set height equal to the combined heights of our panels.
+
+When the `window` is scrolled down we move our panels upwards out of view to reveal the next panel underneath and so on. Alternatively, when the `window` is scrolled up, we bring our panels back down from out of view in order of the way in which they went up(_dictated by the DOM structure_).
+
+## curtain.js?
+Unfortunately, `curtain.js` is no longer maintained and there were reports of issues with newer versions of jQuery.
 
 `curtain.js` is a more feature rich solution and provides some different behavior and hooks. It does however depend on `jQuery`.
 
@@ -35,8 +46,8 @@ I was unaware of `curtain.js` when creating `doormat`. Initially, I was experime
 
 My aim with `doormat` was to create the effect but keep the solution minimal with no dependencies. It was a result of curiosity and playing with code.
 
-##Development
-If you wish to hack about with the repo, it's simple to get going.
+## Development
+If you wish to play with the code, it's simple to get going.
 
 1. Fork and clone or simply clone the repo.
 
@@ -51,12 +62,19 @@ If you wish to hack about with the repo, it's simple to get going.
 
         npm run develop
 
-I would usually use a task runner like `gulp` in my projects. But, with `doormat` being minimal I had a go at using `npm run scripts` for all my build needs. So, to see all available build scripts, take a look at `package.json`.
+__NOTE::__ I would usually use a task runner like `gulp` in my projects. But, with `doormat` being minimal I had a go at using `npm run scripts` for all my build needs. So, to see all available build scripts, take a look at `package.json`.
+```shell
+cat package.json
+```
+### Roll your own
+`doormat` development is mainly config driven with `doormat.config.json`. In here you can alter the classnames for elements to your desire. It is __important__ to remember that if you change the classnames in the config though that you will also need to update any reference to them from within the JavaScript.
 
-##Contributing
+For example, maybe you're not keen on the classnames being used or want it to support a higher number of panels(_the default is 10_).
+
+## Contributing
 Don't hesitate to post an issue or suggestion or get in touch by tweeting me [@_jh3y](https://twitter.com/_jh3y)!
 
-##License
+## License
 MIT
 
-jh3y 2015
+jh3y 2016

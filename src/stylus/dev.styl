@@ -1,0 +1,68 @@
+$white  = #fff
+$black  = #2c3E55
+$red    = #e74c3c
+$teal   = #009688
+$green  = #87d37c
+$purple = #9a12b3
+$blue   = #446cb3
+
+$colorPalette = {
+  black : $black
+  white : $white
+  teal  : $teal
+  red   : $red
+  purple: $purple
+  green : $green
+  blue  : $blue
+}
+
+for color, hex in $colorPalette
+  .bg--{color}
+    background-color hex
+  .tx--{color}
+    color            hex
+
+body
+  margin      0
+  padding     0
+  font-family 'Droid Sans', sans-serif
+
+.bg--purple code
+  color $black
+
+code
+  color $red
+
+.cntnt-wrppr
+  display flex
+  align-items center
+  justify-content center
+  position absolute
+  top 0
+  right 0
+  bottom 0
+  left 0
+
+.cntnt
+  max-width 90%
+
+.fa
+  position absolute
+  top 50%
+  left 50%
+  margin-left -40px
+  margin-top -40px
+
+.title
+  position absolute
+  right 0
+  bottom 0
+  padding 50px
+
+*
+  box-sizing border-box
+
+.header
+  background-size cover
+  background-position center center
+  background-image url(https://raw.githubusercontent.com/jh3y/pics/master/doormat/doormat.jpg)

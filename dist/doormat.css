@@ -1,32 +1,54 @@
 /*!
-  doormat - http://jh3y.github.io/doormat
-  Licensed under the MIT license
-
-  jh3y (c) 2015.
+  * doormat - http://jh3y.github.io/doormat
+  *
+  * @license MIT
+  * @author jh3y
+  * (c) 2016
 !*/
-.doormat {
+.dm {
   display: block;
   position: relative;
   margin: 0;
-  padding: 0; }
-  .doormat__panel {
-    visibility: hidden;
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0; }
-    .doormat__panel:nth-of-type(1) {
-      z-index: 998; }
-    .doormat__panel:nth-of-type(2) {
-      z-index: 997; }
-    .doormat__panel:nth-of-type(3) {
-      z-index: 996; }
-    .doormat__panel:nth-of-type(4) {
-      z-index: 995; }
-    .doormat__panel:nth-of-type(5) {
-      z-index: 994; }
-    .doormat__panel:nth-of-type(6) {
-      z-index: 993; }
-    .doormat__panel.is--current,
-    .doormat__panel.is--current + * {
-      visibility: visible; }
+  padding: 0;
+}
+.dm__pnl {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+.dm__pnl:nth-of-type(1) {
+  z-index: 998;
+}
+.dm__pnl:nth-of-type(2) {
+  z-index: 997;
+}
+.dm__pnl:nth-of-type(3) {
+  z-index: 996;
+}
+.dm__pnl:nth-of-type(4) {
+  z-index: 995;
+}
+.dm__pnl:nth-of-type(5) {
+  z-index: 994;
+}
+.dm__pnl:nth-of-type(6) {
+  z-index: 993;
+}
+.dm__pnl:nth-of-type(7) {
+  z-index: 992;
+}
+.dm__pnl:nth-of-type(8) {
+  z-index: 991;
+}
+.dm__pnl:nth-of-type(9) {
+  z-index: 990;
+}
+.dm__pnl:nth-of-type(10) {
+  z-index: 989;
+}
+.dm__pnl--crnt,
+.dm__pnl--crnt ~ .dm__pnl {
+  display: block;
+}
