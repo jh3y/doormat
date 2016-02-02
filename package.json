@@ -24,13 +24,17 @@
     "publish:styles": "stylus src/stylus/doormat.styl -o dist/ && cleancss --s1 -o dist/doormat.min.css dist/doormat.css",
     "watch:markup": "jade -wP src/jade -O doormat.config.json -o public",
     "build:markup": "jade -P src/jade -O doormat.config.json -o public",
+    "publish:markup": "jade src/jade/index.jade -O doormat.config.json -o public",
+    "prewatch:dev": "mkdir public/css",
     "watch:dev": "npm run watch:markup & npm run watch:scripts & npm run watch:styles",
     "build:dev": "npm run build:scripts && npm run build:styles && npm run build:markup",
     "serve": "browser-sync start --port 1987 --files public/ --server public",
     "preserve": "npm run build:dev",
     "develop": "npm run serve & npm run watch:dev",
     "publish": "npm run publish:scripts && npm run publish:styles",
-    "deploy": "gh-pages -d public"
+    "predeploy": "rm -rf public && mkdir public && mkdir public/css && npm run build:scripts && npm run build:styles && npm run publish:markup",
+    "deploy": "gh-pages -d public",
+    "postdeploy": "npm run publish"
   },
   "repository": {
     "type": "git",
