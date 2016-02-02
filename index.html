@@ -1,44 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>doormat | wipe your fingers before you come in!</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="description" content="an entry point to your site, wipe your fingers before you come in!">
-    <link rel="stylesheet" href="css/doormat.css">
-    <link rel="stylesheet" href="css/dev.css">
-  </head>
-  <body class="tx--black">
-    <ol>
-      <li class="section tx--white header">
-        <h2 class="instruction tx--center">please scroll...</h2>
-        <div class="title tx--right">
-          <h1>doormat</h1>
-          <div class="stats">
-            <iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=doormat&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20"></iframe>
-            <iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=doormat&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20"></iframe>
-            <iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=doormat&amp;type=follow&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="120px" height="20"></iframe>
-          </div>
-        </div>
-      </li>
-      <li class="section bg--teal intro tx--center tx--white">
-        <h1>How about something a little different for navigating through your site content?</h1>
-      </li>
-      <li class="section bg--white tx--center">
-        <h1>How to create a doormat</h1>
-        <p>It's actually <strong>real</strong> simple.</p>
-        <ol>
-          <li>Include <code>doormat.js</code> and <code>doormat.css</code> in your page.</li>
-          <li>Create the DOM structure you want to use. This needs to be a containing element of children. <strong>All</strong> of the children will be used as panels. I recommend something like an <code>ol</code> or <code>ul</code>.</li>
-          <li>Invoke the <code>doormat</code> function passing in the container element as a parameter. For example; <pre><code>var container = document.querySelector('ol');<br>var myDoormat = new doormat(container);</code></pre></li>
-        </ol>
-      </li>
-      <li class="section get-involved bg--teal tx--white tx--center">
-        <h1>That's it really.</h1>
-        <h4>For more, see the <a href="https://github.com/jh3y/doormat" target="_blank">repo</a>!</h4>
-      </li>
-    </ol>
-    <script type="text/javascript" src="js/doormat.js"></script>
-    <script type="text/javascript">var myDoormat = new doormat(document.getElementsByTagName('ol')[0]);</script>
-  </body>
-</html>
+<!DOCTYPE html><html><head><title>doormat | wipe your fingers before you come in!</title><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="description" content="an entry point to your site, wipe your fingers before you come in!"><link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" href="css/doormat.css"><link rel="stylesheet" href="css/dev.css"></head><body class="tx--black"><ol class="dm"><li class="dm__pnl tx--white bg--white header"><i class="fa fa-5x fa-arrow-circle-o-down"></i><div class="title tx--right"><h1>doormat</h1><div class="stats"><iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=doormat&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20"></iframe><iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=doormat&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20"></iframe><iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=doormat&amp;type=follow&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="120px" height="20"></iframe></div></div></li><li class="dm__pnl bg--blue tx--white"><div class="cntnt-wrppr"><div class="cntnt"><h1>How about something a little different for navigating through your site content?</h1></div></div></li><li class="dm__pnl bg--purple tx--white"><div class="cntnt-wrppr"><div class="cntnt"><h1>How does this work? It's actually quite simple.</h1><p>The trick is possible by making sections of the page <code>position: fixed</code> and then setting a height for the document <code>body</code> equal to the combined height of the page sections.
+
+When the <code>window</code> is scrolled down we move our page sections upwards out of the viewport to reveal the content underneath. The opposite being that, when the <code>window</code> is scrolled up, we bring our sections back down into view in the same order in which they left(<i>dictated by the DOM structure</i>).
+</p></div></div></li><li class="dm__pnl bg--white"><div class="cntnt-wrppr"><div class="cntnt"><h1>Using doormat</h1><ol><li>Include <code>doormat.js</code> and <code>doormat.css</code> in your page.</li><li><p>Create your DOM structure. The structure needs to be a container with the classname <code>dm</code>. Child elements need to have the classname <code>dm__pnl</code>. <code>ol</code> and <code>ul</code> are appropriate elements.</p><pre><code>&lt;ol class="dm"&gt;
+  &lt;li class="dm__pnl"&gt;Awesome&lt;/li&gt;
+  &lt;li class="dm__pnl"&gt;Site&lt;/li&gt;
+  &lt;li class="dm__pnl"&gt;Content&lt;/li&gt;
+&lt;/ol&gt;</code></pre></li><li><p>Invoke the <code>Doormat</code> function passing in an optional pixel percentage delay(<i>refer to <a href="https://github.com/jh3y/doormat" target="_blank">docs</a></i>). For example; </p><pre><code>var myDoormat = new Doormat();
+var myDoormat = new Doormat(15);
+</code></pre></li></ol></div></div></li><li class="dm__pnl bg--teal tx--white"><div class="cntnt-wrppr"><div class="cntnt"><h1>That's it!</h1><p>For more, see the <a href="https://github.com/jh3y/doormat" target="_blank">repo</a>!</p></div></div></li></ol><script type="text/javascript" src="js/doormat.js"></script><script type="text/javascript">var myDoormat = new Doormat(15);</script></body></html>
