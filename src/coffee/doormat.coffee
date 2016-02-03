@@ -36,16 +36,18 @@ Doormat = window.Doormat = (delay) ->
     sumHeight = 0
     i         = 0
 
+    clientHeight = if ('onorientationchange' of window) then screen.height else window.innerHeight
+
     while i < doormat.panels.length
       panel = doormat.panels[i]
       # NOTE:: Required for window resizing behaviour but also so
       # we can use the ~ selector in our CSS to stop content flashing
       panel.style.display   = 'block'
-      panel.style.minHeight = window.innerHeight + 'px'
+      panel.style.minHeight = clientHeight + 'px'
       panel.style.top       = '0px'
       panel.DOORMAT_HEIGHT  = panel.offsetHeight
       if (i + 1) isnt doormat.panels.length and props.DELAY isnt 0
-        panel.DOORMAT_HEIGHT = panel.DOORMAT_HEIGHT + (window.innerHeight * (props.DELAY / 100))
+        panel.DOORMAT_HEIGHT = panel.DOORMAT_HEIGHT + (clientHeight * (props.DELAY / 100))
       panel.DOORMAT_POS     = sumHeight
       sumHeight = sumHeight + panel.DOORMAT_HEIGHT
       i++
@@ -70,7 +72,10 @@ Doormat = window.Doormat = (delay) ->
         setNew props.PREVIOUS
 
   # Bind window interaction events
-  window.onresize = calibratePanels
+  if ('onorientationchange' of window)
+    window.onorientationchange = calibratePanels
+  else
+    window.onresize = calibratePanels
   window.onscroll = handleScroll
 
   # Initialize doormat instance.
