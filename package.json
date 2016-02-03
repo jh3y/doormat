@@ -1,6 +1,6 @@
 {
   "name": "doormat",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "an alternative way to navigate through your site content",
   "devDependencies": {
     "autoprefixer": "^6.0.3",
@@ -25,7 +25,7 @@
     "watch:markup": "jade -wP src/jade -O doormat.config.json -o public",
     "build:markup": "jade -P src/jade -O doormat.config.json -o public",
     "publish:markup": "jade src/jade/index.jade -O doormat.config.json -o public",
-    "prewatch:dev": "mkdir public public/css",
+    "setup": "npm install && mkdir public public/css",
     "watch:dev": "npm run watch:markup & npm run watch:scripts & npm run watch:styles",
     "build:dev": "npm run build:scripts && npm run build:styles && npm run build:markup",
     "serve": "browser-sync start --port 1987 --files public/ --server public",
