@@ -36,17 +36,18 @@
       return doormat.current.className += ' ' + props.CURRENT_CLASS;
     };
     calibratePanels = function(evt) {
-      var i, panel, sumHeight;
+      var clientHeight, i, panel, sumHeight;
       sumHeight = 0;
       i = 0;
+      clientHeight = 'onorientationchange' in window ? screen.height : window.innerHeight;
       while (i < doormat.panels.length) {
         panel = doormat.panels[i];
         panel.style.display = 'block';
-        panel.style.minHeight = window.innerHeight + 'px';
+        panel.style.minHeight = clientHeight + 'px';
         panel.style.top = '0px';
         panel.DOORMAT_HEIGHT = panel.offsetHeight;
         if ((i + 1) !== doormat.panels.length && props.DELAY !== 0) {
-          panel.DOORMAT_HEIGHT = panel.DOORMAT_HEIGHT + (window.innerHeight * (props.DELAY / 100));
+          panel.DOORMAT_HEIGHT = panel.DOORMAT_HEIGHT + (clientHeight * (props.DELAY / 100));
         }
         panel.DOORMAT_POS = sumHeight;
         sumHeight = sumHeight + panel.DOORMAT_HEIGHT;
@@ -73,7 +74,11 @@
         }
       }
     };
-    window.onresize = calibratePanels;
+    if ('onorientationchange' in window) {
+      window.onorientationchange = calibratePanels;
+    } else {
+      window.onresize = calibratePanels;
+    }
     window.onscroll = handleScroll;
     doormat = this;
     doormat.el = el;
