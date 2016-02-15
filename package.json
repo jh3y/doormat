@@ -19,17 +19,19 @@
     "styles_src": "src/stylus",
     "styles_dest": "public/css",
     "markup_src": "src/jade",
-    "markup_dest": "public"
+    "markup_dest": "public",
+    "uglify_opts": "--compress --comments --mangle -o dist/doormat.min.js dist/doormat.js",
+    "cleancss_opts": "--s1 -o dist/doormat.min.css dist/doormat.css"
   },
   "scripts": {
     "watch:scripts": "coffee -o $npm_package_config_script_dest -cw $npm_package_config_script_src",
     "build:scripts": "coffee -o $npm_package_config_script_dest -c $npm_package_config_script_src",
-    "publish:scripts": "coffee -p $npm_package_config_script_src > dist/doormat.js && uglifyjs --compress --comments --mangle -o dist/doormat.min.js dist/doormat.js",
+    "publish:scripts": "coffee -p $npm_package_config_script_src > dist/doormat.js && uglifyjs $npm_package_config_uglify_opts",
     "prepublish:scripts": "npm run build:scripts",
     "watch:styles": "stylus -w $npm_package_config_styles_src -o $npm_package_config_styles_dest",
     "build:styles": "stylus $npm_package_config_styles_src -o $npm_package_config_styles_dest",
     "postbuild:styles": "postcss --use autoprefixer -d $npm_package_config_styles_dest/ $npm_package_config_styles_dest/*.css",
-    "publish:styles": "stylus $npm_package_config_styles_src/doormat.styl -o dist/ && cleancss --s1 -o dist/doormat.min.css dist/doormat.css",
+    "publish:styles": "stylus $npm_package_config_styles_src/doormat.styl -o dist/ && cleancss $npm_package_config_cleancss_opts",
     "watch:markup": "jade -wP $npm_package_config_markup_src -O doormat.config.json -o $npm_package_config_markup_dest",
     "build:markup": "jade -P $npm_package_config_markup_src -O doormat.config.json -o $npm_package_config_markup_dest",
     "publish:markup": "jade $npm_package_config_markup_src/index.jade -O doormat.config.json -o $npm_package_config_markup_dest",
