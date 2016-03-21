@@ -14,8 +14,12 @@ It's small(_~2kB minified JS+CSS_), has no dependencies and is easy to use!
 
 To create your doormat.
 
-1. Include `doormat.js` and `doormat.css` in your page.
-2. Create your DOM structure. The structure needs to be a container with the classname `dm`. It then needs to have children with the classname `dm__pnl`. `ol` and `ul` are fitting elements.
+1. install doormat via bower
+  ```
+  bower install doormat
+  ```
+2. Include `doormat.js` and `doormat.css` in your page.
+3. Create your DOM structure. The structure needs to be a container with the classname `dm`. It then needs to have children with the classname `dm__pnl`. `ol` and `ul` are fitting elements.
   ```html
     <ol class="dm">
       <li class="dm__pnl">Awesome</li>
@@ -23,7 +27,7 @@ To create your doormat.
       <li class="dm__pnl">Content</li>
     </ol>
   ```
-3. Invoke the `Doormat` function passing in an optional delay(_explained below_) as a parameter;
+4. Invoke the `Doormat` function passing in an optional delay(_explained below_) as a parameter;
 ```javascript
 var myDoormat = new Doormat();
 var myDoormat = new Doormat(15);
