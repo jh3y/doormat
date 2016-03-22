@@ -15,19 +15,23 @@ It's small(_~2kB minified JS+CSS_), has no dependencies and is easy to use!
 To create your doormat.
 
 1. Include `doormat.js` and `doormat.css` in your page.
+
 2. Create your DOM structure. The structure needs to be a container with the classname `dm`. It then needs to have children with the classname `dm__pnl`. `ol` and `ul` are fitting elements.
-```html
-  <ol class="dm">
-    <li class="dm__pnl">Awesome</li>
-    <li class="dm__pnl">Site</li>
-    <li class="dm__pnl">Content</li>
-  </ol>
-```
+
+  ```html
+    <ol class="dm">
+      <li class="dm__pnl">Awesome</li>
+      <li class="dm__pnl">Site</li>
+      <li class="dm__pnl">Content</li>
+    </ol>
+  ```
+
 3. Invoke the `Doormat` function passing in an optional delay(_explained below_) as a parameter;
-```javascript
-var myDoormat = new Doormat();
-var myDoormat = new Doormat(15);
-```
+
+  ```javascript
+  var myDoormat = new Doormat();
+  var myDoormat = new Doormat(15);
+  ```
 
 ## API
 * `Doormat({number} delay)` - Instantiates a new `doormat` style layout with optional `delay`. They delay represents a vertical percentage of `window.innerHeight` to be used as a delay when triggering the next doormat panel to scroll. For example; If my `window` was `1000px` high and I invoked `new Doormat(10)`, the scrolling delay would be `100px`. The reason for percentage is that when the window is resized the delay will remain consistent and proportional to the `window` height.
