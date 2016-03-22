@@ -16,13 +16,13 @@ To create your doormat.
 
 1. Include `doormat.js` and `doormat.css` in your page.
 2. Create your DOM structure. The structure needs to be a container with the classname `dm`. It then needs to have children with the classname `dm__pnl`. `ol` and `ul` are fitting elements.
-  ```html
-    <ol class="dm">
-      <li class="dm__pnl">Awesome</li>
-      <li class="dm__pnl">Site</li>
-      <li class="dm__pnl">Content</li>
-    </ol>
-  ```
+```html
+  <ol class="dm">
+    <li class="dm__pnl">Awesome</li>
+    <li class="dm__pnl">Site</li>
+    <li class="dm__pnl">Content</li>
+  </ol>
+```
 3. Invoke the `Doormat` function passing in an optional delay(_explained below_) as a parameter;
 ```javascript
 var myDoormat = new Doormat();
@@ -64,12 +64,14 @@ If you wish to play with the code, it's simple to get going.
 
 __NOTE::__ I would usually use a task runner like `gulp` in my projects. But, with `doormat` being minimal I had a go at using `npm run scripts` for all my build needs. So, to see all available build scripts, take a look at `package.json`.
 ```shell
-cat package.json
+npm run
 ```
 ### Roll your own
 `doormat` development is mainly config driven with `doormat.config.json`. In here you can alter the classnames for elements to your desire. It is __important__ to remember that if you change the classnames in the config though that you will also need to update any reference to them from within the JavaScript.
 
 For example, maybe you're not keen on the classnames being used or want it to support a higher number of panels(_the default is 10_).
+
+Change the config and then run the build task with `npm run publish`.
 
 ## Contributing
 Don't hesitate to post an issue or suggestion or get in touch by tweeting me [@_jh3y](https://twitter.com/_jh3y)!
