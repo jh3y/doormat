@@ -8,17 +8,15 @@ _an alternative way to navigate through your site content_
 
 `doormat` provides a slightly different way to traverse through your site content.
 
-It's small(_~2kB minified JS+CSS_), has no dependencies and is easy to use!
-
 ## Usage
 
 To create your doormat.
 
-1. Include `doormat.js` and `doormat.css` in your page.
+1. Include `doormat{.min}.js` and `doormat{.min}.css` in your page.
 
 2. Create your DOM structure. The structure needs to be a container with the classname `dm`. It then needs to have children with the classname `dm__pnl`. `ol` and `ul` are fitting elements.
 
-  ```html
+  ```html̨
     <ol class="dm">
       <li class="dm__pnl">Awesome</li>
       <li class="dm__pnl">Site</li>
@@ -26,15 +24,21 @@ To create your doormat.
     </ol>
   ```
 
-3. Invoke the `Doormat` function passing in an optional delay(_explained below_) as a parameter;
+3. Invoke the `Doormat` function passing in desired options(_explained below_) as a parameter;
 
   ```javascript
   var myDoormat = new Doormat();
-  var myDoormat = new Doormat(15);
+  var myDoormat = new Doormat({
+    scrollBuffer : 15,
+    snapDuration : 250,
+    snapThreshold: 15
+  });
   ```
 
-## API
-* `Doormat({number} delay)` - Instantiates a new `doormat` style layout with optional `delay`. They delay represents a vertical percentage of `window.innerHeight` to be used as a delay when triggering the next doormat panel to scroll. For example; If my `window` was `1000px` high and I invoked `new Doormat(10)`, the scrolling delay would be `100px`. The reason for percentage is that when the window is resized the delay will remain consistent and proportional to the `window` height.
+## API options
+* `scrollBuffer {number}` - The `scrollBuffer` represents a vertical percentage of `window.innerHeight` to be used as a buffer delay when triggering the next doormat panel to scroll. For example; If my `window` was `1000px` high and I set the `scrollBuffer` as `10`, the scrolling buffer would be `100px`. The reason for percentage is that when the window is resized the delay will remain consistent and proportional to the `window` height.
+* `snapThreshold {number}` - The `snapThreshold` works in a similar way to `scrollBuffer` in that it translates to a percentage of `window.innerHeight`. It is used so that the closest panel edge will snap to the viewport when we are scrolling within the defined `snapThreshold`.
+* `snapDuration {number}` - The `snapDuration` defines the length of time that are snap functionality is debounced and also the amount of time it will take for our panels to snap to viewport. The `snapDuration` is defined in `ms`. For example; `250`.
 
 ## How?
 The trick is possible by making sections of the page `position: fixed` and then setting a height for the document `body` equal to the combined height of the page sections.
@@ -60,7 +64,7 @@ If you wish to play with the code, it's simple to get going.
 2. Navigate into the repo and install the dependencies.
 
         cd doormat
-        npm install
+        npm setup
 
 3. Run the `develop` task to get up and running with `browser-sync` etc.
 
