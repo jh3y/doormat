@@ -38,8 +38,7 @@ Doormat = window.Doormat = (opts) ->
     sumHeight = 0
     i         = 0
 
-    clientHeight = if ('onorientationchange' of window) then screen.height else window.innerHeight
-    doormat.CLIENT_HEIGHT = clientHeight
+    clientHeight = el.offsetHeight
     while i < doormat.panels.length
       panel = doormat.panels[i]
       # NOTE:: Required for window resizing behaviour but also so
@@ -79,7 +78,7 @@ Doormat = window.Doormat = (opts) ->
         cur.removeEventListener 'transitionend', reset
       cur.addEventListener 'transitionend', reset, false
       if doormat.SNAP_BOTTOM
-        window.scrollTo 0, (cur.DOORMAT_POS + (cur.offsetHeight - doormat.CLIENT_HEIGHT))
+        window.scrollTo 0, (cur.DOORMAT_POS + (cur.offsetHeight - el.offsetHeight))
       else
         cur.style.top = -(cur.offsetHeight) + 'px'
         setNew props.NEXT
@@ -89,7 +88,7 @@ Doormat = window.Doormat = (opts) ->
     cur = doormat.current
     scroll = window.scrollY or window.pageYOffset
     doormat.SNAP_TOP = scroll > ((cur.offsetHeight + cur.DOORMAT_POS) - props.SNAPTHRESHOLDSIZE) and scroll < (cur.DOORMAT_POS + cur.offsetHeight)
-    doormat.SNAP_BOTTOM = scroll > ((cur.DOORMAT_POS + cur.offsetHeight) - doormat.CLIENT_HEIGHT) and scroll < (((cur.DOORMAT_POS + cur.offsetHeight) - doormat.CLIENT_HEIGHT) + props.SNAPTHRESHOLDSIZE)
+    doormat.SNAP_BOTTOM = scroll > ((cur.DOORMAT_POS + cur.offsetHeight) - el.offsetHeight) and scroll < (((cur.DOORMAT_POS + cur.offsetHeight) - el.offsetHeight) + props.SNAPTHRESHOLDSIZE)
     doormat.SNAP_TOP || doormat.SNAP_BOTTOM
 
   handleScroll = ->

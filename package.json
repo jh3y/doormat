@@ -1,6 +1,6 @@
 {
   "name": "doormat",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "an alternative way to navigate through your site content",
   "devDependencies": {
     "autoprefixer": "^6.0.3",

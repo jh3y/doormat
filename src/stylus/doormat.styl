@@ -12,13 +12,17 @@ c = json('../../doormat.config.json', {
 
 .{c.blocks.doormat.lbl}
   display  block
-  position relative
+  position fixed
+  top      0
+  right    0
+  bottom   0
+  left     0
   margin   0
   padding  0
 
   &__{c.blocks.doormat.els.panel}
     display             none
-    position            fixed
+    position            absolute
     top                 0
     right               0
     left                0
