@@ -79,11 +79,11 @@ code {
 .cntnt {
   max-width: 90%;
   padding: 50px;
-  margin: 0 auto;
+  margin: 20px auto;
   background-color: #fff;
   border-radius: 10px;
 }
-.fa {
+.advice {
   position: absolute;
   top: 50%;
   left: 50%;
