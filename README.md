@@ -24,7 +24,7 @@ To create your doormat.
     </ol>
   ```
 
-3. Invoke the `Doormat` function passing in desired options(_explained below_) as a parameter;
+3. Invoke the `Doormat` function passing in desired options (_explained below_) as a parameter. Note this must run _after_ the object exists in the DOM (thus it won't work in the head).
 
   ```javascript
   var myDoormat = new Doormat();
