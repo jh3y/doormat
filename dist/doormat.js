@@ -41,8 +41,7 @@
       var clientHeight, i, panel, sumHeight;
       sumHeight = 0;
       i = 0;
-      clientHeight = 'onorientationchange' in window ? screen.height : window.innerHeight;
-      doormat.CLIENT_HEIGHT = clientHeight;
+      clientHeight = el.offsetHeight;
       while (i < doormat.panels.length) {
         panel = doormat.panels[i];
         panel.style.display = 'block';
@@ -81,7 +80,7 @@
         };
         cur.addEventListener('transitionend', reset, false);
         if (doormat.SNAP_BOTTOM) {
-          return window.scrollTo(0, cur.DOORMAT_POS + (cur.offsetHeight - doormat.CLIENT_HEIGHT));
+          return window.scrollTo(0, cur.DOORMAT_POS + (cur.offsetHeight - el.offsetHeight));
         } else {
           cur.style.top = -cur.offsetHeight + 'px';
           setNew(props.NEXT);
@@ -94,7 +93,7 @@
       cur = doormat.current;
       scroll = window.scrollY || window.pageYOffset;
       doormat.SNAP_TOP = scroll > ((cur.offsetHeight + cur.DOORMAT_POS) - props.SNAPTHRESHOLDSIZE) && scroll < (cur.DOORMAT_POS + cur.offsetHeight);
-      doormat.SNAP_BOTTOM = scroll > ((cur.DOORMAT_POS + cur.offsetHeight) - doormat.CLIENT_HEIGHT) && scroll < (((cur.DOORMAT_POS + cur.offsetHeight) - doormat.CLIENT_HEIGHT) + props.SNAPTHRESHOLDSIZE);
+      doormat.SNAP_BOTTOM = scroll > ((cur.DOORMAT_POS + cur.offsetHeight) - el.offsetHeight) && scroll < (((cur.DOORMAT_POS + cur.offsetHeight) - el.offsetHeight) + props.SNAPTHRESHOLDSIZE);
       return doormat.SNAP_TOP || doormat.SNAP_BOTTOM;
     };
     handleScroll = function() {
