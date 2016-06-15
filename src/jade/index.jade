@@ -19,12 +19,12 @@ html
           h1 doormat
           +githubStats('jh3y', 'doormat')
 
-      +panel('bg--blue tx--white')
+      +panel('bg--blue')
         .cntnt-wrppr
           .cntnt
             h1 How about something a little different for navigating through your site content?
 
-      +panel('bg--purple tx--white')
+      +panel('bg--purple tutorial')
         .cntnt-wrppr
           .cntnt
             h1 How does this work? It's actually quite simple.
@@ -33,7 +33,7 @@ html
 
               When the <code>window</code> is scrolled down we move our page sections upwards out of the viewport to reveal the content underneath. The opposite being that, when the <code>window</code> is scrolled up, we bring our sections back down into view in the same order in which they left(<i>dictated by the DOM structure</i>).
 
-      +panel('bg--white')
+      +panel('bg--red tutorial')
         .cntnt-wrppr
           .cntnt
             h1 Using doormat
@@ -51,13 +51,16 @@ html
                     &lt;/ol&gt;
               li
                 p.
-                  Invoke the <code>Doormat</code> function passing in an optional pixel percentage delay(<i>refer to <a href="https://github.com/jh3y/doormat" target="_blank">docs</a></i>). For example; 
+                  Invoke the <code>Doormat</code> function passing in desired options(<i>refer to <a href="https://github.com/jh3y/doormat" target="_blank">docs</a></i>). For example; 
                 pre
                   code.
                     var myDoormat = new Doormat();
-                    var myDoormat = new Doormat(15);
-
-      +panel('bg--teal tx--white')
+                    var myDoormat = new Doormat({
+                      scrollBuffer : 15,
+                      snapThreshold: 15,
+                      snapDuration : 250
+                    });
+      +panel('bg--teal tutorial')
         .cntnt-wrppr
           .cntnt
             h1 That's it!
@@ -65,4 +68,8 @@ html
 
     script(type='text/javascript', src='js/doormat.js')
     script(type='text/javascript').
-      var myDoormat = new Doormat(15);
+      var myDoormat = new Doormat({
+        scrollBuffer: 15,
+        snapThreshold: 15,
+        snapDuration: 250
+      });

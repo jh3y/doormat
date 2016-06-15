@@ -17,12 +17,11 @@ c = json('../../doormat.config.json', {
   padding  0
 
   &__{c.blocks.doormat.els.panel}
-    display    none
-    position   fixed
-    top        0
-    right      0
-    left       0
-
+    display             none
+    position            fixed
+    top                 0
+    right               0
+    left                0
     for i in (1..c.panels)
       &:nth-of-type({i})
         z-index 999 - i

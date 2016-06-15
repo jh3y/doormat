@@ -33,12 +33,23 @@ body
 code
   color $red
 
-
+.dm__pnl
+  display         flex !important
+  align-items     center
+  justify-content center
+  background-size cover
+  background-attachment fixed
+  for num in (2..5)
+    idx = 400 + (num * 5)
+    &:nth-of-type({num})
+      background-image url('https://unsplash.it/' + idx + '/?random')
 
 .cntnt
   max-width 90%
   padding   50px
   margin    0 auto
+  background-color white
+  border-radius 10px
 
 .fa
   position absolute
