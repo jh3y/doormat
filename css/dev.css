@@ -51,10 +51,37 @@ body {
 code {
   color: #e74c3c;
 }
+.dm__pnl {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+.dm__pnl:nth-of-type(2) {
+  background-image: url("https://unsplash.it/410/?random");
+}
+.dm__pnl:nth-of-type(3) {
+  background-image: url("https://unsplash.it/415/?random");
+}
+.dm__pnl:nth-of-type(4) {
+  background-image: url("https://unsplash.it/420/?random");
+}
+.dm__pnl:nth-of-type(5) {
+  background-image: url("https://unsplash.it/425/?random");
+}
 .cntnt {
   max-width: 90%;
   padding: 50px;
   margin: 0 auto;
+  background-color: #fff;
+  border-radius: 10px;
 }
 .fa {
   position: absolute;
