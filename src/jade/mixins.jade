@@ -7,7 +7,7 @@ mixin githubStats(userName, repoName)
 
 mixin doormat(mod)
   - var doormatClass = blocks.doormat.lbl
-  ol(class="#{doormatClass}")
+  ol(class="#{doormatClass} #{mod}")
     if block
       block
     else

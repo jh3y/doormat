@@ -10,25 +10,21 @@ c = json('../../doormat.config.json', {
   leave-strings: true
 })
 
+body
+  -webkit-overflow-scrolling touch
+
 .{c.blocks.doormat.lbl}
   display  block
-  position fixed
-  top      0
-  right    0
-  bottom   0
-  left     0
+  position relative
   margin   0
   padding  0
 
   &__{c.blocks.doormat.els.panel}
     display             none
-    position            absolute
+    position            fixed
     top                 0
     right               0
     left                0
-    for i in (1..c.panels)
-      &:nth-of-type({i})
-        z-index 999 - i
 
     &--{c.mods.current}
     &--{c.mods.current} ~ .{c.blocks.doormat.lbl}__{c.blocks.doormat.els.panel}

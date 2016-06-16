@@ -5,30 +5,34 @@
 # @author jh3y
 # (c) 2016
 ###
-props =
+PROPS =
   CLASS         : 'dm'
   CURRENT_CLASS : 'dm__pnl--crnt'
-  SCROLLBUFFER  : 0
-  SNAPDURATION  : 250
-  SNAPTHRESHOLD : 15
   NEXT          : 'next'
   PREVIOUS      : 'previous'
   RESET         : 'reset'
+  ## Configurable via options.
+  snapping      :
+    travel   : false
+    viewport : true
+    threshold: 30
+    debounce : 150
+    duration : 250
 
 Doormat = window.Doormat = (opts) ->
-  el = document.querySelector '.' + props.CLASS
+  el = document.querySelector '.' + PROPS.CLASS
   return new Doormat(opts) unless @ instanceof Doormat
-  throw Error 'Doormat: Must pass an element instance' if !el
+  throw Error 'Doormat: Must assign element instance' if !el
 
   # Sets a new current panel to begin scrolling on.
   # This is based on direction but in cases where we resize the window,
   # we can do a RESET.
-  setNew = (dir, SNAP) ->
+  setNew = (dir) ->
     cur = doormat.current
-    cur.className = cur.className.replace props.CURRENT_CLASS, ''
-    cur.style.top = if dir is props.NEXT then  -(cur.offsetHeight) + 'px' else 0
-    doormat.current = if dir is props.RESET then doormat.panels[0] else cur[dir + 'ElementSibling']
-    doormat.current.className += ' ' + props.CURRENT_CLASS
+    cur.className = cur.className.replace PROPS.CURRENT_CLASS, ''
+    cur.style.top = if dir is PROPS.NEXT then  -(cur.offsetHeight) + 'px' else 0
+    doormat.current = if dir is PROPS.RESET then doormat.panels[0] else cur[dir + 'ElementSibling']
+    doormat.current.className += ' ' + PROPS.CURRENT_CLASS
 
   # Calibrates doormat panels by setting minimum height to window
   # innerHeight.
@@ -38,28 +42,28 @@ Doormat = window.Doormat = (opts) ->
     sumHeight = 0
     i         = 0
 
-    clientHeight = el.offsetHeight
+    clientHeight = if ('onorientationchange' of window) then screen.height else window.innerHeight
+    doormat.CLIENT_HEIGHT = clientHeight
     while i < doormat.panels.length
       panel = doormat.panels[i]
       # NOTE:: Required for window resizing behaviour but also so
       # we can use the ~ selector in our CSS to stop content flashing
+      panel.style.zIndex    = 999 - i
       panel.style.display   = 'block'
       panel.style.minHeight = clientHeight + 'px'
       panel.style.top       = '0px'
       panel.DOORMAT_HEIGHT  = panel.offsetHeight
-      if (i + 1) isnt doormat.panels.length and props.SCROLLBUFFER isnt 0
-        panel.DOORMAT_HEIGHT = panel.DOORMAT_HEIGHT + (clientHeight * (props.SCROLLBUFFER / 100))
       panel.DOORMAT_POS     = sumHeight
       sumHeight = sumHeight + panel.DOORMAT_HEIGHT
       i++
-    props.SNAPTHRESHOLDSIZE = clientHeight * (props.SNAPTHRESHOLD / 100)
+    doormat.SNAP_THRESHOLD = clientHeight * (PROPS.SNAPPING.THRESHOLD / 100)
     document.body.style.height = sumHeight + 'px'
     # If triggered by a page resize, we want to reset the scroll.
     # This is to avoid strange paint/scroll effects that might arise
     # if mid-panel scroll and then resizing
     if evt
       window.scrollTo 0, 0
-      setNew props.RESET
+      setNew PROPS.RESET
 
   debounce = (func, delay) ->
     clearTimeout func.TIMER
@@ -69,47 +73,66 @@ Doormat = window.Doormat = (opts) ->
   handleSnap = ->
     cur = doormat.current
     scroll = window.scrollY or window.pageYOffset
+    snapIn = ->
+      window.scrollTo 0, (cur.DOORMAT_POS + (cur.offsetHeight - doormat.CLIENT_HEIGHT))
+    snapOut = ->
+      cur.style.top = -(cur.offsetHeight) + 'px'
+      setNew PROPS.NEXT
+      window.scrollTo 0, doormat.current.DOORMAT_POS
+
     if inSnapRegion() and scroll isnt cur.DOORMAT_POS
-      cur.style.transitionProperty = 'top'
-      cur.style.transitionDuration = props.SNAPTRANSITIONDURATION
       reset = ->
         cur.style.transitionProperty = null
         cur.style.transitionDuration = null
         cur.removeEventListener 'transitionend', reset
-      cur.addEventListener 'transitionend', reset, false
+      set = ->
+        cur.style.transitionProperty = 'top'
+        cur.style.transitionDuration = PROPS.SNAPPING.DURATION
+        cur.addEventListener 'transitionend', reset, false
+      if doormat.SNAP_TOP
+        if PROPS.SNAPPING.VIEWPORT
+          set()
+          snapOut()
+        else if PROPS.SNAPPING.TRAVEL and doormat.SCROLL_DIR is 'UP'
+          window.scrollTo 0, cur.DOORMAT_POS
       if doormat.SNAP_BOTTOM
-        window.scrollTo 0, (cur.DOORMAT_POS + (cur.offsetHeight - el.offsetHeight))
-      else
-        cur.style.top = -(cur.offsetHeight) + 'px'
-        setNew props.NEXT
-        window.scrollTo 0, doormat.current.DOORMAT_POS - (doormat.current.DOORMAT_HEIGHT - doormat.current.offsetHeight)
+        set()
+        if PROPS.SNAPPING.VIEWPORT
+          snapIn()
+        else if PROPS.SNAPPING.TRAVEL and doormat.SCROLL_DIR is 'DOWN'
+          snapOut()
 
   inSnapRegion = ->
     cur = doormat.current
     scroll = window.scrollY or window.pageYOffset
-    doormat.SNAP_TOP = scroll > ((cur.offsetHeight + cur.DOORMAT_POS) - props.SNAPTHRESHOLDSIZE) and scroll < (cur.DOORMAT_POS + cur.offsetHeight)
-    doormat.SNAP_BOTTOM = scroll > ((cur.DOORMAT_POS + cur.offsetHeight) - el.offsetHeight) and scroll < (((cur.DOORMAT_POS + cur.offsetHeight) - el.offsetHeight) + props.SNAPTHRESHOLDSIZE)
+    doormat.SNAP_TOP = false
+    doormat.SNAP_BOTTOM = false
+    doormat.SNAP_TOP = if PROPS.SNAPPING.VIEWPORT then scroll > ((cur.offsetHeight + cur.DOORMAT_POS) - doormat.SNAP_THRESHOLD) and scroll < (cur.DOORMAT_POS + cur.offsetHeight) else scroll > (cur.DOORMAT_POS + (cur.offsetHeight - doormat.SNAP_THRESHOLD)) and scroll < (cur.DOORMAT_POS + cur.offsetHeight)
+    doormat.SNAP_BOTTOM = if PROPS.SNAPPING.VIEWPORT then scroll > ((cur.DOORMAT_POS + cur.offsetHeight) - doormat.CLIENT_HEIGHT) and scroll < (((cur.DOORMAT_POS + cur.offsetHeight) - doormat.CLIENT_HEIGHT) + doormat.SNAP_THRESHOLD) else scroll > (cur.DOORMAT_POS + (cur.offsetHeight - doormat.CLIENT_HEIGHT)) + doormat.SNAP_THRESHOLD
     doormat.SNAP_TOP || doormat.SNAP_BOTTOM
 
   handleScroll = ->
     cur = doormat.current
     scroll = window.scrollY or window.pageYOffset
-    cur.style.top = -(scroll - cur.DOORMAT_POS) + 'px';
+    doormat.SCROLL_DIR = if scroll > doormat.SCROLL_LAST then 'DOWN' else 'UP'
+    doormat.SCROLL_LAST = scroll
+    cur.style.top = (cur.DOORMAT_POS - scroll) + 'px';
 
     if scroll > (cur.DOORMAT_HEIGHT + cur.DOORMAT_POS)
       if cur.nextElementSibling
-        setNew props.NEXT
+        setNew PROPS.NEXT
     else if scroll < cur.DOORMAT_POS
       if cur.previousElementSibling
-        setNew props.PREVIOUS
-    else if inSnapRegion()
-      debounce(handleSnap, props.SNAPDURATION)
+        setNew PROPS.PREVIOUS
+    if PROPS.SNAPPING and (PROPS.SNAPPING.VIEWPORT or PROPS.SNAPPING.TRAVEL) and inSnapRegion()
+      debounce(handleSnap, PROPS.SNAPPING.DEBOUNCE)
 
   # Bind window interaction events
   if ('onorientationchange' of window)
     window.onorientationchange = calibrate
   else
     window.onresize = calibrate
+
   window.onscroll = handleScroll
 
   # Initialize doormat instance.
@@ -117,13 +140,20 @@ Doormat = window.Doormat = (opts) ->
   doormat.el     = el
   doormat.panels = doormat.el.children
 
-  for prop of opts
-    p = prop.toUpperCase()
-    if props[p] isnt `undefined`
-      props[p] = opts[prop]
-    props.SNAPTRANSITIONDURATION = (props.SNAPDURATION / 1000) + 's'
+  extend = (a, b) ->
+    result = {}
+    for prop of a
+      result[prop.toUpperCase()] = a[prop]
+      if b.hasOwnProperty(prop)
+        val = b[prop]
+        result[prop.toUpperCase()] = if typeof val is 'object' then extend(result[prop.toUpperCase()], val) else val
+    result
+
+  PROPS = extend PROPS, opts
+  if PROPS.SNAPPING
+    PROPS.SNAPPING.DURATION = (PROPS.SNAPPING.DURATION / 1000) + 's'
   # NOTE:: Important that current panel is defined before panel calibration.
   doormat.current            = doormat.panels[0]
-  doormat.current.className += ' ' + props.CURRENT_CLASS
+  doormat.current.className += ' ' + PROPS.CURRENT_CLASS
   calibrate()
   doormat

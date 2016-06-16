@@ -7,59 +7,62 @@
  */
 
 (function() {
-  var Doormat, props;
+  var Doormat, PROPS;
 
-  props = {
+  PROPS = {
     CLASS: 'dm',
     CURRENT_CLASS: 'dm__pnl--crnt',
-    SCROLLBUFFER: 0,
-    SNAPDURATION: 250,
-    SNAPTHRESHOLD: 15,
     NEXT: 'next',
     PREVIOUS: 'previous',
-    RESET: 'reset'
+    RESET: 'reset',
+    snapping: {
+      travel: false,
+      viewport: true,
+      threshold: 30,
+      debounce: 150,
+      duration: 250
+    }
   };
 
   Doormat = window.Doormat = function(opts) {
-    var calibrate, debounce, doormat, el, handleScroll, handleSnap, inSnapRegion, p, prop, setNew;
-    el = document.querySelector('.' + props.CLASS);
+    var calibrate, debounce, doormat, el, extend, handleScroll, handleSnap, inSnapRegion, setNew;
+    el = document.querySelector('.' + PROPS.CLASS);
     if (!(this instanceof Doormat)) {
       return new Doormat(opts);
     }
     if (!el) {
-      throw Error('Doormat: Must pass an element instance');
+      throw Error('Doormat: Must assign element instance');
     }
-    setNew = function(dir, SNAP) {
+    setNew = function(dir) {
       var cur;
       cur = doormat.current;
-      cur.className = cur.className.replace(props.CURRENT_CLASS, '');
-      cur.style.top = dir === props.NEXT ? -cur.offsetHeight + 'px' : 0;
-      doormat.current = dir === props.RESET ? doormat.panels[0] : cur[dir + 'ElementSibling'];
-      return doormat.current.className += ' ' + props.CURRENT_CLASS;
+      cur.className = cur.className.replace(PROPS.CURRENT_CLASS, '');
+      cur.style.top = dir === PROPS.NEXT ? -cur.offsetHeight + 'px' : 0;
+      doormat.current = dir === PROPS.RESET ? doormat.panels[0] : cur[dir + 'ElementSibling'];
+      return doormat.current.className += ' ' + PROPS.CURRENT_CLASS;
     };
     calibrate = function(evt) {
       var clientHeight, i, panel, sumHeight;
       sumHeight = 0;
       i = 0;
-      clientHeight = el.offsetHeight;
+      clientHeight = 'onorientationchange' in window ? screen.height : window.innerHeight;
+      doormat.CLIENT_HEIGHT = clientHeight;
       while (i < doormat.panels.length) {
         panel = doormat.panels[i];
+        panel.style.zIndex = 999 - i;
         panel.style.display = 'block';
         panel.style.minHeight = clientHeight + 'px';
         panel.style.top = '0px';
         panel.DOORMAT_HEIGHT = panel.offsetHeight;
-        if ((i + 1) !== doormat.panels.length && props.SCROLLBUFFER !== 0) {
-          panel.DOORMAT_HEIGHT = panel.DOORMAT_HEIGHT + (clientHeight * (props.SCROLLBUFFER / 100));
-        }
         panel.DOORMAT_POS = sumHeight;
         sumHeight = sumHeight + panel.DOORMAT_HEIGHT;
         i++;
       }
-      props.SNAPTHRESHOLDSIZE = clientHeight * (props.SNAPTHRESHOLD / 100);
+      doormat.SNAP_THRESHOLD = clientHeight * (PROPS.SNAPPING.THRESHOLD / 100);
       document.body.style.height = sumHeight + 'px';
       if (evt) {
         window.scrollTo(0, 0);
-        return setNew(props.RESET);
+        return setNew(PROPS.RESET);
       }
     };
     debounce = function(func, delay) {
@@ -67,24 +70,43 @@
       func.TIMER = setTimeout(func, delay);
     };
     handleSnap = function() {
-      var cur, reset, scroll;
+      var cur, reset, scroll, set, snapIn, snapOut;
       cur = doormat.current;
       scroll = window.scrollY || window.pageYOffset;
+      snapIn = function() {
+        return window.scrollTo(0, cur.DOORMAT_POS + (cur.offsetHeight - doormat.CLIENT_HEIGHT));
+      };
+      snapOut = function() {
+        cur.style.top = -cur.offsetHeight + 'px';
+        setNew(PROPS.NEXT);
+        return window.scrollTo(0, doormat.current.DOORMAT_POS);
+      };
       if (inSnapRegion() && scroll !== cur.DOORMAT_POS) {
-        cur.style.transitionProperty = 'top';
-        cur.style.transitionDuration = props.SNAPTRANSITIONDURATION;
         reset = function() {
           cur.style.transitionProperty = null;
           cur.style.transitionDuration = null;
           return cur.removeEventListener('transitionend', reset);
         };
-        cur.addEventListener('transitionend', reset, false);
+        set = function() {
+          cur.style.transitionProperty = 'top';
+          cur.style.transitionDuration = PROPS.SNAPPING.DURATION;
+          return cur.addEventListener('transitionend', reset, false);
+        };
+        if (doormat.SNAP_TOP) {
+          if (PROPS.SNAPPING.VIEWPORT) {
+            set();
+            snapOut();
+          } else if (PROPS.SNAPPING.TRAVEL && doormat.SCROLL_DIR === 'UP') {
+            window.scrollTo(0, cur.DOORMAT_POS);
+          }
+        }
         if (doormat.SNAP_BOTTOM) {
-          return window.scrollTo(0, cur.DOORMAT_POS + (cur.offsetHeight - el.offsetHeight));
-        } else {
-          cur.style.top = -cur.offsetHeight + 'px';
-          setNew(props.NEXT);
-          return window.scrollTo(0, doormat.current.DOORMAT_POS - (doormat.current.DOORMAT_HEIGHT - doormat.current.offsetHeight));
+          set();
+          if (PROPS.SNAPPING.VIEWPORT) {
+            return snapIn();
+          } else if (PROPS.SNAPPING.TRAVEL && doormat.SCROLL_DIR === 'DOWN') {
+            return snapOut();
+          }
         }
       }
     };
@@ -92,25 +114,30 @@
       var cur, scroll;
       cur = doormat.current;
       scroll = window.scrollY || window.pageYOffset;
-      doormat.SNAP_TOP = scroll > ((cur.offsetHeight + cur.DOORMAT_POS) - props.SNAPTHRESHOLDSIZE) && scroll < (cur.DOORMAT_POS + cur.offsetHeight);
-      doormat.SNAP_BOTTOM = scroll > ((cur.DOORMAT_POS + cur.offsetHeight) - el.offsetHeight) && scroll < (((cur.DOORMAT_POS + cur.offsetHeight) - el.offsetHeight) + props.SNAPTHRESHOLDSIZE);
+      doormat.SNAP_TOP = false;
+      doormat.SNAP_BOTTOM = false;
+      doormat.SNAP_TOP = PROPS.SNAPPING.VIEWPORT ? scroll > ((cur.offsetHeight + cur.DOORMAT_POS) - doormat.SNAP_THRESHOLD) && scroll < (cur.DOORMAT_POS + cur.offsetHeight) : scroll > (cur.DOORMAT_POS + (cur.offsetHeight - doormat.SNAP_THRESHOLD)) && scroll < (cur.DOORMAT_POS + cur.offsetHeight);
+      doormat.SNAP_BOTTOM = PROPS.SNAPPING.VIEWPORT ? scroll > ((cur.DOORMAT_POS + cur.offsetHeight) - doormat.CLIENT_HEIGHT) && scroll < (((cur.DOORMAT_POS + cur.offsetHeight) - doormat.CLIENT_HEIGHT) + doormat.SNAP_THRESHOLD) : scroll > (cur.DOORMAT_POS + (cur.offsetHeight - doormat.CLIENT_HEIGHT)) + doormat.SNAP_THRESHOLD;
       return doormat.SNAP_TOP || doormat.SNAP_BOTTOM;
     };
     handleScroll = function() {
       var cur, scroll;
       cur = doormat.current;
       scroll = window.scrollY || window.pageYOffset;
-      cur.style.top = -(scroll - cur.DOORMAT_POS) + 'px';
+      doormat.SCROLL_DIR = scroll > doormat.SCROLL_LAST ? 'DOWN' : 'UP';
+      doormat.SCROLL_LAST = scroll;
+      cur.style.top = (cur.DOORMAT_POS - scroll) + 'px';
       if (scroll > (cur.DOORMAT_HEIGHT + cur.DOORMAT_POS)) {
         if (cur.nextElementSibling) {
-          return setNew(props.NEXT);
+          setNew(PROPS.NEXT);
         }
       } else if (scroll < cur.DOORMAT_POS) {
         if (cur.previousElementSibling) {
-          return setNew(props.PREVIOUS);
+          setNew(PROPS.PREVIOUS);
         }
-      } else if (inSnapRegion()) {
-        return debounce(handleSnap, props.SNAPDURATION);
+      }
+      if (PROPS.SNAPPING && (PROPS.SNAPPING.VIEWPORT || PROPS.SNAPPING.TRAVEL) && inSnapRegion()) {
+        return debounce(handleSnap, PROPS.SNAPPING.DEBOUNCE);
       }
     };
     if ('onorientationchange' in window) {
@@ -122,15 +149,24 @@
     doormat = this;
     doormat.el = el;
     doormat.panels = doormat.el.children;
-    for (prop in opts) {
-      p = prop.toUpperCase();
-      if (props[p] !== undefined) {
-        props[p] = opts[prop];
+    extend = function(a, b) {
+      var prop, result, val;
+      result = {};
+      for (prop in a) {
+        result[prop.toUpperCase()] = a[prop];
+        if (b.hasOwnProperty(prop)) {
+          val = b[prop];
+          result[prop.toUpperCase()] = typeof val === 'object' ? extend(result[prop.toUpperCase()], val) : val;
+        }
       }
-      props.SNAPTRANSITIONDURATION = (props.SNAPDURATION / 1000) + 's';
+      return result;
+    };
+    PROPS = extend(PROPS, opts);
+    if (PROPS.SNAPPING) {
+      PROPS.SNAPPING.DURATION = (PROPS.SNAPPING.DURATION / 1000) + 's';
     }
     doormat.current = doormat.panels[0];
-    doormat.current.className += ' ' + props.CURRENT_CLASS;
+    doormat.current.className += ' ' + PROPS.CURRENT_CLASS;
     calibrate();
     return doormat;
   };

@@ -14,31 +14,44 @@ To create your doormat.
 
 1. Include `doormat{.min}.js` and `doormat{.min}.css` in your page.
 
-2. Create your DOM structure. The structure needs to be a container with the classname `dm`. It then needs to have children with the classname `dm__pnl`. `ol` and `ul` are fitting elements.
+2. Create your DOM/Page structure. The structure needs to be a container with the classname `dm`. We are filling the page, so this could be `body`. It then needs to have children with the classname `dm__pnl`. `ol` and `ul` make fitting container elements within the body alternatively.
 
   ```html̨
-    <ol class="dm">
-      <li class="dm__pnl">Awesome</li>
-      <li class="dm__pnl">Site</li>
-      <li class="dm__pnl">Content</li>
-    </ol>
+    <body>
+      <ol class="dm">
+        <li class="dm__pnl">Awesome</li>
+        <li class="dm__pnl">Site</li>
+        <li class="dm__pnl">Content</li>
+      </ol>
+    </body>
   ```
 
 3. Invoke the `Doormat` function passing in desired options(_explained below_) as a parameter;
 
   ```javascript
   var myDoormat = new Doormat();
-  var myDoormat = new Doormat({
-    scrollBuffer : 15,
-    snapDuration : 250,
-    snapThreshold: 15
+  ```
+  ```javascript
+  document.addEventListener('DOMContentLoaded', function() {
+    var myDoormat = new Doormat({
+      snapping: {
+        travel: true,
+        viewport: false,
+        threshold: 15,
+        debounce: 150,
+        duration: 250
+      }
+    });
   });
   ```
 
 ## API options
-* `scrollBuffer {number}` - The `scrollBuffer` represents a vertical percentage of `window.innerHeight` to be used as a buffer delay when triggering the next doormat panel to scroll. For example; If my `window` was `1000px` high and I set the `scrollBuffer` as `10`, the scrolling buffer would be `100px`. The reason for percentage is that when the window is resized the delay will remain consistent and proportional to the `window` height.
-* `snapThreshold {number}` - The `snapThreshold` works in a similar way to `scrollBuffer` in that it translates to a percentage of `window.innerHeight`. It is used so that the closest panel edge will snap to the viewport when we are scrolling within the defined `snapThreshold`.
-* `snapDuration {number}` - The `snapDuration` defines the length of time that are snap functionality is debounced and also the amount of time it will take for our panels to snap to viewport. The `snapDuration` is defined in `ms`. For example; `250`.
+* `snapping {object}` - Defines `snapping` behavior for doormat. There are two forms of the `snapping` effect. `travel` and `viewport`.
+  * `travel {bool, defaults to false}` - enables "snapping" travel. References `threshold`. When scrolling "down", once the threshold is passed, the next slide is snapped into viewport. When scrolling "up" if the user stops scrolling __within__ the threshold, the previous slide snaps into viewport.
+  * `viewport {bool, defaults to true}` - enables "snap to viewport" behavior. When a user scrolls the page and the current panel is slightly out of viewport by the given threshold, the panel will snap the panel which currently occupies the majority of the viewport into view.
+  * `threshold {number, defaults to 30}` - defines the "snapping" threshold which is a percentage of the viewport height. For example; if the viewport was `1000px` tall and we set the `threshold` as `10`, then the `threshold` barrier will be the top and bottom `100px` of the panel.
+  * `debounce {number, defaults to 150}` - we don't want to trigger our snapping behavior on every scroll. The `debounce` option defines a debouncing delay for our snapping behavior to trigger.
+  * `duration {number, defaults to 250}` - defines the `transition-duration` for a snapping panel.
 
 ## How?
 The trick is possible by making sections of the page `position: fixed` and then setting a height for the document `body` equal to the combined height of the page sections.
@@ -75,9 +88,7 @@ __NOTE::__ I would usually use a task runner like `gulp` in my projects. But, wi
 npm run
 ```
 ### Roll your own
-`doormat` development is mainly config driven with `doormat.config.json`. In here you can alter the classnames for elements to your desire. It is __important__ to remember that if you change the classnames in the config though that you will also need to update any reference to them from within the JavaScript.
-
-For example, maybe you're not keen on the classnames being used or want it to support a higher number of panels(_the default is 10_).
+`doormat` development is config driven with `doormat.config.json`. In here you can alter the classnames for elements to your desire. It is __important__ to remember that if you change the classnames in the config though that you will also need to update any reference to them from within the JavaScript.
 
 Change the config and then run the build task with `npm run publish`.
 

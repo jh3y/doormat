@@ -1,0 +1,27 @@
+include mixins.jade
+doctype html
+html
+  head
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0')
+    link(rel='stylesheet', href='css/doormat.css')
+    link(rel='stylesheet', href='css/dev.css')
+    script(type='text/javascript', src='js/doormat.js')
+    script(type='text/javascript').
+      document.addEventListener('DOMContentLoaded', function() {
+        var myDoormat = new Doormat({
+          snapping: {
+            travel: true,
+            viewport: false,
+            threshold: 15,
+            debounce: 150,
+            duration: 250
+          }
+        });
+      });
+  body.tx--black
+    +doormat('dev')
+      +panel('bg--blue')
+      +panel('bg--green')
+      +panel('bg--purple')
+      +panel('bg--red')
+      +panel('bg--teal')
