@@ -9,6 +9,19 @@ html
     link(href='https://fonts.googleapis.com/css?family=Droid+Sans', rel='stylesheet', type='text/css')
     link(rel='stylesheet', href='css/doormat.css')
     link(rel='stylesheet', href='css/dev.css')
+    script(type='text/javascript', src='js/doormat.js')
+    script(type='text/javascript').
+      document.addEventListener('DOMContentLoaded', function() {
+        var myDoormat = new Doormat({
+          snapping: {
+            travel: false,
+            viewport: true,
+            threshold: 30,
+            debounce: 150,
+            duration: 250
+          }
+        });
+      });
   body.tx--black
     +doormat()
 
@@ -55,9 +68,13 @@ html
                   code.
                     var myDoormat = new Doormat();
                     var myDoormat = new Doormat({
-                      scrollBuffer : 15,
-                      snapThreshold: 15,
-                      snapDuration : 250
+                      snapping: {
+                        travel: false,
+                        viewport: true,
+                        threshold: 25,
+                        debounce: 100,
+                        duration: 250
+                      }
                     });
       +panel('bg--teal tutorial')
         .cntnt-wrppr
@@ -65,10 +82,4 @@ html
             h1 That's it!
             p For more, see the <a href="https://github.com/jh3y/doormat" target="_blank">repo</a>!
 
-    script(type='text/javascript', src='js/doormat.js')
-    script(type='text/javascript').
-      var myDoormat = new Doormat({
-        scrollBuffer: 15,
-        snapThreshold: 15,
-        snapDuration: 250
-      });
+    
