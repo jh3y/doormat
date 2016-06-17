@@ -51,6 +51,12 @@ body {
 code {
   color: #e74c3c;
 }
+.dm.dev li {
+  background-image: none;
+}
+.dm.dev li:nth-of-type(3) {
+  height: 1200px;
+}
 .dm__pnl {
   display: -webkit-box !important;
   display: -ms-flexbox !important;
