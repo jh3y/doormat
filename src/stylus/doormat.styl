@@ -19,13 +19,13 @@ body
   margin   0
   padding  0
 
-  &__{c.blocks.doormat.els.panel}
-    display             none
-    position            fixed
-    top                 0
-    right               0
-    left                0
+.{c.blocks.panel.lbl}
+  visibility hidden
+  position   fixed
+  top        0
+  right      0
+  left       0
 
-    &--{c.mods.current}
-    &--{c.mods.current} ~ .{c.blocks.doormat.lbl}__{c.blocks.doormat.els.panel}
-      display block
+  &--{c.mods.current}
+  &--{c.mods.current} + *
+    visibility visible

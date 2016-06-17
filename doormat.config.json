@@ -1,9 +1,12 @@
 {
   "blocks": {
     "doormat": {
-      "lbl": "dm",
+      "lbl": "dm"
+    },
+    "panel": {
+      "lbl": "dm-pnl",
       "els": {
-        "panel": "pnl"
+        "content": "cntnt"
       }
     }
   },

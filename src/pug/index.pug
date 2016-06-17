@@ -1,0 +1,75 @@
+include mixins.pug
+doctype html
+html
+  head
+    title doormat | wipe your fingers before you come in!
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0')
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    meta(name='description', content='an entry point to your site, wipe your fingers before you come in!')
+    link(href='https://fonts.googleapis.com/css?family=Droid+Sans', rel='stylesheet', type='text/css')
+    link(rel='stylesheet', href='css/doormat.css')
+    link(rel='stylesheet', href='css/dev.css')
+  body.tx--black
+    +doormat()
+      li.dm-pnl.tx--white.bg--white.header
+        .advice Please scroll 😁
+        .title.tx--right
+          h1 doormat
+          +githubStats('jh3y', 'doormat')
+
+      +panel('bg--blue')
+        h1 How about something a little different for navigating through your site content?
+
+      +panel('bg--purple tutorial')
+        h1 How does this work? It's actually quite simple.
+        p.
+          The trick is possible by making sections of the page <code>position: fixed</code> and then setting a height for the document <code>body</code> equal to the combined height of the page sections.
+
+        p.
+          When the <code>window</code> is scrolled down we move our page sections upwards out of the viewport to reveal the content underneath. The opposite being that, when the <code>window</code> is scrolled up, we bring our sections back down into view in the same order in which they left(<i>dictated by the DOM structure</i>).
+
+      +panel('bg--red tutorial')
+        h1 Using doormat
+        ol
+          li Include <code>doormat{.min}.js</code> and <code>doormat{.min}.css</code> in your page.
+          li
+            div.
+              Create your DOM/Page structure. The containing element needs the classname `dm`. This could be `body`. `doormat` uses panels for each section of content. Therefore, the children of our container need the class `dm-pnl`. `ol` and `ul` make good container elements. A structure like the following is ideal.
+            pre
+              code.
+                &lt;body&gt;
+                  &lt;ol class="dm"&gt;
+                    &lt;li class="dm__pnl"&gt;Awesome&lt;/li&gt;
+                    &lt;li class="dm__pnl"&gt;Site&lt;/li&gt;
+                    &lt;li class="dm__pnl"&gt;Content&lt;/li&gt;
+                  &lt;/ol&gt;
+                &lt;/body&gt;
+          li
+            p.
+              Invoke the <code>Doormat</code> function passing in desired options(<i>refer to <a href="https://github.com/jh3y/doormat" target="_blank">docs</a> for help</i>). For example;
+            pre
+              code.
+                var myDoormat = new Doormat();
+                var myDoormat = new Doormat({
+                  debounce: 100,
+                  snapping: {
+                    travel: false,
+                    viewport: true,
+                    threshold: 25,
+                    duration: 250
+                  }
+                });
+      +panel('bg--teal tutorial')
+        h1 That's it!
+        p For more, see the <a href="https://github.com/jh3y/doormat" target="_blank">repo</a>!
+    script(type='text/javascript', src='js/doormat.js')
+    script(type='text/javascript').
+      var myDoormat = new Doormat({
+        debounce: 150,
+        snapping: {
+          travel: false,
+          viewport: true,
+          threshold: 30,
+          duration: '.25s'
+        }
+      });
