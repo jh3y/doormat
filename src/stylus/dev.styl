@@ -33,29 +33,23 @@ body
 code
   color $red
 
-.dm.dev
-  li
-    background-image none
-    &:nth-of-type(3)
-      height 1200px
-
-.dm__pnl
+.dm-pnl
   display               flex !important
   align-items           center
   justify-content       center
   background-size       cover
   background-attachment fixed
+  padding               10px
+  overflow              hidden
   for num in (2..5)
     idx = 400 + (num * 5)
     &:nth-of-type({num})
       background-image url('https://unsplash.it/' + idx + '/?random')
-
-.cntnt
-  max-width        90%
-  padding          50px
-  margin           20px auto
-  background-color white
-  border-radius    10px
+  &__cntnt
+    overflow         hidden
+    padding          20px
+    background-color white
+    border-radius    10px
 
 .advice
   position absolute
@@ -76,4 +70,5 @@ code
 .header
   background-size     cover
   background-position center center
+  background-attachment scroll !important
   background-image url(https://raw.githubusercontent.com/jh3y/pics/master/doormat/doormat.jpg)

@@ -1,60 +1,32 @@
 {
   "name": "doormat",
-  "version": "3.3.0",
+  "version": "4.0.0",
   "description": "an alternative way to navigate through your site content",
   "devDependencies": {
     "autoprefixer": "^6.0.3",
+    "babel-cli": "^6.10.1",
+    "babel-eslint": "^6.0.4",
+    "babel-preset-es2015": "^6.9.0",
     "browser-sync": "^2.9.11",
     "clean-css": "^3.4.6",
-    "coffee-script": "^1.10.0",
+    "eslint": "^2.12.0",
     "gh-pages": "^0.5.0",
-    "jade": "^1.11.0",
     "postcss-cli": "^2.3.2",
+    "pug-cli": "^1.0.0-alpha6",
     "stylus": "^0.53.0",
     "uglify-js": "^2.5.0"
   },
-  "config": {
-    "script_src": "src/coffee",
-    "script_dest": "public/js",
-    "styles_src": "src/stylus",
-    "styles_dest": "public/css",
-    "markup_src": "src/jade",
-    "markup_dest": "public",
-    "uglify_opts": "--compress --comments --mangle -o dist/doormat.min.js dist/doormat.js",
-    "cleancss_opts": "--s1 -o dist/doormat.min.css dist/doormat.css"
-  },
-  "scripts": {
-    "watch:scripts": "coffee -o $npm_package_config_script_dest -cw $npm_package_config_script_src",
-    "build:scripts": "coffee -o $npm_package_config_script_dest -c $npm_package_config_script_src",
-    "publish:scripts": "coffee -p $npm_package_config_script_src > dist/doormat.js && uglifyjs $npm_package_config_uglify_opts",
-    "prepublish:scripts": "npm run build:scripts",
-    "watch:styles": "stylus -w $npm_package_config_styles_src -o $npm_package_config_styles_dest",
-    "build:styles": "stylus $npm_package_config_styles_src -o $npm_package_config_styles_dest",
-    "postbuild:styles": "postcss --use autoprefixer -d $npm_package_config_styles_dest/ $npm_package_config_styles_dest/*.css",
-    "publish:styles": "stylus $npm_package_config_styles_src/doormat.styl -o dist/ && cleancss $npm_package_config_cleancss_opts",
-    "watch:markup": "jade -wP $npm_package_config_markup_src -O doormat.config.json -o $npm_package_config_markup_dest",
-    "build:markup": "jade -P $npm_package_config_markup_src -O doormat.config.json -o $npm_package_config_markup_dest",
-    "publish:markup": "jade $npm_package_config_markup_src/index.jade -O doormat.config.json -o $npm_package_config_markup_dest",
-    "setup": "npm install && mkdir -pv $npm_package_config_styles_dest && mkdir -pv $npm_package_config_script_dest",
-    "watch:dev": "npm run watch:markup & npm run watch:scripts & npm run watch:styles",
-    "build:dev": "npm run build:scripts && npm run build:styles && npm run build:markup",
-    "serve": "browser-sync start --port 1987 --files public/ --server public",
-    "preserve": "npm run build:dev",
-    "develop": "npm run serve & npm run watch:dev",
-    "prepublish": "mkdir -pv dist",
-    "publish": "npm run publish:scripts && npm run publish:styles",
-    "predeploy": "rm -rf public && mkdir public $npm_package_config_styles_dest && npm run build:scripts && npm run build:styles && npm run publish:markup",
-    "deploy": "gh-pages -d public",
-    "postdeploy": "npm run publish"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jh3y/doormat"
+    "url": "git+https://github.com/jh3y/doormat.git"
   },
   "author": "jh3y <jh3y@users.noreply.github.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jh3y/doormat/issues"
   },
-  "homepage": "https://github.com/jh3y/doormat"
+  "homepage": "http://jh3y.github.io/doormat",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }

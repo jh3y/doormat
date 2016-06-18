@@ -4,4 +4,4 @@
   * @license MIT
   * @author jh3y
   * (c) 2016
-!*/body{-webkit-overflow-scrolling:touch}.dm{display:block;position:relative;margin:0;padding:0}.dm__pnl{display:none;position:fixed;top:0;right:0;left:0}.dm__pnl--crnt,.dm__pnl--crnt~.dm__pnl{display:block}
+!*/body{-webkit-overflow-scrolling:touch}.dm{display:block;position:relative;margin:0;padding:0}.dm-pnl{visibility:hidden;position:fixed;top:0;right:0;left:0}.dm-pnl--crnt,.dm-pnl--crnt+*{visibility:visible}

@@ -14,7 +14,7 @@ To create your doormat.
 
 1. Include `doormat{.min}.js` and `doormat{.min}.css` in your page.
 
-2. Create your DOM/Page structure. The structure needs to be a container with the classname `dm`. We are filling the page, so this could be `body`. It then needs to have children with the classname `dm__pnl`. `ol` and `ul` make fitting container elements within the body alternatively.
+2. Create your DOM/Page structure. The containing element needs the classname `dm`. This could be `body`. `doormat` uses panels for each section of content. Therefore, the children of our container need the class `dm-pnl`. `ol` and `ul` make good container elements :wink: A structure like the following is ideal.
 
   ```html̨
     <body>
@@ -23,6 +23,12 @@ To create your doormat.
         <li class="dm__pnl">Site</li>
         <li class="dm__pnl">Content</li>
       </ol>
+      <script src="doormat.min.js"/>
+      <script>
+        (function() {
+          const myDoormat = new Doormat();
+        }());
+      </script>
     </body>
   ```
 
@@ -34,11 +40,11 @@ To create your doormat.
   ```javascript
   document.addEventListener('DOMContentLoaded', function() {
     var myDoormat = new Doormat({
+      debounce: 150,
       snapping: {
         travel: true,
         viewport: false,
         threshold: 15,
-        debounce: 150,
         duration: 250
       }
     });
@@ -46,11 +52,11 @@ To create your doormat.
   ```
 
 ## API options
+* `debounce {number, defaults to 150}` - we don't want to trigger our snapping behavior on every scroll and our calibration on every resize. Therefore, the `debounce` option defines a global debouncing delay for our doormat functions.
 * `snapping {object}` - Defines `snapping` behavior for doormat. There are two forms of the `snapping` effect. `travel` and `viewport`.
   * `travel {bool, defaults to false}` - enables "snapping" travel. References `threshold`. When scrolling "down", once the threshold is passed, the next slide is snapped into viewport. When scrolling "up" if the user stops scrolling __within__ the threshold, the previous slide snaps into viewport.
   * `viewport {bool, defaults to true}` - enables "snap to viewport" behavior. When a user scrolls the page and the current panel is slightly out of viewport by the given threshold, the panel will snap the panel which currently occupies the majority of the viewport into view.
   * `threshold {number, defaults to 30}` - defines the "snapping" threshold which is a percentage of the viewport height. For example; if the viewport was `1000px` tall and we set the `threshold` as `10`, then the `threshold` barrier will be the top and bottom `100px` of the panel.
-  * `debounce {number, defaults to 150}` - we don't want to trigger our snapping behavior on every scroll. The `debounce` option defines a debouncing delay for our snapping behavior to trigger.
   * `duration {number, defaults to 250}` - defines the `transition-duration` for a snapping panel.
 
 ## How?
@@ -74,23 +80,24 @@ If you wish to play with the code, it's simple to get going.
 
         git clone https://github.com/jh3y/doormat.git
 
-2. Navigate into the repo and install the dependencies.
+2. Navigate into the repo and run the setup task;
 
         cd doormat
-        npm setup
+        make setup
 
 3. Run the `develop` task to get up and running with `browser-sync` etc.
 
-        npm run develop
+        make develop
 
-__NOTE::__ I would usually use a task runner like `gulp` in my projects. But, with `doormat` being minimal I had a go at using `npm run scripts` for all my build needs. So, to see all available build scripts, take a look at `package.json`.
+__NOTE::__ I would usually use a task runner like `gulp` in my projects. But, with `doormat` being minimal I am using a self-documented `Makefile`. You can see available tasks by running;
 ```shell
-npm run
+make
 ```
-### Roll your own
-`doormat` development is config driven with `doormat.config.json`. In here you can alter the classnames for elements to your desire. It is __important__ to remember that if you change the classnames in the config though that you will also need to update any reference to them from within the JavaScript.
 
-Change the config and then run the build task with `npm run publish`.
+### Roll your own classes
+The classes for `doormat` are config driven with `doormat.config.json`. In here you can alter the classnames for elements to your desire. It is __important__ to remember that if you change the classnames in the config though that you will also need to update any reference to them from within the JavaScript by altering the `PROPS` variable.
+
+Change the config and then run the build task with `make build`.
 
 ## Contributing
 Don't hesitate to post an issue or suggestion or get in touch by tweeting me [@_jh3y](https://twitter.com/_jh3y)!

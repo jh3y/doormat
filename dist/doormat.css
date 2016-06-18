@@ -14,14 +14,14 @@ body {
   margin: 0;
   padding: 0;
 }
-.dm__pnl {
-  display: none;
+.dm-pnl {
+  visibility: hidden;
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
 }
-.dm__pnl--crnt,
-.dm__pnl--crnt ~ .dm__pnl {
-  display: block;
+.dm-pnl--crnt,
+.dm-pnl--crnt + * {
+  visibility: visible;
 }
