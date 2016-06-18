@@ -51,13 +51,7 @@ body {
 code {
   color: #e74c3c;
 }
-.dm.dev li {
-  background-image: none;
-}
-.dm.dev li:nth-of-type(3) {
-  height: 1200px;
-}
-.dm__pnl {
+.dm-pnl {
   display: -webkit-box !important;
   display: -ms-flexbox !important;
   display: flex !important;
@@ -69,23 +63,24 @@ code {
           justify-content: center;
   background-size: cover;
   background-attachment: fixed;
+  padding: 10px;
+  overflow: hidden;
 }
-.dm__pnl:nth-of-type(2) {
+.dm-pnl:nth-of-type(2) {
   background-image: url("https://unsplash.it/410/?random");
 }
-.dm__pnl:nth-of-type(3) {
+.dm-pnl:nth-of-type(3) {
   background-image: url("https://unsplash.it/415/?random");
 }
-.dm__pnl:nth-of-type(4) {
+.dm-pnl:nth-of-type(4) {
   background-image: url("https://unsplash.it/420/?random");
 }
-.dm__pnl:nth-of-type(5) {
+.dm-pnl:nth-of-type(5) {
   background-image: url("https://unsplash.it/425/?random");
 }
-.cntnt {
-  max-width: 90%;
-  padding: 50px;
-  margin: 20px auto;
+.dm-pnl__cntnt {
+  overflow: hidden;
+  padding: 20px;
   background-color: #fff;
   border-radius: 10px;
 }
@@ -108,5 +103,6 @@ code {
 .header {
   background-size: cover;
   background-position: center center;
+  background-attachment: scroll !important;
   background-image: url("https://raw.githubusercontent.com/jh3y/pics/master/doormat/doormat.jpg");
 }
