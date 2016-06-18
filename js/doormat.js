@@ -107,6 +107,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var panel = panels[i];
           panel.style.zIndex = 999 - i;
           panel.style.minHeight = doormat.HEIGHT + 'px';
+          panel.style.display = 'block';
+          panel.style.visibility = 'visible';
           panel.HEIGHT = panel.offsetHeight;
           panel.STARTING_POS = doormat.TRACK_HEIGHT;
           doormat.TRACK_HEIGHT = doormat.TRACK_HEIGHT + panel.offsetHeight;
@@ -192,12 +194,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         var reset = function reset() {
           current.style.transitionProperty = null;
           current.style.transitionDuration = null;
-          current.style.visibility = null;
         };
         var set = function set() {
           current.style.transitionProperty = 'top';
           current.style.transitionDuration = doormat._OPTS.SNAPPING.DURATION;
-          current.style.visibility = 'visible';
           current.addEventListener('transitionend', reset);
         };
         var snapOut = function snapOut() {

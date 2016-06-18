@@ -44,12 +44,17 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Droid Sans', sans-serif;
+  background: #111;
 }
 .bg--purple code {
   color: #2c3e55;
 }
 code {
   color: #e74c3c;
+}
+.dm {
+  -webkit-animation: fadeIn 0.5s;
+          animation: fadeIn 0.5s;
 }
 .dm-pnl {
   display: -webkit-box !important;
@@ -105,4 +110,20 @@ code {
   background-position: center center;
   background-attachment: scroll !important;
   background-image: url("https://raw.githubusercontent.com/jh3y/pics/master/doormat/doormat.jpg");
+}
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
