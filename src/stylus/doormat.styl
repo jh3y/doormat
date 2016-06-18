@@ -14,18 +14,19 @@ body
   -webkit-overflow-scrolling touch
 
 .{c.blocks.doormat.lbl}
-  display  block
-  position relative
-  margin   0
-  padding  0
+  display   block
+  position  relative
+  margin    0
+  padding   0
+
 
 .{c.blocks.panel.lbl}
   visibility hidden
+  display    none
   position   fixed
   top        0
   right      0
   left       0
 
-  &--{c.mods.current}
   &--{c.mods.current} + *
-    visibility visible
+    visibility hidden
