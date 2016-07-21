@@ -64,6 +64,35 @@ The trick is possible by making sections of the page `position: fixed` and then 
 
 When the `window` is scrolled down we move our page sections upwards out of the viewport to reveal the content underneath. The opposite being that, when the `window` is scrolled up, we bring our sections back down into view in the same order in which they left(_dictated by the DOM structure_).
 
+## Travelling to a specific panel programatically
+Raised as a feature request in issue #26. How can you programatically travel to a specific panel?
+
+To programatically navigate to a slide _will_ require a workaround. Doing a simple `window.scrollTo` would suffice but then you lose the animation and can hit `z-index` issues.
+
+To retain the animation, the quickest solution will be to use `jQuery`. Also, each panel element has a `STARTING_POS` property which tells us where to scroll to in the body to get to the start of a panel.
+
+This will of course first require that you have `jQuery` available to you on the page. Then add the following;
+
+```javascript
+window.Doormat.prototype.travelTo = function(index) {
+  var panels = document.querySelectorAll('.dm-pnl');
+  if (panels[index - 1]) {
+    var pos = panels[index - 1].STARTING_POS;
+    if (pos !== undefined) $('body').animate({scrollTop: pos});
+  } else {
+    throw Error('Doormat: no panel available at that index!');
+  }
+}
+```
+
+The result will be that you can slide to any panel you want by index. For example;
+
+```javascript
+var myDoormat = new Doormat();
+myDoormat.travelTo(4);
+```
+This isn't part of `Doormat` by default due to required dependency of `jQuery`.
+
 ## curtain.js?
 Unfortunately, `curtain.js` is no longer maintained and there were reports of issues with newer versions of jQuery.
 
