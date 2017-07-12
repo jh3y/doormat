@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "6"
+sudo: false
+install:
+  - yarn
+script:
+  - yarn run flow
+  - make lint-scripts

@@ -10,31 +10,35 @@ CLEANCSS = $(MODULES)/cleancss
 PUG = $(MODULES)/pug
 GHPAGES = $(MODULES)/gh-pages
 BS = $(MODULES)/browser-sync
+PRETTIER = $(MODULES)/prettier
 
 FILE_NAME = doormat
 OUTPUT_DIR = public
 DIST_DIR = dist
-SCRIPT_SRC = src/js/$(FILE_NAME).js
+SCRIPT_SRC = src/js
 SCRIPT_DEST = $(OUTPUT_DIR)/js
 STYLE_SRC = src/stylus
 STYLE_DEST = $(OUTPUT_DIR)/css
 MARKUP_SRC = src/pug
 MARKUP_DEST = $(OUTPUT_DIR)
+DEPLOY_DEST = .deploy/
 
-
-
-UGLIFY_OPTS = --compress --comments --mangle -o $(DIST_DIR)/$(FILE_NAME).min.js $(DIST_DIR)/$(FILE_NAME).js
+UGLIFY_OPTS = $(DIST_DIR)/$(FILE_NAME).js --compress --mangle --comments -o $(DIST_DIR)/$(FILE_NAME).min.js
 CLEANCSS_OPTS = --s1 -o $(DIST_DIR)/$(FILE_NAME).min.css $(DIST_DIR)/$(FILE_NAME).css
 POSTCSS_OPTS = --use autoprefixer -d $(STYLE_DEST)/ $(STYLE_DEST)/*.css
+PRETTIER_OPTS = --trailing-comma all --single-quote --no-semi --write
 
 help:
 	@grep -E '^[a-zA-Z\._-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 compile-scripts: ## compiles scripts
-	$(BABEL) $(SCRIPT_SRC) -o $(SCRIPT_DEST)/$(FILE_NAME).js
+	$(BABEL) $(SCRIPT_SRC) --out-dir $(SCRIPT_DEST)
+
+lint-scripts: ## lints JS files
+	$(ESLINT) $(SCRIPT_SRC)/$(FILE_NAME).js
 
 watch-scripts: compile-scripts ## watch for script changes and compile
-	$(BABEL) $(SCRIPT_SRC) --watch -o $(SCRIPT_DEST)/$(FILE_NAME).js --source-maps
+	$(BABEL) $(SCRIPT_SRC) --watch --out-dir $(SCRIPT_DEST) --source-maps
 
 publish-scripts: compile-scripts ## publish scripts to dist
 	mkdir -pv $(DIST_DIR) && cp $(SCRIPT_DEST)/$(FILE_NAME).js $(DIST_DIR)/$(FILE_NAME).js && $(UGLIFY) $(UGLIFY_OPTS)
@@ -75,5 +79,8 @@ develop: ## run development task
 publish: ## publish files
 	mkdir -pv $(DIST_DIR) && make publish-scripts && make publish-styles
 
-deploy:
-	rm -rf $(OUTPUT_DIR) && mkdir $(OUTPUT_DIR) $(SCRIPT_DEST) $(STYLE_DEST) && make compile-scripts && make compile-styles && make publish-markup && $(GHPAGES) -d $(OUTPUT_DIR) && make run publish
+prettify: ## prettify scripts
+	$(PRETTIER) $(PRETTIER_OPTS) $(SCRIPT_SRC)/*
+
+deploy: ## deploys demo to github-pages
+	rm -rf $(DEPLOY_DEST) && mkdir -pv $(DEPLOY_DEST) $(DEPLOY_DEST)/js $(DEPLOY_DEST)/css && make publish-markup && make publish && cp $(MARKUP_DEST)/index.html $(DEPLOY_DEST)/index.html && cp $(DIST_DIR)/doormat.min.js $(DEPLOY_DEST)/js/doormat.js && cp $(DIST_DIR)/doormat.min.css $(DEPLOY_DEST)/css/doormat.css && make build && cp $(SCRIPT_DEST)/dev.js $(DEPLOY_DEST)/js && cp $(STYLE_DEST)/dev.css $(DEPLOY_DEST)/css && $(GHPAGES) -d $(DEPLOY_DEST) && make publish

@@ -1,0 +1,21 @@
+mixin githubStats(userName, repoName)
+  .stats
+    a.github-button(href="https://github.com/jh3y/doormat", data-icon="octicon-star", data-size="large", data-show-count="true", aria-label="Star jh3y/doormat on GitHub") Star
+    a.github-button(href="https://github.com/jh3y/doormat/fork", data-icon="octicon-repo-forked", data-size="large", data-show-count="true", aria-label="Fork jh3y/doormat on GitHub") Fork
+    a.github-button(href="https://github.com/jh3y", data-size="large", data-show-count="true", aria-label="Follow @jh3y on GitHub") Follow @jh3y
+    
+
+
+mixin doormat()
+  - var doormatClass = blocks.doormat.lbl
+  ul(class=`${doormatClass}`)
+    if block
+      block
+
+mixin panel(theme)
+  - var panelClass = blocks.panel.lbl
+  - var panelContentClass = blocks.panel.lbl + '__' + blocks.panel.els.content
+  li(class=`${panelClass} ${theme || ''}`)
+    if block
+      div(class=`${panelContentClass}`)
+        block

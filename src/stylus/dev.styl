@@ -1,3 +1,8 @@
+c = json('../../doormat.config.json', {
+  hash: true,
+  leave-strings: true
+})
+
 $white  = #fff
 $black  = #2c3E55
 $red    = #e74c3c
@@ -16,6 +21,11 @@ $colorPalette = {
   blue  : $blue
 }
 
+/**
+  * Images of cats... because
+*/
+$imgUrls = 'photo-1490481920145-fc78891bbb99?dpr=1&auto=format&fit=crop&w=600&h=400&q=80&cs=tinysrgb&crop=' 'photo-1475080433592-8615503c982f?dpr=1&auto=format&fit=crop&w=600&h=400&q=80&cs=tinysrgb&crop=' 'photo-1486530555807-11f29d0dff36?dpr=1&auto=format&fit=crop&w=600&h=400&q=80&cs=tinysrgb&crop=' 'photo-1498100152307-ce63fd6c5424?dpr=1&auto=format&fit=crop&w=600&h=400&q=80&cs=tinysrgb&crop=' 'photo-1496661269814-a841e78df103?dpr=1&auto=format&fit=crop&w=600&h=400&q=80&cs=tinysrgb&crop='
+
 for color, hex in $colorPalette
   .bg--{color}
     background-color hex
@@ -26,7 +36,11 @@ body
   margin      0
   padding     0
   font-family 'Droid Sans', sans-serif
+  font-size 16px
   background  #111
+
+  @media(max-width: 768px)
+    font-size 12px
 
 .bg--purple code
   color $black
@@ -34,8 +48,6 @@ body
 code
   color $red
 
-.dm
-  animation fadeIn .5s
 
 @keyframes fadeIn
   from
@@ -43,43 +55,114 @@ code
   to
     opacity 1
 
+.{c.blocks.doormat.lbl}
+  animation fadeIn .5s
 
-.dm-pnl
+.{c.blocks.panel.lbl}
   display               flex !important
   align-items           center
   justify-content       center
   background-size       cover
-  background-attachment fixed
+  background-position   center
   padding               10px
   overflow              hidden
-  for num in (2..5)
-    idx = 400 + (num * 5)
-    &:nth-of-type({num})
-      background-image url('https://unsplash.it/' + idx + '/?random')
-  &__cntnt
-    overflow         hidden
+  for img, i in $imgUrls
+    &:nth-of-type({i + 1})
+      background-image url('https://images.unsplash.com/' + img)
+
+  &__{c.blocks.panel.els.content}
     padding          20px
-    background-color white
+    background-color rgba(255, 255, 255, 0.75)
     border-radius    10px
+    opacity          0
+    transform        scale(0)
+    max-width        90%
+    text-align       center
+    transition       opacity .25s ease 0s, transform .25s ease 0s
+
+.{c.blocks.panel.lbl}--{c.mods.active} .{c.blocks.panel.lbl}__{c.blocks.panel.els.content}
+  opacity 1
+  transform scale(1)
 
 .advice
-  position absolute
-  top 50%
-  left 50%
-  margin-left -40px
-  margin-top -40px
+  display flex
+  font-size 2rem
+  flex 1 1 0
+  flex-direction column
+  align-items center
+  justify-content center
+  h1
+    font-size 2.5rem
+    width 100%
+    text-align center
+    display block
 
 .title
-  position absolute
-  right    0
-  bottom   0
-  padding  50px
+  justify-content flex-start
+
+  h1
+    font-size 2rem
+    margin 0
 
 *
   box-sizing border-box
 
+.stats iframe
+  display block
+  margin  10px 0 10px 0
+
 .header
   background-size     cover
   background-position center center
-  background-attachment scroll !important
-  background-image url(https://raw.githubusercontent.com/jh3y/pics/master/doormat/doormat.jpg)
+  flex-direction      column
+  justify-content     flex-end
+
+  *
+    width 100%
+
+.show-controls .controls
+  opacity 1
+  visibility visible
+
+@media(max-width 768px)
+  .blurb
+  .tutorial
+    justify-content flex-start
+
+.tutorial .{c.blocks.panel.lbl}__{c.blocks.panel.els.content}
+.blurb .{c.blocks.panel.lbl}__{c.blocks.panel.els.content}
+  max-width  75%
+
+.features
+  padding 0
+
+.controls
+  position fixed
+  display flex
+  flex-direction column
+  z-index 1001
+  opacity 0
+  visibility hidden
+  transition opacity 0.25s ease 0s
+  bottom 25px
+  right 25px
+
+.slide-indicator
+  background-position center center
+  background-size cover
+  border-radius 100%
+  cursor pointer
+  border none
+  height 44px
+  width 44px
+  margin 4px
+  opacity .5
+  transition opacity .25s ease 0s
+
+  &--active
+  &:hover
+    opacity 1
+
+  for img, i in $imgUrls
+    &:nth-of-type({i + 1})
+      background-image url('https://images.unsplash.com/' + img)

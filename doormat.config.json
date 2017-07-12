@@ -4,13 +4,15 @@
       "lbl": "dm"
     },
     "panel": {
-      "lbl": "dm-pnl",
+      "lbl": "dm-panel",
       "els": {
-        "content": "cntnt"
+        "content": "content"
       }
     }
   },
   "mods": {
-    "current": "crnt"
+    "active": "active",
+    "obsolete": "obsolete",
+    "inbound": "inbound"
   }
 }
