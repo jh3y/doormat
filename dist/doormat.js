@@ -1,238 +1,431 @@
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
+/*!
   * doormat - http://jh3y.github.io/doormat
   *
   * @license MIT
   * @author jh3y
-  * (c) 2016
+  * (c) 2017
+!*/
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+  * Represent Doormat instance
+  * @constructor
+  * @param {Object} opts - user defined options for Doormat instance
 */
-(function () {
-  var PROPS = {
-    CLASS: 'dm',
-    CURRENT_CLASS: 'dm-pnl--crnt',
-    NEXT: 'next',
-    PREVIOUS: 'previous',
-    RESET: 'reset',
-    ERROR_MSG: 'Doormat: Must assign root element with class',
-    DOWN: 'D',
-    UP: 'U'
+var Doormat =
+// Define the active panel
+
+// Content panels
+
+// Scroll position reference
+
+// Set default options for doormat
+
+// class enums for no class mis-match
+function Doormat(opts) {
+  _classCallCheck(this, Doormat);
+
+  _initialiseProps.call(this);
+
+  var bind = this.bind,
+      calibrate = this.calibrate,
+      classes = this.classes,
+      active = this.active,
+      defaults = this.defaults,
+      enums = this.enums,
+      errors = this.errors;
+
+  this.options = Object.assign({}, defaults, opts);
+  /**
+    * Set appropriate classes for first panel and doormat element.
+  */
+  if (!(this.options.snapMode === enums.travel || this.options.snapMode === enums.viewport)) throw Error(errors.invalidSnap);
+
+  if (!(this.options.mode === enums.inbound || this.options.mode === enums.outbound)) throw Error(errors.invalidMode);
+  active.classList.add(classes.active);
+  if (this.options.mode === enums.inbound) this.el.classList.add(classes.inbound);
+  calibrate();
+  bind();
+}
+/**
+  * Request updating the DOM. If actively in an update cycle, then do
+  * nothing
+  * @return {undefined}
+  * @param {function} action - action to be invoked during next frame
+*/
+
+// Reference for update state for scroll performance
+
+// Main element
+
+// Set class enums for no string mis-match
+
+/**
+  * Bind event listeners for scrolling and viewport resize or orientation
+  * change
+  * @return {undefined}
+*/
+
+/**
+  * on scroll update the scroll position reference and request to update
+  * the DOM
+  * @return {undefined}
+*/
+
+/**
+  * Handle scrolling behavior setting classes appropriately based on scroll
+  * position.
+  * @return {undefined}
+*/
+
+/**
+  * Determine whether active scroll position is within snap region
+  * @return {String} region - Returns an enumeration of which region to snap
+  * in/from
+*/
+
+/**
+  * An internal scrolling function for snapping/travelling effects using
+  * requestAnimationFrame. Drops the need for $.animate
+  * @param {Number} destination - the desired scroll position
+  * @param {Number} timeToScroll - duration of scroll in ms
+  * @return {undefined}
+*/
+
+/**
+  * Shorthand for scrolling to a specific panel.
+  * @param {number} panelIndex - panel to scroll to
+  * @param {number} speed - optional speed in ms
+  * @return {undefined}
+*/
+
+/**
+  * Shorthand for travelling to next panel
+  * @return {undefined}
+*/
+
+/**
+  * Shorthand for travelling to previous panel
+  * @return {undefined}
+*/
+
+/**
+  * Handle snap enumeration and scroll doormat to appropriate panel if
+  * necessary.
+  * @param {String} region - enumeration of snap region "up/down"
+  * @return {undefined}
+*/
+
+/**
+  * Check for whether a content panel is longer than viewport height.
+  * @return {bool} greater - whether panel height is greater than viewport
+  * height
+*/
+
+/**
+  * Reset DOM elements and scroll to top of window. Invoked on viewport
+  * changes mitigates the risk of funky glitches that can occur on resizing
+  * of content etc.
+  * @return {undefined}
+*/
+
+
+/**
+  * Sets the doormat behavior style by setting appropriate z-index values
+  * and setting up the correct classnaming if necessary
+  * @param {number} timestamp - timestamp for requestAnimationFrame invocation
+  * Used to determine how calibration was invoked and whether to reset.
+  * @return {undefined}
+*/
+;
+
+var _initialiseProps = function _initialiseProps() {
+  var _this = this;
+
+  this.classes = {
+    active: 'dm-panel--active',
+    el: 'dm',
+    inbound: 'dm--inbound',
+    obsolete: 'dm-panel--obsolete' };
+  this.enums = {
+    inbound: 'inbound',
+    outbound: 'outbound',
+    travel: 'travel',
+    viewport: 'viewport',
+    bottom: 'bottom',
+    top: 'top',
+    up: 'up',
+    down: 'down',
+    updateEvent: 'doormat:update' };
+  this.defaults = {
+    snapDebounce: 150,
+    scrollDuration: 250,
+    snapMode: this.enums.viewport,
+    mode: this.enums.outbound,
+    snapThreshold: 30
   };
-  /* Configurable options */
-  var DEFAULTS = {
-    debounce: 150,
-    snapping: {
-      travel: false,
-      viewport: true,
-      threshold: 30,
-      duration: '.25s'
+  this.errors = {
+    invalidMode: 'Doormat: mode must be either "inbound" or "outbound"',
+    invalidSnap: 'Doormat: snapMode must be set to either "viewport" or "travel"' };
+  this.scrollPos = 0;
+  this.el = document.querySelector('.' + this.classes.el);
+  this.panels = this.el.children;
+  this.updating = false;
+  this.active = this.panels[0];
+  this.activeIndex = 1;
+
+  this.requestUpdate = function (action) {
+    if (!_this.updating) {
+      requestAnimationFrame(action);
+      _this.updating = true;
     }
   };
-  var DEBOUNCE = function DEBOUNCE(func, delay) {
-    var inDebounce = undefined;
-    return function () {
-      var context = this,
-          args = arguments;
-      clearTimeout(inDebounce);
-      return inDebounce = setTimeout(function () {
-        return func.apply(context, args);
-      }, delay);
+
+  this.bind = function () {
+    var onViewportChange = function onViewportChange() {
+      return _this.requestUpdate(_this.calibrate);
     };
-  };
-  var EXTEND = function EXTEND(a, b) {
-    var result = {};
-    for (var prop in a) {
-      var label = prop.toUpperCase();
-      result[label] = a[prop];
-      if (b.hasOwnProperty(prop)) {
-        var val = b[prop];
-        result[label] = (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' ? EXTEND(result[label], val) : val;
-      }
-    }
-    return result;
+    if ('onorientationchange' in window) window.onorientationchange = onViewportChange;else window.onresize = onViewportChange;
+    window.onscroll = _this.onScroll;
   };
 
-  var Doormat = function () {
-    function Doormat(opts) {
-      _classCallCheck(this, Doormat);
+  this.onScroll = function () {
+    var enums = _this.enums,
+        scrollPos = _this.scrollPos;
 
-      var doormat = this;
-      doormat.el = document.querySelector('.' + PROPS.CLASS);
-      if (!doormat.el) throw Error(PROPS.ERROR_MSG);
-      /* set up event binding */
-      if ('onorientationchange' in window) {
-        window.onorientationchange = doormat.calibrate.bind(this);
-      } else {
-        window.onresize = DEBOUNCE(doormat.calibrate.bind(this), 100);
-      }
-      window.onscroll = doormat.__handleScroll.bind(this);
-      /* end event binding */
-      doormat.panels = doormat.el.children;
-      doormat._OPTS = EXTEND(DEFAULTS, opts);
-      /* NOTE important that current panel is defined before calibration */
-      doormat.CURRENT = doormat.panels[0];
-      doormat.CURRENT.className += ' ' + PROPS.CURRENT_CLASS;
-      doormat.calibrate();
+    var newPosition = window.scrollY || window.pageYOffset;
+    _this.scrollDir = scrollPos < newPosition ? enums.down : enums.up;
+    _this.scrollPos = newPosition;
+    _this.requestUpdate(_this.handleScroll);
+  };
+
+  this.handleScroll = function () {
+    var classes = _this.classes,
+        active = _this.active,
+        el = _this.el,
+        handleSnap = _this.handleSnap,
+        inSnapRegion = _this.inSnapRegion,
+        enums = _this.enums,
+        options = _this.options,
+        scrollPos = _this.scrollPos;
+    var snapMode = options.snapMode,
+        snapDebounce = options.snapDebounce;
+
+    var activeIndex = active.doormatIndex;
+    var next = active.nextElementSibling;
+    var prev = active.previousElementSibling;
+    var isInbound = options.mode === enums.inbound;
+
+    var boundaries = {
+      up: isInbound ? next && scrollPos >= next.offsetTop : next && scrollPos >= active.offsetTop + active.offsetHeight,
+      down: isInbound ? prev && scrollPos < prev.doormatBoundary : prev && scrollPos < active.offsetTop
+
+      /**
+        * Update scroll position reference and determine scroll direction
+      */
+    };if (boundaries.up) {
+      active.classList.remove(classes.active);
+      active.classList.add(classes.obsolete);
+      next.classList.add(classes.active);
+      next.style.top = isInbound ? '0' : next.doormatActiveTop;
+      _this.active = next;
+    } else if (boundaries.down) {
+      active.classList.remove(classes.active);
+      active.style.top = isInbound ? active.doormatActiveTop : '0';
+      prev.classList.remove(classes.obsolete);
+      prev.classList.add(classes.active);
+      _this.active = prev;
+    }
+    if (activeIndex !== _this.active.doormatIndex) {
+      var update = new Event(enums.updateEvent, {
+        bubbles: true
+      });
+      _this.activeIndex = _this.active.doormatIndex;
+      el.dispatchEvent(update);
+    }
+    _this.updating = false;
+
+    /**
+      * handle snap behavior
+    */
+    if (snapMode) {
+      var snapRegion = inSnapRegion();
+      clearTimeout(handleSnap.__TIMER);
+      if (snapRegion) _this.handleSnap.__TIMER = setTimeout(function () {
+        handleSnap(snapRegion);
+      }, snapDebounce);
+    }
+  };
+
+  this.inSnapRegion = function () {
+    var enums = _this.enums,
+        active = _this.active,
+        options = _this.options,
+        scrollPos = _this.scrollPos,
+        scrollDir = _this.scrollDir;
+    var snapMode = options.snapMode,
+        snapThreshold = options.snapThreshold;
+    /**
+      * Determine whether active position is within the top threshold.
+      * Threshold defined as percentage of viewport.
+    */
+
+    var startScrollPos = active.startScrollPos,
+        offsetHeight = active.offsetHeight;
+
+
+    var thresholdSize = window.innerHeight * (snapThreshold / 100);
+
+    var withinBottom = void 0,
+        withinTop = void 0;
+
+    var bottomBoundary = startScrollPos + offsetHeight;
+    var bottomBuffer = bottomBoundary - thresholdSize;
+    var topBuffer = startScrollPos + thresholdSize;
+
+    if (snapMode === enums.viewport) {
+      withinBottom = scrollPos > bottomBuffer && scrollPos < bottomBoundary;
+      withinTop = scrollPos > startScrollPos && scrollPos < topBuffer;
+    } else if (snapMode === enums.travel) {
+      withinBottom = scrollPos > topBuffer && scrollDir === enums.down;
+      withinTop = scrollDir === enums.up && scrollPos < bottomBuffer;
     }
 
-    _createClass(Doormat, [{
-      key: '__setPanel',
-      value: function __setPanel(DIR) {
-        var doormat = this;
-        var current = doormat.CURRENT;
-        current.className = current.className.replace(PROPS.CURRENT_CLASS, '').trim();
-        current.style.top = DIR === PROPS.NEXT ? '-' + current.offsetHeight + 'px' : 0;
-        doormat.CURRENT = DIR === PROPS.RESET ? doormat.panels[0] : current[DIR + 'ElementSibling'];
-        doormat.CURRENT.className += ' ' + PROPS.CURRENT_CLASS;
-      }
-      /**
-        * calibrates panels so that they are the correct height when viewport
-        * size changes
-      */
+    if (withinBottom || withinTop) return withinBottom ? enums.bottom : enums.top;
+  };
 
-    }, {
-      key: 'calibrate',
-      value: function calibrate(evt) {
-        var doormat = this;
-        doormat.TRACK_HEIGHT = 0;
-        doormat.HEIGHT = 'onorientationchange' in window ? screen.height : window.innerHeight;
-        var panels = doormat.panels;
-        for (var i = 0; i < panels.length; i++) {
-          var panel = panels[i];
-          panel.style.zIndex = 999 - i;
-          panel.style.minHeight = doormat.HEIGHT + 'px';
-          panel.HEIGHT = panel.offsetHeight;
-          panel.STARTING_POS = doormat.TRACK_HEIGHT;
-          doormat.TRACK_HEIGHT = doormat.TRACK_HEIGHT + panel.offsetHeight;
-        }
-        doormat.SNAP_THRESHOLD = doormat.HEIGHT * (doormat._OPTS.SNAPPING.THRESHOLD / 100);
-        document.body.style.height = doormat.TRACK_HEIGHT + 'px';
-        if (evt) {
-          window.scrollTo(0, 0);
-          doormat.__setPanel(PROPS.RESET);
-        }
-      }
-      /**
-        * Determines whether doormat is currently within or surpassed the snap
-        * threshold
-      */
+  this.scrollTo = function (destination, timeToScroll) {
+    var options = _this.options,
+        scrollPos = _this.scrollPos;
 
-    }, {
-      key: 'inSnapRegion',
-      value: function inSnapRegion() {
-        var doormat = this;
-        var current = doormat.CURRENT;
-        var height = current.offsetHeight;
-        var threshold = doormat.SNAP_THRESHOLD;
-        var pS = doormat._OPTS.SNAPPING;
-        var top = Math.abs(parseInt(current.style.top, 10));
-        doormat.SNAP_TOP = false;
-        doormat.SNAP_BOTTOM = false;
-        /**
-          * whether scroll is within the physical top threshold or surpassed it
-          * with snap to viewport this is the current creeping in from the top
-          * it will snap back out. With travel if we go past dragging it in far
-          * shoot to STARTING_POS or (offsetHeight - clientHeight).
-        */
-        var withinTop = top < height && top > height - threshold;
-        var beyondTop = top < height - threshold && top > height - doormat.HEIGHT && doormat.SCROLL_DIR === PROPS.UP;
-        // console.log(`TOP -- BEYOND: ${beyondTop} WITHIN: ${withinTop}`);
-        doormat.SNAP_TOP = pS.VIEWPORT ? withinTop : beyondTop;
-        /**
-          * whether scroll is within the physical bottom threshold or surpassed it
-          * with snap to viewport this is when the bottom of the panel snaps back
-          * to the bottom edge of the viewport. For snap to travel, surpassing the
-          * required threshold will spring the next panel into view.
-        */
-        var withinBottom = top < height - doormat.HEIGHT + threshold && top > height - doormat.HEIGHT;
-        var beyondBottom = top > height - doormat.HEIGHT + threshold && doormat.SCROLL_DIR === PROPS.DOWN;
-        // console.log(`BOTTOM -- BEYOND: ${beyondBottom} WITHIN: ${withinBottom}`);
-        doormat.SNAP_BOTTOM = pS.VIEWPORT ? withinBottom : beyondBottom;
-        return doormat.SNAP_TOP || doormat.SNAP_BOTTOM;
-      }
-    }, {
-      key: '__handleScroll',
-      value: function __handleScroll(evt) {
-        var doormat = this;
-        var current = doormat.CURRENT;
-        var scroll = window.scrollY || window.pageYOffset;
-        doormat.SCROLL_DIR = scroll > doormat.SCROLL_LAST ? PROPS.DOWN : PROPS.UP;
-        doormat.SCROLL_LAST = scroll;
-        current.style.top = current.STARTING_POS - scroll + 'px';
-        /**
-          * set a new panel if necessary
-        */
-        if (scroll > current.STARTING_POS + current.HEIGHT || scroll === current.STARTING_POS + current.HEIGHT) {
-          if (current.nextElementSibling) doormat.__setPanel(PROPS.NEXT);
-        } else if (scroll < current.STARTING_POS) {
-          if (current.previousElementSibling) doormat.__setPanel(PROPS.PREVIOUS);
-        }
-        /**
-          * handle snap behavior
-        */
-        var pS = doormat._OPTS.SNAPPING;
-        if (pS && (pS.VIEWPORT || pS.TRAVEL) && doormat.inSnapRegion()) {
-          var hs = doormat.__handleSnap;
-          clearTimeout(hs.__TIMER);
-          hs.__TIMER = setTimeout(hs.bind(doormat), doormat._OPTS.DEBOUNCE);
-        }
-      }
-    }, {
-      key: '__handleSnap',
-      value: function __handleSnap() {
-        var doormat = this;
-        var current = doormat.CURRENT;
-        var isViewportSnap = doormat._OPTS.SNAPPING.VIEWPORT;
-        var reset = function reset() {
-          current.style.transitionProperty = null;
-          current.style.transitionDuration = null;
-          current.style.visibility = null;
-        };
-        var set = function set() {
-          current.style.transitionProperty = 'top';
-          current.style.transitionDuration = doormat._OPTS.SNAPPING.DURATION;
-          current.style.visibility = 'visible';
-          current.addEventListener('transitionend', reset);
-        };
-        var snapOut = function snapOut() {
-          current.style.top = '-' + current.offsetHeight + 'px';
-          doormat.__setPanel(PROPS.NEXT);
-          window.scrollTo(0, doormat.CURRENT.STARTING_POS);
-        };
-        var snapIn = function snapIn() {
-          window.scrollTo(0, current.STARTING_POS + (current.offsetHeight - doormat.HEIGHT));
-        };
-        /**
-          * double check we are still in the snap region when the debounced
-          * function is invoked.
-        */
-        if (doormat.inSnapRegion()) {
-          set();
-          if (doormat.SNAP_TOP) {
-            if (isViewportSnap) {
-              snapOut();
-            } else {
-              snapIn();
-            }
-          } else if (doormat.SNAP_BOTTOM) {
-            if (isViewportSnap) {
-              snapIn();
-            } else {
-              snapOut();
-            }
-          }
-        }
-      }
-    }]);
+    var start = performance.now();
+    var duration = timeToScroll || options.scrollDuration;
+    var startingBlock = scrollPos || window.scrollY || window.pageYOffset;
+    var distance = destination - startingBlock;
+    var traverse = function traverse() {
+      var now = performance.now();
+      var time = Math.min(1, (now - start) / duration);
+      var timeFn = Math.sin(time * (Math.PI / 2));
+      if (window.pageYOffset === destination) return;
+      window.scrollTo(0, Math.ceil(timeFn * distance + startingBlock));
+      requestAnimationFrame(traverse);
+    };
+    traverse();
+  };
 
-    return Doormat;
-  }();
+  this.scrollToPanel = function (panelIndex, speed) {
+    var panels = _this.panels,
+        scrollTo = _this.scrollTo;
 
-  window.Doormat = Doormat;
-})();
+    var destinationPanel = panels[panelIndex - 1];
+    if (destinationPanel) scrollTo(destinationPanel.startScrollPos, speed);else throw Error('Doormat: No panel available at that index');
+  };
+
+  this.next = function () {
+    _this.scrollToPanel(_this.active.doormatIndex + 1);
+  };
+
+  this.prev = function () {
+    _this.scrollToPanel(_this.active.doormatIndex - 1);
+  };
+
+  this.handleSnap = function (region) {
+    var active = _this.active,
+        enums = _this.enums,
+        scrollTo = _this.scrollTo;
+
+    var next = active.nextElementSibling;
+    if (!_this.scrolling) {
+      var nextPanel = region === enums.top ? active : next;
+      scrollTo(nextPanel.startScrollPos);
+    }
+  };
+
+  this.isGreaterThanViewport = function () {
+    var panels = _this.panels;
+
+    var greater = false;
+    for (var p = 0; p < panels.length; p++) {
+      if (panels[p].offsetHeight > window.innerHeight) greater = true;
+    }return greater;
+  };
+
+  this.reset = function () {
+    var classes = _this.classes,
+        panels = _this.panels;
+
+    window.scrollTo(0, 0);
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = panels[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var panel = _step.value;
+
+        panel.classList.remove(classes.obsolete);
+        panel.classList.remove(classes.active);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    panels[0].classList.add(classes.active);
+  };
+
+  this.calibrate = function (timestamp) {
+    var el = _this.el,
+        enums = _this.enums,
+        panels = _this.panels,
+        reset = _this.reset,
+        options = _this.options;
+
+    var isOutbound = options.mode === enums.outbound;
+    var greater = _this.isGreaterThanViewport();
+
+    var cumulativeHeight = 0;
+    var activeHeight = 0;
+
+    for (var i = 0; i < panels.length; i++) {
+      var panel = panels[i];
+      panel.doormatIndex = i + 1;
+      cumulativeHeight += panel.offsetHeight;
+      if (i) activeHeight += panels[i - 1].offsetHeight;
+      panel.startScrollPos = activeHeight;
+      if (greater) panel.doormatActiveTop = activeHeight + 'px';else panel.doormatActiveTop = i + '00vh';
+      panel.style.zIndex = isOutbound ? 1000 - i : 1000 - (panels.length - i);
+      if (!isOutbound) {
+        panel.doormatBoundary = cumulativeHeight;
+        panel.style.top = panel.doormatActiveTop;
+      }
+    }
+
+    _this.cumulativeHeight = cumulativeHeight;
+    el.style.height = greater ? cumulativeHeight + 'px' : panels.length + '00vh';
+    /**
+      * If timestamp, then calibration is being invoked via
+      * requestAnimationFrame and therefore we know this is part of a viewport
+      * change. Due to issues when viewport size changes and maintaining scroll
+      * position, it's simpler to mitigate side effects by resetting the
+      * elements.
+    */
+    if (timestamp) reset();
+
+    _this.updating = false;
+  };
+};
+
+window.Doormat = Doormat;
