@@ -1,8 +1,238 @@
-/*!
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
   * doormat - http://jh3y.github.io/doormat
   *
   * @license MIT
   * @author jh3y
-  * (c) 2017
-!*/
-"use strict";function _classCallCheck(o,t){if(!(o instanceof t))throw new TypeError("Cannot call a class as a function")}var Doormat=function o(t){_classCallCheck(this,o),_initialiseProps.call(this);var e=this.bind,i=this.calibrate,n=this.classes,s=this.active,a=this.defaults,r=this.enums,l=this.errors;if(this.options=Object.assign({},a,t),this.options.snapMode!==r.travel&&this.options.snapMode!==r.viewport)throw Error(l.invalidSnap);if(this.options.mode!==r.inbound&&this.options.mode!==r.outbound)throw Error(l.invalidMode);s.classList.add(n.active),this.options.mode===r.inbound&&this.el.classList.add(n.inbound),i(),e()},_initialiseProps=function(){var o=this;this.classes={active:"dm-panel--active",el:"dm",inbound:"dm--inbound",obsolete:"dm-panel--obsolete"},this.enums={inbound:"inbound",outbound:"outbound",travel:"travel",viewport:"viewport",bottom:"bottom",top:"top",up:"up",down:"down",updateEvent:"doormat:update"},this.defaults={snapDebounce:150,scrollDuration:250,snapMode:this.enums.viewport,mode:this.enums.outbound,snapThreshold:30},this.errors={invalidMode:'Doormat: mode must be either "inbound" or "outbound"',invalidSnap:'Doormat: snapMode must be set to either "viewport" or "travel"'},this.scrollPos=0,this.el=document.querySelector("."+this.classes.el),this.panels=this.el.children,this.updating=!1,this.active=this.panels[0],this.activeIndex=1,this.requestUpdate=function(t){o.updating||(requestAnimationFrame(t),o.updating=!0)},this.bind=function(){var t=function(){return o.requestUpdate(o.calibrate)};"onorientationchange"in window?window.onorientationchange=t:window.onresize=t,window.onscroll=o.onScroll},this.onScroll=function(){var t=o.enums,e=o.scrollPos,i=window.scrollY||window.pageYOffset;o.scrollDir=e<i?t.down:t.up,o.scrollPos=i,o.requestUpdate(o.handleScroll)},this.handleScroll=function(){var t=o.classes,e=o.active,i=o.el,n=o.handleSnap,s=o.inSnapRegion,a=o.enums,r=o.options,l=o.scrollPos,d=r.snapMode,c=r.snapDebounce,u=e.doormatIndex,h=e.nextElementSibling,p=e.previousElementSibling,v=r.mode===a.inbound,m={up:v?h&&l>=h.offsetTop:h&&l>=e.offsetTop+e.offsetHeight,down:v?p&&l<p.doormatBoundary:p&&l<e.offsetTop};if(m.up?(e.classList.remove(t.active),e.classList.add(t.obsolete),h.classList.add(t.active),h.style.top=v?"0":h.doormatActiveTop,o.active=h):m.down&&(e.classList.remove(t.active),e.style.top=v?e.doormatActiveTop:"0",p.classList.remove(t.obsolete),p.classList.add(t.active),o.active=p),u!==o.active.doormatIndex){var f=new Event(a.updateEvent,{bubbles:!0});o.activeIndex=o.active.doormatIndex,i.dispatchEvent(f)}if(o.updating=!1,d){var w=s();clearTimeout(n.__TIMER),w&&(o.handleSnap.__TIMER=setTimeout(function(){n(w)},c))}},this.inSnapRegion=function(){var t=o.enums,e=o.active,i=o.options,n=o.scrollPos,s=o.scrollDir,a=i.snapMode,r=i.snapThreshold,l=e.startScrollPos,d=e.offsetHeight,c=window.innerHeight*(r/100),u=void 0,h=void 0,p=l+d,v=p-c,m=l+c;if(a===t.viewport?(u=n>v&&n<p,h=n>l&&n<m):a===t.travel&&(u=n>m&&s===t.down,h=s===t.up&&n<v),u||h)return u?t.bottom:t.top},this.scrollTo=function(t,e){var i=o.options,n=o.scrollPos,s=performance.now(),a=e||i.scrollDuration,r=n||window.scrollY||window.pageYOffset,l=t-r;!function o(){var e=performance.now(),i=Math.min(1,(e-s)/a),n=Math.sin(i*(Math.PI/2));window.pageYOffset!==t&&(window.scrollTo(0,Math.ceil(n*l+r)),requestAnimationFrame(o))}()},this.scrollToPanel=function(t,e){var i=o.panels,n=o.scrollTo,s=i[t-1];if(!s)throw Error("Doormat: No panel available at that index");n(s.startScrollPos,e)},this.next=function(){o.scrollToPanel(o.active.doormatIndex+1)},this.prev=function(){o.scrollToPanel(o.active.doormatIndex-1)},this.handleSnap=function(t){var e=o.active,i=o.enums,n=o.scrollTo,s=e.nextElementSibling;o.scrolling||n((t===i.top?e:s).startScrollPos)},this.isGreaterThanViewport=function(){for(var t=o.panels,e=!1,i=0;i<t.length;i++)t[i].offsetHeight>window.innerHeight&&(e=!0);return e},this.reset=function(){var t=o.classes,e=o.panels;window.scrollTo(0,0);var i=!0,n=!1,s=void 0;try{for(var a,r=e[Symbol.iterator]();!(i=(a=r.next()).done);i=!0){var l=a.value;l.classList.remove(t.obsolete),l.classList.remove(t.active)}}catch(o){n=!0,s=o}finally{try{!i&&r.return&&r.return()}finally{if(n)throw s}}e[0].classList.add(t.active)},this.calibrate=function(t){for(var e=o.el,i=o.enums,n=o.panels,s=o.reset,a=o.options.mode===i.outbound,r=o.isGreaterThanViewport(),l=0,d=0,c=0;c<n.length;c++){var u=n[c];u.doormatIndex=c+1,l+=u.offsetHeight,c&&(d+=n[c-1].offsetHeight),u.startScrollPos=d,u.doormatActiveTop=r?d+"px":c+"00vh",u.style.zIndex=a?1e3-c:1e3-(n.length-c),a||(u.doormatBoundary=l,u.style.top=u.doormatActiveTop)}o.cumulativeHeight=l,e.style.height=r?l+"px":n.length+"00vh",t&&s(),o.updating=!1}};window.Doormat=Doormat;
+  * (c) 2016
+*/
+(function () {
+  var PROPS = {
+    CLASS: 'dm',
+    CURRENT_CLASS: 'dm-pnl--crnt',
+    NEXT: 'next',
+    PREVIOUS: 'previous',
+    RESET: 'reset',
+    ERROR_MSG: 'Doormat: Must assign root element with class',
+    DOWN: 'D',
+    UP: 'U'
+  };
+  /* Configurable options */
+  var DEFAULTS = {
+    debounce: 150,
+    snapping: {
+      travel: false,
+      viewport: true,
+      threshold: 30,
+      duration: '.25s'
+    }
+  };
+  var DEBOUNCE = function DEBOUNCE(func, delay) {
+    var inDebounce = undefined;
+    return function () {
+      var context = this,
+          args = arguments;
+      clearTimeout(inDebounce);
+      return inDebounce = setTimeout(function () {
+        return func.apply(context, args);
+      }, delay);
+    };
+  };
+  var EXTEND = function EXTEND(a, b) {
+    var result = {};
+    for (var prop in a) {
+      var label = prop.toUpperCase();
+      result[label] = a[prop];
+      if (b.hasOwnProperty(prop)) {
+        var val = b[prop];
+        result[label] = (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' ? EXTEND(result[label], val) : val;
+      }
+    }
+    return result;
+  };
+
+  var Doormat = function () {
+    function Doormat(opts) {
+      _classCallCheck(this, Doormat);
+
+      var doormat = this;
+      doormat.el = document.querySelector('.' + PROPS.CLASS);
+      if (!doormat.el) throw Error(PROPS.ERROR_MSG);
+      /* set up event binding */
+      if ('onorientationchange' in window) {
+        window.onorientationchange = doormat.calibrate.bind(this);
+      } else {
+        window.onresize = DEBOUNCE(doormat.calibrate.bind(this), 100);
+      }
+      window.onscroll = doormat.__handleScroll.bind(this);
+      /* end event binding */
+      doormat.panels = doormat.el.children;
+      doormat._OPTS = EXTEND(DEFAULTS, opts);
+      /* NOTE important that current panel is defined before calibration */
+      doormat.CURRENT = doormat.panels[0];
+      doormat.CURRENT.className += ' ' + PROPS.CURRENT_CLASS;
+      doormat.calibrate();
+    }
+
+    _createClass(Doormat, [{
+      key: '__setPanel',
+      value: function __setPanel(DIR) {
+        var doormat = this;
+        var current = doormat.CURRENT;
+        current.className = current.className.replace(PROPS.CURRENT_CLASS, '').trim();
+        current.style.top = DIR === PROPS.NEXT ? '-' + current.offsetHeight + 'px' : 0;
+        doormat.CURRENT = DIR === PROPS.RESET ? doormat.panels[0] : current[DIR + 'ElementSibling'];
+        doormat.CURRENT.className += ' ' + PROPS.CURRENT_CLASS;
+      }
+      /**
+        * calibrates panels so that they are the correct height when viewport
+        * size changes
+      */
+
+    }, {
+      key: 'calibrate',
+      value: function calibrate(evt) {
+        var doormat = this;
+        doormat.TRACK_HEIGHT = 0;
+        doormat.HEIGHT = 'onorientationchange' in window ? screen.height : window.innerHeight;
+        var panels = doormat.panels;
+        for (var i = 0; i < panels.length; i++) {
+          var panel = panels[i];
+          panel.style.zIndex = 999 - i;
+          panel.style.minHeight = doormat.HEIGHT + 'px';
+          panel.style.display = 'block';
+          panel.style.visibility = 'visible';
+          panel.HEIGHT = panel.offsetHeight;
+          panel.STARTING_POS = doormat.TRACK_HEIGHT;
+          doormat.TRACK_HEIGHT = doormat.TRACK_HEIGHT + panel.offsetHeight;
+        }
+        doormat.SNAP_THRESHOLD = doormat.HEIGHT * (doormat._OPTS.SNAPPING.THRESHOLD / 100);
+        document.body.style.height = doormat.TRACK_HEIGHT + 'px';
+        if (evt) {
+          window.scrollTo(0, 0);
+          doormat.__setPanel(PROPS.RESET);
+        }
+      }
+      /**
+        * Determines whether doormat is currently within or surpassed the snap
+        * threshold
+      */
+
+    }, {
+      key: 'inSnapRegion',
+      value: function inSnapRegion() {
+        var doormat = this;
+        var current = doormat.CURRENT;
+        var height = current.offsetHeight;
+        var threshold = doormat.SNAP_THRESHOLD;
+        var pS = doormat._OPTS.SNAPPING;
+        var top = Math.abs(parseInt(current.style.top, 10));
+        doormat.SNAP_TOP = false;
+        doormat.SNAP_BOTTOM = false;
+        /**
+          * whether scroll is within the physical top threshold or surpassed it
+          * with snap to viewport this is the current creeping in from the top
+          * it will snap back out. With travel if we go past dragging it in far
+          * shoot to STARTING_POS or (offsetHeight - clientHeight).
+        */
+        var withinTop = top < height && top > height - threshold;
+        var beyondTop = top < height - threshold && top > height - doormat.HEIGHT && doormat.SCROLL_DIR === PROPS.UP;
+        // console.log(`TOP -- BEYOND: ${beyondTop} WITHIN: ${withinTop}`);
+        doormat.SNAP_TOP = pS.VIEWPORT ? withinTop : beyondTop;
+        /**
+          * whether scroll is within the physical bottom threshold or surpassed it
+          * with snap to viewport this is when the bottom of the panel snaps back
+          * to the bottom edge of the viewport. For snap to travel, surpassing the
+          * required threshold will spring the next panel into view.
+        */
+        var withinBottom = top < height - doormat.HEIGHT + threshold && top > height - doormat.HEIGHT;
+        var beyondBottom = top > height - doormat.HEIGHT + threshold && doormat.SCROLL_DIR === PROPS.DOWN;
+        // console.log(`BOTTOM -- BEYOND: ${beyondBottom} WITHIN: ${withinBottom}`);
+        doormat.SNAP_BOTTOM = pS.VIEWPORT ? withinBottom : beyondBottom;
+        return doormat.SNAP_TOP || doormat.SNAP_BOTTOM;
+      }
+    }, {
+      key: '__handleScroll',
+      value: function __handleScroll(evt) {
+        var doormat = this;
+        var current = doormat.CURRENT;
+        var scroll = window.scrollY || window.pageYOffset;
+        doormat.SCROLL_DIR = scroll > doormat.SCROLL_LAST ? PROPS.DOWN : PROPS.UP;
+        doormat.SCROLL_LAST = scroll;
+        current.style.top = current.STARTING_POS - scroll + 'px';
+        /**
+          * set a new panel if necessary
+        */
+        if (scroll > current.STARTING_POS + current.HEIGHT || scroll === current.STARTING_POS + current.HEIGHT) {
+          if (current.nextElementSibling) doormat.__setPanel(PROPS.NEXT);
+        } else if (scroll < current.STARTING_POS) {
+          if (current.previousElementSibling) doormat.__setPanel(PROPS.PREVIOUS);
+        }
+        /**
+          * handle snap behavior
+        */
+        var pS = doormat._OPTS.SNAPPING;
+        if (pS && (pS.VIEWPORT || pS.TRAVEL) && doormat.inSnapRegion()) {
+          var hs = doormat.__handleSnap;
+          clearTimeout(hs.__TIMER);
+          hs.__TIMER = setTimeout(hs.bind(doormat), doormat._OPTS.DEBOUNCE);
+        }
+      }
+    }, {
+      key: '__handleSnap',
+      value: function __handleSnap() {
+        var doormat = this;
+        var current = doormat.CURRENT;
+        var isViewportSnap = doormat._OPTS.SNAPPING.VIEWPORT;
+        var reset = function reset() {
+          current.style.transitionProperty = null;
+          current.style.transitionDuration = null;
+        };
+        var set = function set() {
+          current.style.transitionProperty = 'top';
+          current.style.transitionDuration = doormat._OPTS.SNAPPING.DURATION;
+          current.addEventListener('transitionend', reset);
+        };
+        var snapOut = function snapOut() {
+          current.style.top = '-' + current.offsetHeight + 'px';
+          doormat.__setPanel(PROPS.NEXT);
+          window.scrollTo(0, doormat.CURRENT.STARTING_POS);
+        };
+        var snapIn = function snapIn() {
+          window.scrollTo(0, current.STARTING_POS + (current.offsetHeight - doormat.HEIGHT));
+        };
+        /**
+          * double check we are still in the snap region when the debounced
+          * function is invoked.
+        */
+        if (doormat.inSnapRegion()) {
+          set();
+          if (doormat.SNAP_TOP) {
+            if (isViewportSnap) {
+              snapOut();
+            } else {
+              snapIn();
+            }
+          } else if (doormat.SNAP_BOTTOM) {
+            if (isViewportSnap) {
+              snapIn();
+            } else {
+              snapOut();
+            }
+          }
+        }
+      }
+    }]);
+
+    return Doormat;
+  }();
+
+  window.Doormat = Doormat;
+})();

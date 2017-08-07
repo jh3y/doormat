@@ -3,5 +3,27 @@
   *
   * @license MIT
   * @author jh3y
-  * (c) 2017
-!*/body{-webkit-overflow-scrolling:touch}.dm{display:block;position:relative;margin:0;padding:0;height:100vh;width:100vw;overflow:auto}.dm--inbound .dm-panel{position:absolute}.dm--inbound .dm-panel.dm-panel--active,.dm--inbound .dm-panel.dm-panel--obsolete{position:fixed}.dm-panel{position:fixed;top:0;right:0;left:0;min-height:100vh;width:100vw}.dm-panel--active{position:absolute}.dm-panel--obsolete{visibility:hidden;position:fixed}
+  * (c) 2016
+!*/
+body {
+  -webkit-overflow-scrolling: touch;
+}
+.dm {
+  display: block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+.dm-pnl {
+  visibility: hidden;
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+.dm-pnl--crnt + * {
+  visibility: hidden;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRvb3JtYXQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7R0FNRztBQUNIO0VBQ0Usa0NBQWtDO0NBQ25DO0FBQ0Q7RUFDRSxlQUFlO0VBQ2YsbUJBQW1CO0VBQ25CLFVBQVU7RUFDVixXQUFXO0NBQ1o7QUFDRDtFQUNFLG1CQUFtQjtFQUNuQixjQUFjO0VBQ2QsZ0JBQWdCO0VBQ2hCLE9BQU87RUFDUCxTQUFTO0VBQ1QsUUFBUTtDQUNUO0FBQ0Q7RUFDRSxtQkFBbUI7Q0FDcEIiLCJmaWxlIjoiZG9vcm1hdC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIvKiFcbiAgKiBkb29ybWF0IC0gaHR0cDovL2poM3kuZ2l0aHViLmlvL2Rvb3JtYXRcbiAgKlxuICAqIEBsaWNlbnNlIE1JVFxuICAqIEBhdXRob3IgamgzeVxuICAqIChjKSAyMDE2XG4hKi9cbmJvZHkge1xuICAtd2Via2l0LW92ZXJmbG93LXNjcm9sbGluZzogdG91Y2g7XG59XG4uZG0ge1xuICBkaXNwbGF5OiBibG9jaztcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICBtYXJnaW46IDA7XG4gIHBhZGRpbmc6IDA7XG59XG4uZG0tcG5sIHtcbiAgdmlzaWJpbGl0eTogaGlkZGVuO1xuICBkaXNwbGF5OiBub25lO1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIHRvcDogMDtcbiAgcmlnaHQ6IDA7XG4gIGxlZnQ6IDA7XG59XG4uZG0tcG5sLS1jcm50ICsgKiB7XG4gIHZpc2liaWxpdHk6IGhpZGRlbjtcbn1cbiJdfQ== */
