@@ -3,7 +3,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   var controls = document.querySelector('.controls');
   var indicators = document.querySelectorAll('.slide-indicator');
-  if ('onorientationchange' in window) screen.orientation.lock('portrait');
+  // if ('onorientationchange' in window) screen.orientation.lock('portrait')
   window.newDoormat = new Doormat();
   window.addEventListener('doormat:update', function (e) {
     if (newDoormat.activeIndex > 1) {
